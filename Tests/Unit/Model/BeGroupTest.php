@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Tests\Unit\Model;
 
 use Pluswerk\BePermissions\Value\Identifier;
-use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use Pluswerk\BePermissions\Model\BeGroup;
+use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
+/**
+ * @covers \Pluswerk\BePermissions\Model\BeGroup
+ */
 final class BeGroupTest extends UnitTestCase
 {
     /**

@@ -9,9 +9,11 @@ use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
 use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Value\Identifier;
 use Symfony\Component\Yaml\Yaml;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
+/**
+ * @covers \Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
+ */
 final class BeGroupConfigurationTest extends UnitTestCase
 {
     protected $resetSingletonInstances = true;
@@ -142,9 +144,6 @@ final class BeGroupConfigurationTest extends UnitTestCase
         $identifier = new Identifier('non-existing-config-identifier');
 
         $this->expectException(ConfigurationFileMissingException::class);
-        $this->expectExceptionMessage(
-            'No configuration file \'/var/www/html/packages/be_permissions/Tests/Unit/Configuration/Fixtures/config/non-existing-config-identifier/be_group.yaml\' found!'
-        );
 
         BeGroupConfiguration::load($identifier, $configPath);
     }

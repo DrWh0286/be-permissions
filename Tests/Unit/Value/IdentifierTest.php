@@ -8,6 +8,9 @@ use Pluswerk\BePermissions\Value\InvalidIdentifierException;
 use Pluswerk\BePermissions\Value\Identifier;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
+/**
+ * @covers \Pluswerk\BePermissions\Value\Identifier
+ */
 final class IdentifierTest extends UnitTestCase
 {
     /**

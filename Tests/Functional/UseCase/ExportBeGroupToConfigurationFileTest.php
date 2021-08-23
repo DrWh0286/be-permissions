@@ -8,6 +8,10 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 final class ExportBeGroupToConfigurationFileTest extends FunctionalTestCase
 {
+    protected $testExtensionsToLoad = [
+        'typo3conf/ext/be_permissions'
+    ];
+
     /**
      * @test
      */

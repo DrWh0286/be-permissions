@@ -3,7 +3,7 @@
   "description": "Makes Backend permissions shippable",
   "type": "typo3-cms-extension",
   "license": [
-    "GPL-2.0-or-later"
+    "GPL-3.0-or-later"
   ],
   "authors": [
     {
@@ -11,6 +11,10 @@
       "email": "sebastian.hofer@pluswerk.ag"
     }
   ],
+  "require": {
+    "php": ">=7.4.0",
+    "typo3/cms-core": "^10.4"
+  },
   "autoload": {
     "psr-4": {
       "Pluswerk\\BePermissions\\": "Classes"
@@ -21,9 +25,23 @@
       "Pluswerk\\BePermissions\\Tests\\": "Tests"
     }
   },
+  "scripts": {
+    "post-autoload-dump": [
+      "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
+    ]
+  },
   "extra": {
     "typo3/cms": {
-      "extension-key": "be_permissions"
+      "extension-key": "be_permissions",
+      "cms-package-dir": "{$vendor-dir}/typo3/cms",
+      "web-dir": ".Build/public"
     }
+  },
+  "config": {
+    "vendor-dir": ".Build/vendor",
+    "bin-dir": ".Build/bin"
+  },
+  "require-dev": {
+    "typo3/testing-framework": "^6.9"
   }
 }

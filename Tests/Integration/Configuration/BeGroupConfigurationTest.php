@@ -10,6 +10,10 @@ use Pluswerk\BePermissions\Value\Identifier;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
+/**
+ * @covers \Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
+ * @covers \Pluswerk\BePermissions\Model\BeGroup;
+ */
 final class BeGroupConfigurationTest extends UnitTestCase
 {
     private string $basePath;
