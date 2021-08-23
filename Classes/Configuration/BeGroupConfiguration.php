@@ -33,7 +33,7 @@ final class BeGroupConfiguration
      */
     public static function load(Identifier $identifier, string $configPath): BeGroupConfiguration
     {
-        $fileName = $configPath . '/' . $identifier . '/' . self::$beGroupConfigurationFileName;
+        $fileName = $configPath . '/be_groups/' . $identifier . '/' . self::$beGroupConfigurationFileName;
 
         if (!file_exists($fileName)) {
             throw new ConfigurationFileMissingException('No configuration file \'' . $fileName . '\' found!');
@@ -57,7 +57,7 @@ final class BeGroupConfiguration
 
     public function write(): void
     {
-        $folder = $this->configPath . '/' . $this->identifier;
+        $folder = $this->configPath . '/be_groups/' . $this->identifier;
         $fileName = $folder . '/' . self::$beGroupConfigurationFileName;
         $content = Yaml::dump($this->config, 99, 2);
 

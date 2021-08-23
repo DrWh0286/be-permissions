@@ -1,8 +1,19 @@
 services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+
+  Pluswerk\BePermissions\:
+      resource: '../Classes/*'
+
   Pluswerk\BePermissions\Command\ExportBeGroupsCommand:
     public: true
     tags:
       - name: 'console.command'
         command: 'bepermission:exoport'
         description: 'Beschreibung'
+
+  Pluswerk\BePermissions\UseCase\ExportBeGroupToConfigurationFile:
+    public: true
 

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dataset>
+    <be_groups>
+        <uid>1</uid>
+        <identifier>test-group</identifier>
+        <title>Some group title</title>
+        <non_exclude_fields>pages:title,pages:hidden,tt_content:hidden</non_exclude_fields>
+    </be_groups>
+</dataset>

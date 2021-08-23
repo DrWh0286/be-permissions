@@ -44,7 +44,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
 
         $config->write();
 
-        $expectedFilename = $configPath . '/' . $identifier . '/be_group.yaml';
+        $expectedFilename = $configPath . '/be_groups/' . $identifier . '/be_group.yaml';
         $this->assertFileExists($expectedFilename);
         $expectedValue = [
             'non_exclude_fields' => [
@@ -105,7 +105,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
             ]
         ];
 
-        $expectedFilename = $configPath . '/' . $identifier . '/be_group.yaml';
+        $expectedFilename = $configPath . '/be_groups/' . $identifier . '/be_group.yaml';
         $actualContent = Yaml::parse(file_get_contents($expectedFilename));
 
         $this->assertSame($expectedValue, $actualContent);
@@ -140,7 +140,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
      */
     public function throws_exception_when_file_to_load_does_not_exist(): void
     {
-        $configPath = $this->basePath . '/config';
+        $configPath = $this->basePath . '/config/be_groups';
         $identifier = new Identifier('non-existing-config-identifier');
 
         $this->expectException(ConfigurationFileMissingException::class);
@@ -186,7 +186,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
 
     private function cleanup(Identifier $identifier)
     {
-        @unlink($this->basePath . '/config/' . $identifier . '/be_group.yaml');
-        rmdir($this->basePath . '/config/' . $identifier);
+        @unlink($this->basePath . '/config/be_groups/' . $identifier . '/be_group.yaml');
+        rmdir($this->basePath . '/config/be_groups/' . $identifier);
     }
 }

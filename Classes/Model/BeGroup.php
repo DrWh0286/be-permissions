@@ -22,7 +22,7 @@ final class BeGroup
 
     public static function createFromDBValues(array $dbValues): BeGroup
     {
-        $nonExcludeFields = self::excludeNonExcludeFields($dbValues['non_exclude_fields']);
+        $nonExcludeFields = self::explodeNonExcludeFields($dbValues['non_exclude_fields']);
 
         return new self(
             new Identifier($dbValues['identifier']),
@@ -31,7 +31,7 @@ final class BeGroup
         );
     }
 
-    private static function excludeNonExcludeFields(string $nonExcludeFields): array
+    private static function explodeNonExcludeFields(string $nonExcludeFields): array
     {
         $basicArray = GeneralUtility::trimExplode(',', $nonExcludeFields);
 

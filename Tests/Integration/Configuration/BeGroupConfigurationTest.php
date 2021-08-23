@@ -44,7 +44,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
         $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
         $config->write();
 
-        $expectedFilename = $configPath . '/' . $identifier . '/be_group.yaml';
+        $expectedFilename = $configPath . '/be_groups/' . $identifier . '/be_group.yaml';
         $this->assertFileExists($expectedFilename);
         $expectedValue = [
             'title' => 'Group title',
@@ -65,8 +65,9 @@ final class BeGroupConfigurationTest extends UnitTestCase
 
     private function cleanup(Identifier $identifier)
     {
-        @unlink($this->basePath . '/config/' . $identifier . '/be_group.yaml');
-        rmdir($this->basePath . '/config/' . $identifier);
+        @unlink($this->basePath . '/config/be_groups/' . $identifier . '/be_group.yaml');
+        rmdir($this->basePath . '/config/be_groups/' . $identifier);
+        rmdir($this->basePath . '/config/be_groups');
         rmdir($this->basePath . '/config');
         rmdir($this->basePath);
     }

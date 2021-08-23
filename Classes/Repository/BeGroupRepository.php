@@ -23,7 +23,7 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
             [],
             [],
             1
-        )->fetchAllAssociative();
+        )->fetchAssociative();
 
         return BeGroup::createFromDBValues($row);
     }
