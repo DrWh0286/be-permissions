@@ -2,7 +2,6 @@
   "name": "pluswerk/be-permissions",
   "description": "Makes Backend permissions shippable",
   "type": "typo3-cms-extension",
-  "version": "0.0.1",
   "license": [
     "GPL-2.0-or-later"
   ],
