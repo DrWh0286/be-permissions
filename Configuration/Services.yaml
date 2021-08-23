@@ -1,0 +1,8 @@
+services:
+  Pluswerk\BePermissions\Command\ExportBeGroupsCommand:
+    public: true
+    tags:
+      - name: 'console.command'
+        command: 'bepermission:exoport'
+        description: 'Beschreibung'
+
