@@ -1,4 +1,4 @@
 CREATE TABLE be_groups
 (
-    identifier varchar(255) DEFAULT '' NOT NULL unique
+    identifier varchar(255) DEFAULT '' NOT NULL
 );
