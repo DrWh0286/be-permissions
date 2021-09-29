@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Unit\Model;
 
+use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Model\BeGroup;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
@@ -89,6 +90,85 @@ final class BeGroupTest extends UnitTestCase
             ],
             $group->databaseValues()
         );
+    }
+
+    /**
+     * @test
+     */
+    public function can_be_overruled_by_be_group_configuration(): void
+    {
+        $group = $this->createTestGroup();
+
+        $config = [
+            'title' => 'Some new group title',
+            'non_exclude_fields' => [
+                'pages' => [
+                    'title'
+                ],
+                'tt_content' => [
+                    'some_additiona_field',
+                    'another_field',
+                    'hidden'
+                ]
+            ]
+        ];
+        $configuration = new BeGroupConfiguration($group->identifier(), '', $config);
+
+        $overruledBeGroup = $group->overruleByConfiguration($configuration);
+
+        $expectedBeGroup = new BeGroup($group->identifier(), 'Some new group title', [
+            'pages' => [
+                'title'
+            ],
+            'tt_content' => [
+                'some_additiona_field',
+                'another_field',
+                'hidden'
+            ]
+        ]);
+
+        $this->assertEquals($expectedBeGroup, $overruledBeGroup);
+    }
+
+    /**
+     * @test
+     */
+    public function can_be_extended_by_configuration(): void
+    {
+        $group = $this->createTestGroup();
+        $config = [
+            'title' => 'Some new group title',
+            'non_exclude_fields' => [
+                'pages' => [
+                    'title'
+                ],
+                'tt_content' => [
+                    'some_additiona_field',
+                    'another_field',
+                    'hidden'
+                ]
+            ]
+        ];
+        $configuration = new BeGroupConfiguration($group->identifier(), '', $config);
+
+        $extendedBeGroup = $group->extendByConfiguration($configuration);
+
+        $expectedBeGroup = new BeGroup($group->identifier(), $group->title(), [
+            'pages' => [
+                'media',
+                'hidden',
+                'title'
+            ],
+            'tt_content' => [
+                'pages',
+                'date',
+                'some_additiona_field',
+                'another_field',
+                'hidden'
+            ]
+        ]);
+
+        $this->assertEquals($expectedBeGroup, $extendedBeGroup);
     }
 
     private function createTestGroup(): BeGroup

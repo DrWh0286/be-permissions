@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Tests\Integration\Configuration;
 
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
+use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
 use Pluswerk\BePermissions\Model\BeGroup;
+use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository;
 use Pluswerk\BePermissions\Value\Identifier;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
@@ -16,6 +18,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  */
 final class BeGroupConfigurationTest extends UnitTestCase
 {
+    protected $resetSingletonInstances = true;
     private string $basePath;
 
     protected function setUp(): void
@@ -42,7 +45,8 @@ final class BeGroupConfigurationTest extends UnitTestCase
         );
 
         $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
-        $config->write();
+        $repository = new BeGroupConfigurationRepository();
+        $repository->write($config);
 
         $expectedFilename = $configPath . '/be_groups/' . $identifier . '/be_group.yaml';
         $this->assertFileExists($expectedFilename);
@@ -63,12 +67,98 @@ final class BeGroupConfigurationTest extends UnitTestCase
         $this->cleanup($identifier);
     }
 
+    /**
+     * @test
+     */
+    public function configuration_file_is_updated(): void
+    {
+        $configPath = $this->basePath . '/config';
+        $identifier = new Identifier('update-test-identifier');
+        $config = [
+            'non_exclude_fields' => [
+                'pages' => [
+                    'title',
+                    'media'
+                ]
+            ]
+        ];
+
+        $config = new BeGroupConfiguration($identifier, $configPath, $config);
+        $repository = new BeGroupConfigurationRepository();
+        $repository->write($config);
+
+
+        $updateConfig = [
+            'non_exclude_fields' => [
+                'pages' => [
+                    'title',
+                    'media',
+                    'some_field'
+                ]
+            ]
+        ];
+
+        $config = new BeGroupConfiguration($identifier, $configPath, $updateConfig);
+        $repository->write($config);
+
+        $expectedValue = [
+            'non_exclude_fields' => [
+                'pages' => [
+                    'title',
+                    'media',
+                    'some_field'
+                ]
+            ]
+        ];
+
+        $expectedFilename = $configPath . '/be_groups/' . $identifier . '/be_group.yaml';
+        $actualContent = Yaml::parse(file_get_contents($expectedFilename));
+
+        $this->assertSame($expectedValue, $actualContent);
+
+        $this->cleanup($identifier);
+    }
+
+    /**
+     * @test
+     */
+    public function configuration_is_loaded_from_existing_config_file(): void
+    {
+        $configPath = $this->basePath . '/config';
+        $identifier = new Identifier('existing-config-identifier');
+        $repository = new BeGroupConfigurationRepository();
+
+        $config = $repository->load($identifier, $configPath);
+
+        $expected = [
+            'non_exclude_fields' => [
+                'pages' => [
+                    'title',
+                    'media'
+                ]
+            ]
+        ];
+
+        $this->assertSame($expected, $config->rawConfiguration());
+    }
+
+    /**
+     * @test
+     */
+    public function throws_exception_when_file_to_load_does_not_exist(): void
+    {
+        $configPath = $this->basePath . '/config/be_groups';
+        $identifier = new Identifier('non-existing-config-identifier');
+        $repository = new BeGroupConfigurationRepository();
+
+        $this->expectException(ConfigurationFileMissingException::class);
+
+        $repository->load($identifier, $configPath);
+    }
+
     private function cleanup(Identifier $identifier)
     {
         @unlink($this->basePath . '/config/be_groups/' . $identifier . '/be_group.yaml');
         rmdir($this->basePath . '/config/be_groups/' . $identifier);
-        rmdir($this->basePath . '/config/be_groups');
-        rmdir($this->basePath . '/config');
-        rmdir($this->basePath);
     }
 }

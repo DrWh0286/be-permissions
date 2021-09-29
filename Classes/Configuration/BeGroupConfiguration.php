@@ -12,8 +12,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class BeGroupConfiguration
 {
-    private static string $beGroupConfigurationFileName = 'be_group.yaml';
-
     private Identifier $identifier;
     private string $configPath;
     private array $config;
@@ -23,26 +21,6 @@ final class BeGroupConfiguration
         $this->identifier = $identifier;
         $this->configPath = $configPath;
         $this->config = $config;
-    }
-
-    /**
-     * @param Identifier $identifier
-     * @param string $configPath
-     * @return BeGroupConfiguration
-     * @throws ConfigurationFileMissingException
-     */
-    public static function load(Identifier $identifier, string $configPath): BeGroupConfiguration
-    {
-        $fileName = $configPath . '/be_groups/' . $identifier . '/' . self::$beGroupConfigurationFileName;
-
-        if (!file_exists($fileName)) {
-            throw new ConfigurationFileMissingException('No configuration file \'' . $fileName . '\' found!');
-        }
-
-        $loader = GeneralUtility::makeInstance(YamlFileLoader::class);
-        $configuration = $loader->load(GeneralUtility::fixWindowsFilePath($fileName));
-
-        return new self($identifier, $configPath, $configuration);
     }
 
     public static function createFromBeGroup(BeGroup $beGroup, string $configPath): BeGroupConfiguration
@@ -55,21 +33,37 @@ final class BeGroupConfiguration
         return new self($beGroup->identifier(), $configPath, $config);
     }
 
-    public function write(): void
-    {
-        $folder = $this->configPath . '/be_groups/' . $this->identifier;
-        $fileName = $folder . '/' . self::$beGroupConfigurationFileName;
-        $content = Yaml::dump($this->config, 99, 2);
-
-        if (!file_exists($folder)) {
-            GeneralUtility::mkdir_deep($folder);
-        }
-
-        GeneralUtility::writeFile($fileName, $content);
-    }
-
     public function rawConfiguration(): array
     {
         return $this->config;
+    }
+
+    public function nonExcludeFields(): array
+    {
+        return $this->config['non_exclude_fields'] ?? [];
+    }
+
+    /**
+     * @return array
+     */
+    public function config(): array
+    {
+        return $this->config;
+    }
+
+    /**
+     * @return Identifier
+     */
+    public function identifier(): Identifier
+    {
+        return $this->identifier;
+    }
+
+    /**
+     * @return string
+     */
+    public function configPath(): string
+    {
+        return $this->configPath;
     }
 }

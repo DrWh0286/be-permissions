@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Model;
 
+use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
 use Pluswerk\BePermissions\Value\Identifier;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -80,5 +81,28 @@ final class BeGroup
         }
 
         return implode(',', $nonExcludeFieldsArray);
+    }
+
+    public function overruleByConfiguration(BeGroupConfiguration $configuration): BeGroup
+    {
+        return new BeGroup(
+            $this->identifier,
+            $configuration->rawConfiguration()['title'],
+            $configuration->rawConfiguration()['non_exclude_fields']
+        );
+    }
+
+    public function extendByConfiguration(BeGroupConfiguration $configuration): BeGroup
+    {
+        $nonExcludeFields = array_merge_recursive(
+            $this->nonExcludeFields,
+            $configuration->rawConfiguration()['non_exclude_fields'] ?? []
+        );
+
+        return new BeGroup(
+            $this->identifier,
+            $this->title,
+            $nonExcludeFields
+        );
     }
 }
