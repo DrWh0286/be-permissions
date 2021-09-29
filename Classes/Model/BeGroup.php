@@ -99,6 +99,12 @@ final class BeGroup
             $configuration->rawConfiguration()['non_exclude_fields'] ?? []
         );
 
+        foreach ($nonExcludeFields as $key => $nonExcludeField) {
+            $nonExcludeField = array_unique($nonExcludeField);
+            asort($nonExcludeField);
+            $nonExcludeFields[$key] = $nonExcludeField;
+        }
+
         return new BeGroup(
             $this->identifier,
             $this->title,
