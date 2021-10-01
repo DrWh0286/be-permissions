@@ -27,8 +27,15 @@ final class BeGroup
 
     public static function createFromDBValues(array $dbValues): BeGroup
     {
-        $nonExcludeFields = NonExcludeFields::createFromDBValue($dbValues['non_exclude_fields']);
-        $explicitAllowDeny = ExplicitAllowDeny::createFromDBValue($dbValues['explicit_allowdeny']);
+        if (empty($dbValues['title'])) {
+            throw new \RuntimeException('A ' . __CLASS__ . ' needs a title!');
+        }
+        if (empty($dbValues['identifier'])) {
+            throw new \RuntimeException('A ' . __CLASS__ . ' needs an identifier!');
+        }
+
+        $nonExcludeFields = NonExcludeFields::createFromDBValue($dbValues['non_exclude_fields'] ?? '');
+        $explicitAllowDeny = ExplicitAllowDeny::createFromDBValue($dbValues['explicit_allowdeny'] ?? '');
 
         return new self(
             new Identifier($dbValues['identifier']),

@@ -53,7 +53,7 @@ final class BeGroupTest extends UnitTestCase
             $group->nonExcludeFields()
         );
     }
-    
+
     /**
      * @test
      */
@@ -266,6 +266,32 @@ final class BeGroupTest extends UnitTestCase
             ]));
 
         $this->assertEquals($expectedBeGroup, $extendedBeGroup);
+    }
+
+    /**
+     * @test
+     */
+    public function can_be_created_only_with_title_and_identifier(): void
+    {
+        BeGroup::createFromDBValues(['title' => 'some title', 'identifier' => 'some-identifier']);
+    }
+
+    /**
+     * @test
+     */
+    public function a_be_group_needs_a_title(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        BeGroup::createFromDBValues(['identifier' => 'some-identifier']);
+    }
+
+    /**
+     * @test
+     */
+    public function a_be_group_needs_an_identifier(): void
+    {
+        $this->expectException(\RuntimeException::class);
+        BeGroup::createFromDBValues(['title' => 'some title']);
     }
 
     private function createTestGroup(): BeGroup

@@ -207,4 +207,26 @@ final class BeGroupConfigurationTest extends UnitTestCase
 
         return $config;
     }
+
+    /**
+     * @test
+     */
+    public function can_be_created_only_with_title_in_configuration_array(): void
+    {
+        $configPath = $this->basePath . '/config';
+        $identifier = new Identifier('from-be-group');
+        BeGroupConfiguration::createFromConfigurationArray($identifier, $configPath, ['title' => 'some title']);
+    }
+
+    /**
+     * @test
+     */
+    public function a_be_group_configuration_needs_a_title(): void
+    {
+        $configPath = $this->basePath . '/config';
+        $identifier = new Identifier('from-be-group');
+
+        $this->expectException(\RuntimeException::class);
+        BeGroupConfiguration::createFromConfigurationArray($identifier, $configPath, []);
+    }
 }

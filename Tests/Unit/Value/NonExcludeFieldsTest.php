@@ -15,6 +15,14 @@ final class NonExcludeFieldsTest extends UnitTestCase
     /**
      * @test
      */
+    public function no_error_with_empty_database_field(): void
+    {
+        $nonExcludeFields = NonExcludeFields::createFromDBValue('');
+    }
+
+    /**
+     * @test
+     */
     public function can_be_created_from_database_value_and_returned_as_array(): void
     {
         $dbValue = 'pages:media,pages:hidden,tt_content:pages,tt_content:date';

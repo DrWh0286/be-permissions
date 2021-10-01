@@ -9,7 +9,9 @@ use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository;
 use Pluswerk\BePermissions\Repository\BeGroupRepository;
 use Pluswerk\BePermissions\UseCase\ExtendBeGroupByConfigurationFile;
+use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
+use Pluswerk\BePermissions\Value\NonExcludeFields;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -47,7 +49,7 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
             ]
         ];
 
-        $configuration = new BeGroupConfiguration($identifier, Environment::getConfigPath(), $config);
+        $configuration = BeGroupConfiguration::createFromConfigurationArray($identifier, Environment::getConfigPath(), $config);
         $repository = new BeGroupConfigurationRepository();
         $repository->write($configuration);
 
@@ -61,18 +63,19 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
 
         $actualBeGroup = $repo->findOneByIdentifier(new Identifier('test-group'));
 
-        $expectedBeGroup = new BeGroup($identifier, 'Some group title', [
+        $expectedBeGroup = new BeGroup($identifier, 'Some group title', NonExcludeFields::createFromConfigurationArray([
             'pages' => [
-                'abstract',
+                'title',
                 'hidden',
-                'title'
+                'abstract'
             ],
             'tt_content' => [
-                'another_field',
                 'hidden',
-                'some_additiona_field'
+                'some_additiona_field',
+                'another_field'
             ]
-        ]);
+        ]),
+        ExplicitAllowDeny::createFromConfigurationArray([]));
 
         $this->assertEquals($expectedBeGroup, $actualBeGroup);
     }

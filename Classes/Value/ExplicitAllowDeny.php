@@ -13,7 +13,7 @@ final class ExplicitAllowDeny
 
     public static function createFromDBValue(string $dbValue): ExplicitAllowDeny
     {
-        $basicArray = GeneralUtility::trimExplode(',', $dbValue);
+        $basicArray = array_filter(GeneralUtility::trimExplode(',', $dbValue));
 
         $explicitAllowDeny = [];
 

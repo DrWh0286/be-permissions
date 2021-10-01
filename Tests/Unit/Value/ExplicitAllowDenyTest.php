@@ -15,6 +15,14 @@ final class ExplicitAllowDenyTest extends UnitTestCase
     /**
      * @test
      */
+    public function no_error_with_empty_database_field(): void
+    {
+        $explicitAllowDeny = ExplicitAllowDeny::createFromDBValue('');
+    }
+
+    /**
+     * @test
+     */
     public function can_be_created_from_database_value_and_returned_as_configuration_array(): void
     {
         $dbValue = 'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:some_plugina:ALLOW,tt_content:list_type:another_pluginb:ALLOW';

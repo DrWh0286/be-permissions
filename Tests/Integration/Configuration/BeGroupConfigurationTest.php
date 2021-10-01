@@ -44,7 +44,15 @@ final class BeGroupConfigurationTest extends UnitTestCase
                     'media'
                 ]
             ]),
-            ExplicitAllowDeny::createFromConfigurationArray([])
+            ExplicitAllowDeny::createFromConfigurationArray([
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ]
+                ]
+            ])
         );
 
         $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
@@ -61,7 +69,15 @@ final class BeGroupConfigurationTest extends UnitTestCase
                     'media'
                 ]
             ],
-            'explicit_allowdeny' => []
+            'explicit_allowdeny' => [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ]
+                ]
+            ]
         ];
 
         $actualContent = Yaml::parse(file_get_contents($expectedFilename));
@@ -214,6 +230,48 @@ final class BeGroupConfigurationTest extends UnitTestCase
         $this->expectException(ConfigurationFileMissingException::class);
 
         $repository->load($identifier, $configPath);
+    }
+
+    /**
+     * @test
+     */
+    public function no_empty_arrays_are_written_to_configuration_file(): void
+    {
+        $configPath = $this->basePath . '/config';
+        $identifier = new Identifier('from-be-group');
+        $beGroup = new BeGroup(
+            $identifier,
+            'Group title',
+            NonExcludeFields::createFromConfigurationArray([
+                'pages' => [
+                    'title',
+                    'media'
+                ]
+            ]),
+            ExplicitAllowDeny::createFromConfigurationArray([])
+        );
+
+        $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
+        $repository = new BeGroupConfigurationRepository();
+        $repository->write($config);
+
+        $expectedFilename = $configPath . '/be_groups/' . $identifier . '/be_group.yaml';
+        $this->assertFileExists($expectedFilename);
+        $expectedValue = [
+            'title' => 'Group title',
+            'non_exclude_fields' => [
+                'pages' => [
+                    'title',
+                    'media'
+                ]
+            ]
+        ];
+
+        $actualContent = Yaml::parse(file_get_contents($expectedFilename));
+
+        $this->assertSame($expectedValue, $actualContent);
+
+        $this->cleanup($identifier);
     }
 
     private function cleanup(Identifier $identifier)

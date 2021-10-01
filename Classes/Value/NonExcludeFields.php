@@ -12,7 +12,7 @@ final class NonExcludeFields
 
     public static function createFromDBValue(string $nonExcludeFields): NonExcludeFields
     {
-        $basicArray = GeneralUtility::trimExplode(',', $nonExcludeFields);
+        $basicArray = array_filter(GeneralUtility::trimExplode(',', $nonExcludeFields));
 
         $nonExcludeFieldsArray = [];
 

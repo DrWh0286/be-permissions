@@ -36,16 +36,15 @@ final class BeGroupConfiguration
 
     public static function createFromConfigurationArray(Identifier $identifier, string $configPath, array $configuration): BeGroupConfiguration
     {
-        $title = $configuration['title'];
-        $nonExcludeFields = NonExcludeFields::createFromConfigurationArray($configuration['non_exclude_fields']);
-        $explicitAllowDeny = ExplicitAllowDeny::createFromConfigurationArray($configuration['explicit_allowdeny']);
+        if (empty($configuration['title'])) {
+            throw new \RuntimeException('A ' . __CLASS__ . ' needs a title!');
+        }
+
+        $title = $configuration['title'] ?? '';
+        $nonExcludeFields = NonExcludeFields::createFromConfigurationArray($configuration['non_exclude_fields'] ?? []);
+        $explicitAllowDeny = ExplicitAllowDeny::createFromConfigurationArray($configuration['explicit_allowdeny'] ?? []);
 
         return new self($identifier, $configPath, $title, $nonExcludeFields, $explicitAllowDeny);
-    }
-
-    public function rawConfiguration(): array
-    {
-        return $this->config;
     }
 
     public function title(): string
@@ -81,10 +80,17 @@ final class BeGroupConfiguration
 
     public function asArray(): array
     {
-        return [
-            'title' => $this->title,
-            'non_exclude_fields' => $this->nonExcludeFields->asArray(),
-            'explicit_allowdeny' => $this->explicitAllowDeny->asArray()
-        ];
+        $array = [];
+        $array['title'] = $this->title;
+
+        if (!empty($this->nonExcludeFields->asArray())) {
+            $array['non_exclude_fields'] = $this->nonExcludeFields->asArray();
+        }
+
+        if (!empty($this->explicitAllowDeny->asArray())) {
+            $array['explicit_allowdeny'] = $this->explicitAllowDeny->asArray();
+        }
+
+        return $array;
     }
 }
