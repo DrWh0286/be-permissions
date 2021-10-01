@@ -5,8 +5,10 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Tests\Unit\Model;
 
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
+use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Model\BeGroup;
+use Pluswerk\BePermissions\Value\NonExcludeFields;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -43,12 +45,37 @@ final class BeGroupTest extends UnitTestCase
     {
         $group = $this->createTestGroup();
 
-        $this->assertSame(
-            [
+        $this->assertEquals(
+            NonExcludeFields::createFromConfigurationArray([
                 'pages' => ['media', 'hidden'],
                 'tt_content' => ['pages', 'date']
-            ],
+            ]),
             $group->nonExcludeFields()
+        );
+    }
+    
+    /**
+     * @test
+     */
+    public function a_be_group_has_explicit_allowdeny(): void
+    {
+        $group = $this->createTestGroup();
+
+        $this->assertEquals(
+            ExplicitAllowDeny::createFromConfigurationArray([
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW'
+                    ]
+                ]
+            ]),
+            $group->explicitAllowDeny()
         );
     }
 
@@ -60,16 +87,30 @@ final class BeGroupTest extends UnitTestCase
         $dbValues = [
             'identifier' => 'some-identifier',
             'title' => 'A title',
-            'non_exclude_fields' => 'pages:media,pages:hidden,tt_content:pages,tt_content:date'
+            'non_exclude_fields' => 'pages:media,pages:hidden,tt_content:pages,tt_content:date',
+            'explicit_allowdeny' => 'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:some_plugina:ALLOW,tt_content:list_type:another_pluginb:ALLOW'
         ];
 
         $expectedGroup = new BeGroup(
             new Identifier('some-identifier'),
             'A title',
-            [
+            NonExcludeFields::createFromConfigurationArray([
                 'pages' => ['media', 'hidden'],
                 'tt_content' => ['pages', 'date']
-            ]
+            ]),
+            ExplicitAllowDeny::createFromConfigurationArray([
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW'
+                    ]
+                ]
+            ])
         );
 
         $this->assertEquals($expectedGroup, BeGroup::createFromDBValues($dbValues));
@@ -86,7 +127,8 @@ final class BeGroupTest extends UnitTestCase
             [
                 'identifier' => 'some-identifier',
                 'title' => '[PERM] Basic permissions',
-                'non_exclude_fields' => 'pages:media,pages:hidden,tt_content:pages,tt_content:date'
+                'non_exclude_fields' => 'pages:media,pages:hidden,tt_content:pages,tt_content:date',
+                'explicit_allowdeny' => 'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:some_plugina:ALLOW,tt_content:list_type:another_pluginb:ALLOW'
             ],
             $group->databaseValues()
         );
@@ -110,22 +152,49 @@ final class BeGroupTest extends UnitTestCase
                     'another_field',
                     'hidden'
                 ]
+            ],
+            'explicit_allowdeny' => [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW',
+                        'third_plugin' => 'ALLOW'
+                    ]
+                ]
             ]
         ];
-        $configuration = new BeGroupConfiguration($group->identifier(), '', $config);
+        $configuration = BeGroupConfiguration::createFromConfigurationArray($group->identifier(), '', $config);
 
         $overruledBeGroup = $group->overruleByConfiguration($configuration);
 
-        $expectedBeGroup = new BeGroup($group->identifier(), 'Some new group title', [
-            'pages' => [
-                'title'
-            ],
-            'tt_content' => [
-                'some_additiona_field',
-                'another_field',
-                'hidden'
-            ]
-        ]);
+        $expectedBeGroup = new BeGroup($group->identifier(), 'Some new group title',
+            NonExcludeFields::createFromConfigurationArray([
+                'pages' => [
+                    'title'
+                ],
+                'tt_content' => [
+                    'some_additiona_field',
+                    'another_field',
+                    'hidden'
+                ]
+            ]),
+            ExplicitAllowDeny::createFromConfigurationArray([
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW',
+                        'third_plugin' => 'ALLOW'
+                    ]
+                ]
+            ]));
 
         $this->assertEquals($expectedBeGroup, $overruledBeGroup);
     }
@@ -147,26 +216,54 @@ final class BeGroupTest extends UnitTestCase
                     'another_field',
                     'hidden'
                 ]
+            ],
+            'explicit_allowdeny' => [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'DENY'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW',
+                        'third_plugin' => 'ALLOW'
+                    ]
+                ]
             ]
         ];
-        $configuration = new BeGroupConfiguration($group->identifier(), '', $config);
+        $configuration = BeGroupConfiguration::createFromConfigurationArray($group->identifier(), '', $config);
 
         $extendedBeGroup = $group->extendByConfiguration($configuration);
 
-        $expectedBeGroup = new BeGroup($group->identifier(), $group->title(), [
-            'pages' => [
-                'media',
-                'hidden',
-                'title'
-            ],
-            'tt_content' => [
-                'pages',
-                'date',
-                'some_additiona_field',
-                'another_field',
-                'hidden'
-            ]
-        ]);
+        $expectedBeGroup = new BeGroup($group->identifier(), $group->title(),
+            NonExcludeFields::createFromConfigurationArray([
+                'pages' => [
+                    'media',
+                    'hidden',
+                    'title'
+                ],
+                'tt_content' => [
+                    'pages',
+                    'date',
+                    'some_additiona_field',
+                    'another_field',
+                    'hidden'
+                ]
+            ]),
+            ExplicitAllowDeny::createFromConfigurationArray([
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'DENY',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW',
+                        'third_plugin' => 'ALLOW'
+                    ]
+                ]
+            ]));
 
         $this->assertEquals($expectedBeGroup, $extendedBeGroup);
     }
@@ -174,11 +271,27 @@ final class BeGroupTest extends UnitTestCase
     private function createTestGroup(): BeGroup
     {
         $identifier = new Identifier('some-identifier');
-        $nonExcludeFields = [
+        $nonExcludeFields = NonExcludeFields::createFromConfigurationArray([
             'pages' => ['media', 'hidden'],
             'tt_content' => ['pages', 'date']
-        ];
+        ]);
 
-        return new BeGroup($identifier, '[PERM] Basic permissions', $nonExcludeFields);
+        $explicitAllowDeny = ExplicitAllowDeny::createFromConfigurationArray(
+            [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW'
+                    ]
+                ]
+            ]
+        );
+
+        return new BeGroup($identifier, '[PERM] Basic permissions', $nonExcludeFields, $explicitAllowDeny);
     }
 }

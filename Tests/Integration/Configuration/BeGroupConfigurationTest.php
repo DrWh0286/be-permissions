@@ -8,7 +8,9 @@ use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
 use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
 use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository;
+use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
+use Pluswerk\BePermissions\Value\NonExcludeFields;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -36,12 +38,13 @@ final class BeGroupConfigurationTest extends UnitTestCase
         $beGroup = new BeGroup(
             $identifier,
             'Group title',
-            [
+            NonExcludeFields::createFromConfigurationArray([
                 'pages' => [
                     'title',
                     'media'
                 ]
-            ]
+            ]),
+            ExplicitAllowDeny::createFromConfigurationArray([])
         );
 
         $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
@@ -57,7 +60,8 @@ final class BeGroupConfigurationTest extends UnitTestCase
                     'title',
                     'media'
                 ]
-            ]
+            ],
+            'explicit_allowdeny' => []
         ];
 
         $actualContent = Yaml::parse(file_get_contents($expectedFilename));
@@ -75,38 +79,80 @@ final class BeGroupConfigurationTest extends UnitTestCase
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('update-test-identifier');
         $config = [
+            'title' => 'some group title',
             'non_exclude_fields' => [
                 'pages' => [
                     'title',
                     'media'
                 ]
+            ],
+            'explicit_allowdeny' => [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW'
+                    ]
+                ]
             ]
         ];
 
-        $config = new BeGroupConfiguration($identifier, $configPath, $config);
+        $config = BeGroupConfiguration::createFromConfigurationArray($identifier, $configPath, $config);
         $repository = new BeGroupConfigurationRepository();
         $repository->write($config);
 
 
         $updateConfig = [
+            'title' => 'some group title',
             'non_exclude_fields' => [
                 'pages' => [
                     'title',
                     'media',
                     'some_field'
                 ]
+            ],
+            'explicit_allowdeny' => [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW'
+                    ]
+                ]
             ]
         ];
 
-        $config = new BeGroupConfiguration($identifier, $configPath, $updateConfig);
+        $config = BeGroupConfiguration::createFromConfigurationArray($identifier, $configPath, $updateConfig);
         $repository->write($config);
 
         $expectedValue = [
+            'title' => 'some group title',
             'non_exclude_fields' => [
                 'pages' => [
                     'title',
                     'media',
                     'some_field'
+                ]
+            ],
+            'explicit_allowdeny' => [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW'
+                    ]
                 ]
             ]
         ];
@@ -130,16 +176,30 @@ final class BeGroupConfigurationTest extends UnitTestCase
 
         $config = $repository->load($identifier, $configPath);
 
-        $expected = [
+        $expected = BeGroupConfiguration::createFromConfigurationArray($identifier, $configPath, [
+            'title' => 'Some group title',
             'non_exclude_fields' => [
                 'pages' => [
                     'title',
                     'media'
                 ]
+            ],
+            'explicit_allowdeny' => [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW'
+                    ]
+                ]
             ]
-        ];
+        ]);
 
-        $this->assertSame($expected, $config->rawConfiguration());
+        $this->assertEquals($expected, $config);
     }
 
     /**

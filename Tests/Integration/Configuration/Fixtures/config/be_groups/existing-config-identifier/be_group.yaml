@@ -1,4 +1,14 @@
+title: 'Some group title'
 non_exclude_fields:
   pages:
     - title
     - media
+explicit_allowdeny:
+  tt_content:
+    CType:
+      header: 'ALLOW'
+      text: 'ALLOW'
+      textpic: 'ALLOW'
+    list_type:
+      some_plugina: 'ALLOW'
+      another_pluginb: 'ALLOW'

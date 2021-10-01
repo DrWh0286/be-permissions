@@ -19,7 +19,7 @@ final class BeGroupConfigurationRepository implements BeGroupConfigurationReposi
     {
         $folder = $beGroupConfiguration->configPath() . '/be_groups/' . $beGroupConfiguration->identifier();
         $fileName = $folder . '/' . $this->beGroupConfigurationFileName;
-        $content = Yaml::dump($beGroupConfiguration->config(), 99, 2);
+        $content = Yaml::dump($beGroupConfiguration->asArray(), 99, 2);
 
         if (!file_exists($folder)) {
             GeneralUtility::mkdir_deep($folder);
@@ -42,6 +42,6 @@ final class BeGroupConfigurationRepository implements BeGroupConfigurationReposi
         $loader = GeneralUtility::makeInstance(YamlFileLoader::class);
         $configuration = $loader->load(GeneralUtility::fixWindowsFilePath($fileName));
 
-        return new BeGroupConfiguration($identifier, $configPath, $configuration);
+        return BeGroupConfiguration::createFromConfigurationArray($identifier, $configPath, $configuration);
     }
 }

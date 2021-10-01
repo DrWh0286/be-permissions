@@ -6,8 +6,8 @@
     </include>
   </coverage>
   <testsuites>
-    <testsuite name="Unit-Tests">
-      <directory suffix="Test.php">Tests/Unit</directory>
+    <testsuite name="Integration-Tests">
+      <directory suffix="Test.php">Tests/Integration</directory>
     </testsuite>
   </testsuites>
 </phpunit>
