@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Integration\Configuration;
+namespace Pluswerk\BePermissions\Tests\Integration\Repository;
 
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
 use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
@@ -15,10 +15,9 @@ use Symfony\Component\Yaml\Yaml;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
- * @covers \Pluswerk\BePermissions\Model\BeGroup;
+ * @covers \Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository
  */
-final class BeGroupConfigurationTest extends UnitTestCase
+final class BeGroupConfigurationRepositoryTest extends UnitTestCase
 {
     protected $resetSingletonInstances = true;
     private string $basePath;
