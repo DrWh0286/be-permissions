@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\UseCase;
 
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
-use Pluswerk\BePermissions\Repository\BeGroupRepository;
 use Pluswerk\BePermissions\Repository\BeGroupRepositoryInterface;
 use Pluswerk\BePermissions\Value\Identifier;
 use TYPO3\CMS\Core\Core\Environment;
 
 final class ExtendBeGroupByConfigurationFile
 {
-    private BeGroupRepository $beGroupRepository;
+    private BeGroupRepositoryInterface $beGroupRepository;
     private BeGroupConfigurationRepositoryInterface $beGroupConfigurationRepository;
 
     public function __construct(BeGroupRepositoryInterface $beGroupRepository, BeGroupConfigurationRepositoryInterface $beGroupConfigurationRepository)

@@ -8,7 +8,6 @@ use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class BeGroup
 {
