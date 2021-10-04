@@ -8,6 +8,7 @@ use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
 use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository;
 use Pluswerk\BePermissions\Repository\BeGroupRepository;
+use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
@@ -18,6 +19,16 @@ use Pluswerk\BePermissions\UseCase\OverruleBeGroupFromConfigurationFile;
 
 /**
  * @covers \Pluswerk\BePermissions\UseCase\OverruleBeGroupFromConfigurationFile
+ * @uses \Pluswerk\BePermissions\Configuration\BeGroupConfiguration
+ * @uses \Pluswerk\BePermissions\Model\BeGroup
+ * @uses \Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository
+ * @uses \Pluswerk\BePermissions\Repository\BeGroupRepository
+ * @uses \Pluswerk\BePermissions\Value\AllowedLanguages
+ * @uses \Pluswerk\BePermissions\Value\ExplicitAllowDeny
+ * @uses \Pluswerk\BePermissions\Value\Identifier
+ * @uses \Pluswerk\BePermissions\Value\NonExcludeFields
+ * @uses \TYPO3\CMS\Core\Core\Environment
+ * @uses \TYPO3\CMS\Core\Utility\GeneralUtility
  */
 final class OverruleBeGroupFromConfigurationFileTest extends FunctionalTestCase
 {
@@ -61,17 +72,24 @@ final class OverruleBeGroupFromConfigurationFileTest extends FunctionalTestCase
 
         $actualBeGroup = $repo->findOneByIdentifier(new Identifier('test-group'));
 
-        $expectedBeGroup = new BeGroup($identifier, 'Some new group title', NonExcludeFields::createFromConfigurationArray([
-            'pages' => [
-                'title'
-            ],
-            'tt_content' => [
-                'some_additiona_field',
-                'another_field',
-                'hidden'
-            ]
-        ]),
-        ExplicitAllowDeny::createFromConfigurationArray([]));
+        $expectedBeGroup = new BeGroup(
+            $identifier,
+            'Some new group title',
+            NonExcludeFields::createFromConfigurationArray(
+                [
+                    'pages' => [
+                        'title'
+                    ],
+                    'tt_content' => [
+                        'some_additiona_field',
+                        'another_field',
+                        'hidden'
+                    ]
+                ]
+            ),
+            ExplicitAllowDeny::createFromConfigurationArray([]),
+            AllowedLanguages::createFromConfigurationArray([])
+        );
 
         $this->assertEquals($expectedBeGroup, $actualBeGroup);
     }

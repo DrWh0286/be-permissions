@@ -5,16 +5,20 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Tests\Unit\Configuration;
 
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
-use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
 use Pluswerk\BePermissions\Model\BeGroup;
+use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
-use Symfony\Component\Yaml\Yaml;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
+ * @covers \Pluswerk\BePermissions\Configuration\BeGroupConfiguration
+ * @uses \Pluswerk\BePermissions\Model\BeGroup
+ * @uses \Pluswerk\BePermissions\Value\AllowedLanguages
+ * @uses \Pluswerk\BePermissions\Value\ExplicitAllowDeny
+ * @uses \Pluswerk\BePermissions\Value\Identifier
+ * @uses \Pluswerk\BePermissions\Value\NonExcludeFields
  */
 final class BeGroupConfigurationTest extends UnitTestCase
 {
@@ -54,7 +58,8 @@ final class BeGroupConfigurationTest extends UnitTestCase
                         'another_pluginb' => 'ALLOW'
                     ]
                 ]
-            ])
+            ]),
+            AllowedLanguages::createFromConfigurationArray([0,3,5])
         );
 
         $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
@@ -82,7 +87,8 @@ final class BeGroupConfigurationTest extends UnitTestCase
                             'another_pluginb' => 'ALLOW'
                         ]
                     ]
-                ]
+                ],
+                'allowed_languages' => [0,3,5]
             ]
         );
 
@@ -146,6 +152,20 @@ final class BeGroupConfigurationTest extends UnitTestCase
     /**
      * @test
      */
+    public function holds_allowed_languages(): void
+    {
+        $config = $this->getTestConfiguration();
+
+        $configArray = [0,3,5];
+
+        $allowedLanguages = AllowedLanguages::createFromConfigurationArray($configArray);
+
+        $this->assertEquals($allowedLanguages, $config->allowedLanguages());
+    }
+
+    /**
+     * @test
+     */
     public function can_be_fetched_as_configuration_array_for_writing(): void
     {
         $config = $this->getTestConfiguration();
@@ -201,7 +221,8 @@ final class BeGroupConfigurationTest extends UnitTestCase
                             'another_pluginb' => 'ALLOW'
                         ]
                     ]
-                ]
+                ],
+                'allowed_languages' => [0,3,5]
             ]
         );
 
@@ -215,7 +236,10 @@ final class BeGroupConfigurationTest extends UnitTestCase
     {
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('from-be-group');
-        BeGroupConfiguration::createFromConfigurationArray($identifier, $configPath, ['title' => 'some title']);
+        $beGroupConfiguration = BeGroupConfiguration::createFromConfigurationArray($identifier, $configPath, ['title' => 'some title']);
+
+        $this->assertSame($identifier, $beGroupConfiguration->identifier());
+        $this->assertSame($configPath, $beGroupConfiguration->configPath());
     }
 
     /**

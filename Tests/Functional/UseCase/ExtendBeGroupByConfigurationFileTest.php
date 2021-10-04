@@ -9,6 +9,7 @@ use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository;
 use Pluswerk\BePermissions\Repository\BeGroupRepository;
 use Pluswerk\BePermissions\UseCase\ExtendBeGroupByConfigurationFile;
+use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
@@ -18,6 +19,16 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
  * @covers \Pluswerk\BePermissions\UseCase\ExtendBeGroupByConfigurationFile
+ * @uses \Pluswerk\BePermissions\Configuration\BeGroupConfiguration
+ * @uses \Pluswerk\BePermissions\Model\BeGroup
+ * @uses \Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository
+ * @uses \Pluswerk\BePermissions\Repository\BeGroupRepository
+ * @uses \Pluswerk\BePermissions\Value\AllowedLanguages
+ * @uses \Pluswerk\BePermissions\Value\ExplicitAllowDeny
+ * @uses \Pluswerk\BePermissions\Value\Identifier
+ * @uses \Pluswerk\BePermissions\Value\NonExcludeFields
+ * @uses \TYPO3\CMS\Core\Core\Environment
+ * @uses \TYPO3\CMS\Core\Utility\GeneralUtility
  */
 final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
 {
@@ -63,19 +74,26 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
 
         $actualBeGroup = $repo->findOneByIdentifier(new Identifier('test-group'));
 
-        $expectedBeGroup = new BeGroup($identifier, 'Some group title', NonExcludeFields::createFromConfigurationArray([
-            'pages' => [
-                'title',
-                'hidden',
-                'abstract'
-            ],
-            'tt_content' => [
-                'hidden',
-                'some_additiona_field',
-                'another_field'
-            ]
-        ]),
-        ExplicitAllowDeny::createFromConfigurationArray([]));
+        $expectedBeGroup = new BeGroup(
+            $identifier,
+            'Some group title',
+            NonExcludeFields::createFromConfigurationArray(
+                [
+                    'pages' => [
+                        'title',
+                        'hidden',
+                        'abstract'
+                    ],
+                    'tt_content' => [
+                        'hidden',
+                        'some_additiona_field',
+                        'another_field'
+                    ]
+                ]
+            ),
+            ExplicitAllowDeny::createFromConfigurationArray([]),
+            AllowedLanguages::createFromConfigurationArray([])
+        );
 
         $this->assertEquals($expectedBeGroup, $actualBeGroup);
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Tests\Unit\Model;
 
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
+use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Model\BeGroup;
@@ -13,6 +14,11 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * @covers \Pluswerk\BePermissions\Model\BeGroup
+ * @uses \Pluswerk\BePermissions\Configuration\BeGroupConfiguration
+ * @uses \Pluswerk\BePermissions\Value\AllowedLanguages
+ * @uses \Pluswerk\BePermissions\Value\ExplicitAllowDeny
+ * @uses \Pluswerk\BePermissions\Value\Identifier
+ * @uses \Pluswerk\BePermissions\Value\NonExcludeFields
  */
 final class BeGroupTest extends UnitTestCase
 {
@@ -82,13 +88,27 @@ final class BeGroupTest extends UnitTestCase
     /**
      * @test
      */
+    public function a_be_group_has_allowed_languages(): void
+    {
+        $group = $this->createTestGroup();
+
+        $this->assertEquals(
+            AllowedLanguages::createFromConfigurationArray([0,3,5]),
+            $group->allowedLanguages()
+        );
+    }
+
+    /**
+     * @test
+     */
     public function can_be_created_from_database_values(): void
     {
         $dbValues = [
             'identifier' => 'some-identifier',
             'title' => 'A title',
             'non_exclude_fields' => 'pages:media,pages:hidden,tt_content:pages,tt_content:date',
-            'explicit_allowdeny' => 'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:some_plugina:ALLOW,tt_content:list_type:another_pluginb:ALLOW'
+            'explicit_allowdeny' => 'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:some_plugina:ALLOW,tt_content:list_type:another_pluginb:ALLOW',
+            'allowed_languages' => '0,3,5'
         ];
 
         $expectedGroup = new BeGroup(
@@ -110,7 +130,8 @@ final class BeGroupTest extends UnitTestCase
                         'another_pluginb' => 'ALLOW'
                     ]
                 ]
-            ])
+            ]),
+            AllowedLanguages::createFromConfigurationArray([0,3,5])
         );
 
         $this->assertEquals($expectedGroup, BeGroup::createFromDBValues($dbValues));
@@ -128,7 +149,8 @@ final class BeGroupTest extends UnitTestCase
                 'identifier' => 'some-identifier',
                 'title' => '[PERM] Basic permissions',
                 'non_exclude_fields' => 'pages:media,pages:hidden,tt_content:pages,tt_content:date',
-                'explicit_allowdeny' => 'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:some_plugina:ALLOW,tt_content:list_type:another_pluginb:ALLOW'
+                'explicit_allowdeny' => 'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:some_plugina:ALLOW,tt_content:list_type:another_pluginb:ALLOW',
+                'allowed_languages' => '0,3,5'
             ],
             $group->databaseValues()
         );
@@ -165,7 +187,8 @@ final class BeGroupTest extends UnitTestCase
                         'third_plugin' => 'ALLOW'
                     ]
                 ]
-            ]
+            ],
+            'allowed_languages' => [1,2,4]
         ];
         $configuration = BeGroupConfiguration::createFromConfigurationArray($group->identifier(), '', $config);
 
@@ -194,7 +217,9 @@ final class BeGroupTest extends UnitTestCase
                         'third_plugin' => 'ALLOW'
                     ]
                 ]
-            ]));
+            ]),
+            AllowedLanguages::createFromConfigurationArray([1,2,4])
+        );
 
         $this->assertEquals($expectedBeGroup, $overruledBeGroup);
     }
@@ -229,7 +254,8 @@ final class BeGroupTest extends UnitTestCase
                         'third_plugin' => 'ALLOW'
                     ]
                 ]
-            ]
+            ],
+            'allowed_languages' => [3,4]
         ];
         $configuration = BeGroupConfiguration::createFromConfigurationArray($group->identifier(), '', $config);
 
@@ -263,7 +289,9 @@ final class BeGroupTest extends UnitTestCase
                         'third_plugin' => 'ALLOW'
                     ]
                 ]
-            ]));
+            ]),
+        AllowedLanguages::createFromConfigurationArray([0,3,4,5])
+        );
 
         $this->assertEquals($expectedBeGroup, $extendedBeGroup);
     }
@@ -317,7 +345,8 @@ final class BeGroupTest extends UnitTestCase
                 ]
             ]
         );
+        $allowedLanguages = AllowedLanguages::createFromConfigurationArray([0,3,5]);
 
-        return new BeGroup($identifier, '[PERM] Basic permissions', $nonExcludeFields, $explicitAllowDeny);
+        return new BeGroup($identifier, '[PERM] Basic permissions', $nonExcludeFields, $explicitAllowDeny, $allowedLanguages);
     }
 }

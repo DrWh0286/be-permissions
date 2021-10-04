@@ -11,6 +11,12 @@ use Pluswerk\BePermissions\UseCase\ExportBeGroupToConfigurationFile;
 
 /**
  * @covers \Pluswerk\BePermissions\UseCase\ExportBeGroupToConfigurationFile
+ * @uses \TYPO3\CMS\Core\Core\Environment
+ * @uses \TYPO3\CMS\Core\Utility\GeneralUtility
+ * @uses \Pluswerk\BePermissions\Configuration\BeGroupConfiguration
+ * @uses \Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository
+ * @uses \Pluswerk\BePermissions\Repository\BeGroupRepository
+ * @uses \Pluswerk\BePermissions\Value\Identifier
  */
 final class ExportBeGroupToConfigurationFileTest extends FunctionalTestCase
 {

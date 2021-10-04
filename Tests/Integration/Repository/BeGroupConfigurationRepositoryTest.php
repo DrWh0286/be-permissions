@@ -8,6 +8,7 @@ use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
 use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
 use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository;
+use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
@@ -16,6 +17,14 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
  * @covers \Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository
+ * @uses \Pluswerk\BePermissions\Configuration\BeGroupConfiguration
+ * @uses \Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException
+ * @uses \Pluswerk\BePermissions\Model\BeGroup
+ * @uses \Pluswerk\BePermissions\Value\AllowedLanguages
+ * @uses \Pluswerk\BePermissions\Value\ExplicitAllowDeny
+ * @uses \Pluswerk\BePermissions\Value\Identifier
+ * @uses \Pluswerk\BePermissions\Value\NonExcludeFields
+ * @uses \Symfony\Component\Yaml\Yaml
  */
 final class BeGroupConfigurationRepositoryTest extends UnitTestCase
 {
@@ -51,7 +60,8 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
                         'textpic' => 'ALLOW'
                     ]
                 ]
-            ])
+            ]),
+            AllowedLanguages::createFromConfigurationArray([0,3,5])
         );
 
         $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
@@ -247,7 +257,8 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
                     'media'
                 ]
             ]),
-            ExplicitAllowDeny::createFromConfigurationArray([])
+            ExplicitAllowDeny::createFromConfigurationArray([]),
+            AllowedLanguages::createFromConfigurationArray([])
         );
 
         $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
