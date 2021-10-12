@@ -6,9 +6,10 @@ namespace Pluswerk\BePermissions\Value;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class NonExcludeFields
+final class NonExcludeFields implements BeGroupFieldInterface
 {
     private array $nonExcludeFields;
+    private string $fieldName = 'non_exclude_fields';
 
     public static function createFromDBValue(string $nonExcludeFields): NonExcludeFields
     {
@@ -52,7 +53,7 @@ final class NonExcludeFields
         return implode(',', $nonExcludeFieldsArray);
     }
 
-    public function extend(NonExcludeFields $extendingNonExcludeFields): NonExcludeFields
+    public function extend(BeGroupFieldInterface $extendingNonExcludeFields): NonExcludeFields
     {
         $extendedArray = array_merge_recursive($this->nonExcludeFields, $extendingNonExcludeFields->asArray());
 
@@ -61,5 +62,10 @@ final class NonExcludeFields
         }
 
         return new NonExcludeFields($extendedArray);
+    }
+
+    public function getFieldName(): string
+    {
+        return $this->fieldName;
     }
 }

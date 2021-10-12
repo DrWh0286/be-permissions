@@ -6,10 +6,11 @@ namespace Pluswerk\BePermissions\Value;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class AllowedLanguages
+final class AllowedLanguages implements BeGroupFieldInterface
 {
     /** @var int[] */
     private array $allowedLanguages;
+    private string $fieldName = 'allowed_languages';
 
     /**
      * @param string $dbValue
@@ -53,14 +54,19 @@ final class AllowedLanguages
     }
 
     /**
-     * @param AllowedLanguages $extendAllowedLanguages
+     * @param BeGroupFieldInterface $extendAllowedLanguages
      * @return AllowedLanguages
      */
-    public function extend(AllowedLanguages $extendAllowedLanguages): AllowedLanguages
+    public function extend(BeGroupFieldInterface $extendAllowedLanguages): AllowedLanguages
     {
         $newLanguageArray = array_unique(array_merge($this->allowedLanguages, $extendAllowedLanguages->allowedLanguages));
         asort($newLanguageArray);
 
         return AllowedLanguages::createFromConfigurationArray(array_values($newLanguageArray));
+    }
+
+    public function getFieldName(): string
+    {
+        return $this->fieldName;
     }
 }

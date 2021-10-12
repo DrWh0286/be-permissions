@@ -6,9 +6,10 @@ namespace Pluswerk\BePermissions\Value;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class TablesSelect
+final class TablesSelect implements BeGroupFieldInterface
 {
     private array $tablesSelect;
+    private string $fieldName = 'tables_select';
 
     public static function createFromDBValue(string $dbValue): TablesSelect
     {
@@ -37,11 +38,16 @@ final class TablesSelect
         return implode(',', $this->tablesSelect);
     }
 
-    public function extend(TablesSelect $tablesSelect): TablesSelect
+    public function extend(BeGroupFieldInterface $tablesSelect): TablesSelect
     {
         $tablesSelectArray = array_unique(array_merge($this->tablesSelect, $tablesSelect->asArray()));
         asort($tablesSelectArray);
 
         return new self(array_values($tablesSelectArray));
+    }
+
+    public function getFieldName(): string
+    {
+        return $this->fieldName;
     }
 }

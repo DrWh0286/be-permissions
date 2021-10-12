@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Unit\Value;
 
+use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use Pluswerk\BePermissions\Value\AllowedLanguages;
 
@@ -58,5 +59,23 @@ final class AllowedLanguagesTest extends UnitTestCase
         $extendAllowedLanguages = AllowedLanguages::createFromConfigurationArray([3,4,5]);
 
         $this->assertSame('0,3,4,5', (string)($allowedLanguages->extend($extendAllowedLanguages)));
+    }
+
+    /**
+     * @test
+     */
+    public function field_name_is_allowed_languages(): void
+    {
+        $allowedLanguages = AllowedLanguages::createFromConfigurationArray([]);
+        $this->assertSame('allowed_languages', $allowedLanguages->getFieldName());
+    }
+
+    /**
+     * @test
+     */
+    public function implements_be_group_field_interface(): void
+    {
+        $allowedLanguages = AllowedLanguages::createFromConfigurationArray([]);
+        $this->assertInstanceOf(BeGroupFieldInterface::class, $allowedLanguages);
     }
 }

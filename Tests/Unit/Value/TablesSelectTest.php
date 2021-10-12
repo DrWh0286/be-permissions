@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Unit\Value;
 
+use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use Pluswerk\BePermissions\Value\TablesSelect;
 
@@ -66,5 +67,23 @@ final class TablesSelectTest extends UnitTestCase
             ['pages','sys_category','sys_file','sys_file_metadata','sys_file_reference','tt_content','tx_basepackage_accordion_content','tx_news_domain_model_link','tx_news_domain_model_news'],
             $tablesSelect->extend($extendTablesSelect)->asArray()
         );
+    }
+
+    /**
+     * @test
+     */
+    public function field_name_is_allowed_languages(): void
+    {
+        $tablesSelect = TablesSelect::createFromConfigurationArray([]);
+        $this->assertSame('tables_select', $tablesSelect->getFieldName());
+    }
+
+    /**
+     * @test
+     */
+    public function implements_be_group_field_interface(): void
+    {
+        $tablesSelect = TablesSelect::createFromConfigurationArray([]);
+        $this->assertInstanceOf(BeGroupFieldInterface::class, $tablesSelect);
     }
 }

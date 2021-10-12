@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Unit\Value;
 
+use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
 
@@ -83,5 +84,23 @@ final class NonExcludeFieldsTest extends UnitTestCase
         );
 
         $this->assertEquals($expectedNonExcludeFields, $baseNonExcludeFields->extend($extendingNonExcludeFields));
+    }
+
+    /**
+     * @test
+     */
+    public function field_name_is_non_exclude_fields(): void
+    {
+        $nonExcludeFields = NonExcludeFields::createFromConfigurationArray([]);
+        $this->assertSame('non_exclude_fields', $nonExcludeFields->getFieldName());
+    }
+
+    /**
+     * @test
+     */
+    public function implements_be_group_field_interface(): void
+    {
+        $nonExcludeFields = NonExcludeFields::createFromConfigurationArray([]);
+        $this->assertInstanceOf(BeGroupFieldInterface::class, $nonExcludeFields);
     }
 }

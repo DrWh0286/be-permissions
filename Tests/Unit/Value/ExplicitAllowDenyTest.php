@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Unit\Value;
 
+use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 
@@ -17,7 +18,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
      */
     public function no_error_with_empty_database_field(): void
     {
-        $explicitAllowDeny = ExplicitAllowDeny::createFromDBValue('');
+        ExplicitAllowDeny::createFromDBValue('');
     }
 
     /**
@@ -131,5 +132,23 @@ final class ExplicitAllowDenyTest extends UnitTestCase
         $expectedExplicitAllowDeny = ExplicitAllowDeny::createFromConfigurationArray($expectedConfigArray);
 
         $this->assertEquals($expectedExplicitAllowDeny, $baseExplicitAllowDeny->extend($extendingExplicitAllowDeny));
+    }
+
+    /**
+     * @test
+     */
+    public function field_name_is_explicit_allowdeny(): void
+    {
+        $explicitAllowDeny = ExplicitAllowDeny::createFromConfigurationArray([]);
+        $this->assertSame('explicit_allowdeny', $explicitAllowDeny->getFieldName());
+    }
+
+    /**
+     * @test
+     */
+    public function implements_be_group_field_interface(): void
+    {
+        $explicitAllowDeny = ExplicitAllowDeny::createFromConfigurationArray([]);
+        $this->assertInstanceOf(BeGroupFieldInterface::class, $explicitAllowDeny);
     }
 }

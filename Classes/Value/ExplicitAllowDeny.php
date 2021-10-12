@@ -6,10 +6,10 @@ namespace Pluswerk\BePermissions\Value;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class ExplicitAllowDeny
+final class ExplicitAllowDeny implements BeGroupFieldInterface
 {
-
     private array $explicitAllowDeny;
+    private string $fieldName = 'explicit_allowdeny';
 
     public static function createFromDBValue(string $dbValue): ExplicitAllowDeny
     {
@@ -58,10 +58,15 @@ final class ExplicitAllowDeny
         return implode(',', $explicitAllowDenyStringsArray);
     }
 
-    public function extend(ExplicitAllowDeny $extendingExplicitAllowDeny): ExplicitAllowDeny
+    public function extend(BeGroupFieldInterface $extendingExplicitAllowDeny): ExplicitAllowDeny
     {
         $extendedArray = array_replace_recursive($this->explicitAllowDeny, $extendingExplicitAllowDeny->asArray());
 
         return new ExplicitAllowDeny($extendedArray);
+    }
+
+    public function getFieldName(): string
+    {
+        return $this->fieldName;
     }
 }

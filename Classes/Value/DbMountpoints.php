@@ -6,7 +6,7 @@ namespace Pluswerk\BePermissions\Value;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class DbMountpoints
+final class DbMountpoints implements BeGroupFieldInterface
 {
     private array $dbMountpoints;
     private string $fieldName = 'db_mountpoints';
@@ -33,21 +33,21 @@ final class DbMountpoints
         return $this->dbMountpoints;
     }
 
-    public function fieldName(): string
-    {
-        return $this->fieldName;
-    }
-
     public function __toString(): string
     {
         return implode(',', $this->dbMountpoints);
     }
 
-    public function extend(DbMountpoints $extendDbMountpoints): DbMountpoints
+    public function extend(BeGroupFieldInterface $extendDbMountpoints): DbMountpoints
     {
         $array = array_unique(array_merge($this->dbMountpoints, $extendDbMountpoints->asArray()));
         asort($array);
 
         return new self(array_values($array));
+    }
+
+    public function getFieldName(): string
+    {
+        return $this->fieldName;
     }
 }

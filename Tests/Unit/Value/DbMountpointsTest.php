@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Unit\Value;
 
+use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use Pluswerk\BePermissions\Value\DbMountpoints;
 
@@ -57,5 +58,23 @@ final class DbMountpointsTest extends UnitTestCase
         $extendDbMountpoints = DbMountpoints::createFromConfigurationArray([2,3]);
 
         $this->assertSame([1,2,3], $dbMountpoints->extend($extendDbMountpoints)->asArray());
+    }
+
+    /**
+     * @test
+     */
+    public function field_name_is_db_mountpoints(): void
+    {
+        $dbMountpoints = DbMountpoints::createFromConfigurationArray([]);
+        $this->assertSame('db_mountpoints', $dbMountpoints->getFieldName());
+    }
+
+    /**
+     * @test
+     */
+    public function implements_be_group_field_interface(): void
+    {
+        $dbMountpoints = DbMountpoints::createFromConfigurationArray([]);
+        $this->assertInstanceOf(BeGroupFieldInterface::class, $dbMountpoints);
     }
 }
