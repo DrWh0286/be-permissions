@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace Functional\UseCase;
 
+use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilder;
+use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
+use Pluswerk\BePermissions\Configuration\ExtensionConfiguration;
 use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository;
 use Pluswerk\BePermissions\Repository\BeGroupRepository;
@@ -36,6 +39,13 @@ final class OverruleBeGroupFromConfigurationFileTest extends FunctionalTestCase
         'typo3conf/ext/be_permissions'
     ];
 
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_permissions'] = [];
+    }
+
     /**
      * @test
      */
@@ -45,9 +55,10 @@ final class OverruleBeGroupFromConfigurationFileTest extends FunctionalTestCase
 
         // Prepare file
         $identifier = new Identifier('test-group');
-        $config = [
-            'title' => 'Some new group title',
-            'non_exclude_fields' => [
+
+        $collection = new BeGroupFieldCollection();
+        $collection->add(NonExcludeFields::createFromConfigurationArray(
+            [
                 'pages' => [
                     'title'
                 ],
@@ -57,9 +68,12 @@ final class OverruleBeGroupFromConfigurationFileTest extends FunctionalTestCase
                     'hidden'
                 ]
             ]
-        ];
-        $configuration = BeGroupConfiguration::createFromConfigurationArray($identifier, Environment::getConfigPath(), $config);
-        $repository = new BeGroupConfigurationRepository();
+        ));
+
+        $configuration = new BeGroupConfiguration($identifier, Environment::getConfigPath(), 'Some new group title', $collection);
+        $extConfig = new ExtensionConfiguration();
+        $builder = new BeGroupFieldCollectionBuilder($extConfig);
+        $repository = new BeGroupConfigurationRepository($builder);
         $repository->write($configuration);
 
         /** @var OverruleBeGroupFromConfigurationFile $useCase */
@@ -72,23 +86,26 @@ final class OverruleBeGroupFromConfigurationFileTest extends FunctionalTestCase
 
         $actualBeGroup = $repo->findOneByIdentifier(new Identifier('test-group'));
 
+        $collection = new BeGroupFieldCollection();
+        $collection->add(NonExcludeFields::createFromConfigurationArray(
+            [
+                'pages' => [
+                    'title'
+                ],
+                'tt_content' => [
+                    'some_additiona_field',
+                    'another_field',
+                    'hidden'
+                ]
+            ]
+        ));
+        $collection->add(ExplicitAllowDeny::createFromConfigurationArray([]));
+        $collection->add(AllowedLanguages::createFromConfigurationArray([]));
+
         $expectedBeGroup = new BeGroup(
             $identifier,
             'Some new group title',
-            NonExcludeFields::createFromConfigurationArray(
-                [
-                    'pages' => [
-                        'title'
-                    ],
-                    'tt_content' => [
-                        'some_additiona_field',
-                        'another_field',
-                        'hidden'
-                    ]
-                ]
-            ),
-            ExplicitAllowDeny::createFromConfigurationArray([]),
-            AllowedLanguages::createFromConfigurationArray([])
+            $collection
         );
 
         $this->assertEquals($expectedBeGroup, $actualBeGroup);

@@ -18,12 +18,7 @@ final class BeGroupFieldCollectionBuilderTest extends UnitTestCase
 {
     protected function setUp(): void
     {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_permissions'] = [
-            'valueObjectMapping' => [
-                'non_exclude_fields' => NonExcludeFields::class,
-                'tables_select' => TablesSelect::class
-            ]
-        ];
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_permissions'] = [];
     }
 
     /**
@@ -46,6 +41,47 @@ final class BeGroupFieldCollectionBuilderTest extends UnitTestCase
         $expectedCollection = new BeGroupFieldCollection();
         $expectedCollection->add($nonExcludeFields);
         $expectedCollection->add($tablesSelect);
+
+        $this->assertEquals($expectedCollection, $collection);
+    }
+
+    /**
+     * @test
+     */
+    public function a_be_group_collection_is_built_from_yaml_configuration_array(): void
+    {
+        $config = new ExtensionConfiguration();
+        $builder = new BeGroupFieldCollectionBuilder($config);
+
+        $configurationArray = [
+            'title' => 'Group title',
+            'non_exclude_fields' => [
+                'pages' => [
+                    'title',
+                    'media'
+                ]
+            ],
+            'tables_select' => ['pages','tt_content','tx_news_domain_model_link','tx_news_domain_model_news']
+        ];
+
+        $collection = $builder->buildFromConfigurationArray($configurationArray);
+
+        $expectedCollection = new BeGroupFieldCollection();
+        $expectedCollection->add(
+            NonExcludeFields::createFromConfigurationArray(
+                [
+                    'pages' => [
+                        'title',
+                        'media'
+                    ]
+                ]
+            )
+        );
+        $expectedCollection->add(
+            TablesSelect::createFromConfigurationArray(
+                ['pages','tt_content','tx_news_domain_model_link','tx_news_domain_model_news']
+            )
+        );
 
         $this->assertEquals($expectedCollection, $collection);
     }

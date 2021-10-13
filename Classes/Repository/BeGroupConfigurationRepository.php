@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Repository;
 
+use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilder;
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
 use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
 use Pluswerk\BePermissions\Value\Identifier;
@@ -14,6 +15,12 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 final class BeGroupConfigurationRepository implements BeGroupConfigurationRepositoryInterface
 {
     private string $beGroupConfigurationFileName = 'be_group.yaml';
+    private BeGroupFieldCollectionBuilder $beGroupFieldCollectionBuilder;
+
+    public function __construct(BeGroupFieldCollectionBuilder $beGroupFieldCollectionBuilder)
+    {
+        $this->beGroupFieldCollectionBuilder = $beGroupFieldCollectionBuilder;
+    }
 
     public function write(BeGroupConfiguration $beGroupConfiguration): void
     {
@@ -42,6 +49,8 @@ final class BeGroupConfigurationRepository implements BeGroupConfigurationReposi
         $loader = GeneralUtility::makeInstance(YamlFileLoader::class);
         $configuration = $loader->load(GeneralUtility::fixWindowsFilePath($fileName));
 
-        return BeGroupConfiguration::createFromConfigurationArray($identifier, $configPath, $configuration);
+        $collection = $this->beGroupFieldCollectionBuilder->buildFromConfigurationArray($configuration);
+
+        return new BeGroupConfiguration($identifier, $configPath, $configuration['title'] ?? '', $collection);
     }
 }

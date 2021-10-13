@@ -44,4 +44,25 @@ final class BeGroupFieldCollectionBuilder
 
         return $collection;
     }
+
+    public function buildFromConfigurationArray(array $configurationArray): BeGroupFieldCollection
+    {
+        $collection = new BeGroupFieldCollection();
+
+        foreach ($configurationArray as $fieldName => $valueArray) {
+            try {
+                $valueClass = $this->config->getClassNameByFieldName($fieldName);
+            } catch (NoValueObjectConfiguredException $exception) {
+                continue;
+            }
+
+            $implementArray = class_implements($valueClass);
+            if (in_array(BeGroupFieldInterface::class, $implementArray)) {
+                $valueObject = $valueClass::createFromConfigurationArray($valueArray);
+                $collection->add($valueObject);
+            }
+        }
+
+        return $collection;
+    }
 }

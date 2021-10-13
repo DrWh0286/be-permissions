@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Unit\Model;
 
+use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
 use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
@@ -47,28 +48,17 @@ final class BeGroupTest extends UnitTestCase
     /**
      * @test
      */
-    public function a_be_group_has_non_exclude_fields(): void
+    public function a_be_group_has_be_group_field_collection(): void
     {
         $group = $this->createTestGroup();
 
-        $this->assertEquals(
-            NonExcludeFields::createFromConfigurationArray([
-                'pages' => ['media', 'hidden'],
-                'tt_content' => ['pages', 'date']
-            ]),
-            $group->nonExcludeFields()
-        );
-    }
+        $nonExcludeFields = NonExcludeFields::createFromConfigurationArray([
+            'pages' => ['media', 'hidden'],
+            'tt_content' => ['pages', 'date']
+        ]);
 
-    /**
-     * @test
-     */
-    public function a_be_group_has_explicit_allowdeny(): void
-    {
-        $group = $this->createTestGroup();
-
-        $this->assertEquals(
-            ExplicitAllowDeny::createFromConfigurationArray([
+        $explicitAllowDeny = ExplicitAllowDeny::createFromConfigurationArray(
+            [
                 'tt_content' => [
                     'CType' => [
                         'header' => 'ALLOW',
@@ -80,22 +70,16 @@ final class BeGroupTest extends UnitTestCase
                         'another_pluginb' => 'ALLOW'
                     ]
                 ]
-            ]),
-            $group->explicitAllowDeny()
+            ]
         );
-    }
+        $allowedLanguages = AllowedLanguages::createFromConfigurationArray([0,3,5]);
 
-    /**
-     * @test
-     */
-    public function a_be_group_has_allowed_languages(): void
-    {
-        $group = $this->createTestGroup();
+        $expectedCollection = new BeGroupFieldCollection();
+        $expectedCollection->add($nonExcludeFields);
+        $expectedCollection->add($explicitAllowDeny);
+        $expectedCollection->add($allowedLanguages);
 
-        $this->assertEquals(
-            AllowedLanguages::createFromConfigurationArray([0,3,5]),
-            $group->allowedLanguages()
-        );
+        $this->assertEquals($expectedCollection, $group->beGroupFieldCollection());
     }
 
     /**
@@ -111,28 +95,28 @@ final class BeGroupTest extends UnitTestCase
             'allowed_languages' => '0,3,5'
         ];
 
-        $expectedGroup = new BeGroup(
-            new Identifier('some-identifier'),
-            'A title',
-            NonExcludeFields::createFromConfigurationArray([
-                'pages' => ['media', 'hidden'],
-                'tt_content' => ['pages', 'date']
-            ]),
-            ExplicitAllowDeny::createFromConfigurationArray([
-                'tt_content' => [
-                    'CType' => [
-                        'header' => 'ALLOW',
-                        'text' => 'ALLOW',
-                        'textpic' => 'ALLOW'
-                    ],
-                    'list_type' => [
-                        'some_plugina' => 'ALLOW',
-                        'another_pluginb' => 'ALLOW'
-                    ]
+        $collection = new BeGroupFieldCollection();
+
+        $collection->add(NonExcludeFields::createFromConfigurationArray([
+            'pages' => ['media', 'hidden'],
+            'tt_content' => ['pages', 'date']
+        ]));
+        $collection->add(ExplicitAllowDeny::createFromConfigurationArray([
+            'tt_content' => [
+                'CType' => [
+                    'header' => 'ALLOW',
+                    'text' => 'ALLOW',
+                    'textpic' => 'ALLOW'
+                ],
+                'list_type' => [
+                    'some_plugina' => 'ALLOW',
+                    'another_pluginb' => 'ALLOW'
                 ]
-            ]),
-            AllowedLanguages::createFromConfigurationArray([0,3,5])
-        );
+            ]
+        ]));
+        $collection->add(AllowedLanguages::createFromConfigurationArray([0,3,5]));
+
+        $expectedGroup = new BeGroup(new Identifier('some-identifier'), 'A title', $collection);
 
         $this->assertEquals($expectedGroup, BeGroup::createFromDBValues($dbValues));
     }
@@ -163,9 +147,9 @@ final class BeGroupTest extends UnitTestCase
     {
         $group = $this->createTestGroup();
 
-        $config = [
-            'title' => 'Some new group title',
-            'non_exclude_fields' => [
+        $collection = new BeGroupFieldCollection();
+        $collection->add(NonExcludeFields::createFromConfigurationArray(
+            [
                 'pages' => [
                     'title'
                 ],
@@ -174,8 +158,10 @@ final class BeGroupTest extends UnitTestCase
                     'another_field',
                     'hidden'
                 ]
-            ],
-            'explicit_allowdeny' => [
+            ]
+        ));
+        $collection->add(ExplicitAllowDeny::createFromConfigurationArray(
+            [
                 'tt_content' => [
                     'CType' => [
                         'header' => 'ALLOW',
@@ -187,39 +173,42 @@ final class BeGroupTest extends UnitTestCase
                         'third_plugin' => 'ALLOW'
                     ]
                 ]
-            ],
-            'allowed_languages' => [1,2,4]
-        ];
-        $configuration = BeGroupConfiguration::createFromConfigurationArray($group->identifier(), '', $config);
+            ]
+        ));
+        $collection->add(AllowedLanguages::createFromConfigurationArray([1,2,4]));
+
+        $configuration = new BeGroupConfiguration($group->identifier(), '', 'Some new group title', $collection);
 
         $overruledBeGroup = $group->overruleByConfiguration($configuration);
 
-        $expectedBeGroup = new BeGroup($group->identifier(), 'Some new group title',
-            NonExcludeFields::createFromConfigurationArray([
-                'pages' => [
-                    'title'
+        $collection = new BeGroupFieldCollection();
+
+        $collection->add(NonExcludeFields::createFromConfigurationArray([
+            'pages' => [
+                'title'
+            ],
+            'tt_content' => [
+                'some_additiona_field',
+                'another_field',
+                'hidden'
+            ]
+        ]));
+        $collection->add(ExplicitAllowDeny::createFromConfigurationArray([
+            'tt_content' => [
+                'CType' => [
+                    'header' => 'ALLOW',
+                    'text' => 'ALLOW'
                 ],
-                'tt_content' => [
-                    'some_additiona_field',
-                    'another_field',
-                    'hidden'
+                'list_type' => [
+                    'some_plugina' => 'ALLOW',
+                    'another_pluginb' => 'ALLOW',
+                    'third_plugin' => 'ALLOW'
                 ]
-            ]),
-            ExplicitAllowDeny::createFromConfigurationArray([
-                'tt_content' => [
-                    'CType' => [
-                        'header' => 'ALLOW',
-                        'text' => 'ALLOW'
-                    ],
-                    'list_type' => [
-                        'some_plugina' => 'ALLOW',
-                        'another_pluginb' => 'ALLOW',
-                        'third_plugin' => 'ALLOW'
-                    ]
-                ]
-            ]),
-            AllowedLanguages::createFromConfigurationArray([1,2,4])
-        );
+            ]
+        ]));
+        $collection->add(AllowedLanguages::createFromConfigurationArray([1,2,4]));
+
+        $expectedBeGroup = new BeGroup($group->identifier(), 'Some new group title', $collection);
 
         $this->assertEquals($expectedBeGroup, $overruledBeGroup);
     }
@@ -230,68 +219,71 @@ final class BeGroupTest extends UnitTestCase
     public function can_be_extended_by_configuration(): void
     {
         $group = $this->createTestGroup();
-        $config = [
-            'title' => 'Some new group title',
-            'non_exclude_fields' => [
-                'pages' => [
-                    'title'
+
+        $collection = new BeGroupFieldCollection();
+
+        $collection->add(NonExcludeFields::createFromConfigurationArray([
+            'pages' => [
+                'title'
+            ],
+            'tt_content' => [
+                'some_additiona_field',
+                'another_field',
+                'hidden'
+            ]
+        ]));
+        $collection->add(ExplicitAllowDeny::createFromConfigurationArray([
+            'tt_content' => [
+                'CType' => [
+                    'header' => 'ALLOW',
+                    'text' => 'DENY'
                 ],
-                'tt_content' => [
-                    'some_additiona_field',
-                    'another_field',
-                    'hidden'
+                'list_type' => [
+                    'some_plugina' => 'ALLOW',
+                    'another_pluginb' => 'ALLOW',
+                    'third_plugin' => 'ALLOW'
                 ]
-            ],
-            'explicit_allowdeny' => [
-                'tt_content' => [
-                    'CType' => [
-                        'header' => 'ALLOW',
-                        'text' => 'DENY'
-                    ],
-                    'list_type' => [
-                        'some_plugina' => 'ALLOW',
-                        'another_pluginb' => 'ALLOW',
-                        'third_plugin' => 'ALLOW'
-                    ]
-                ]
-            ],
-            'allowed_languages' => [3,4]
-        ];
-        $configuration = BeGroupConfiguration::createFromConfigurationArray($group->identifier(), '', $config);
+            ]
+        ]));
+        $collection->add(AllowedLanguages::createFromConfigurationArray([3,4]));
+
+        $configuration = new BeGroupConfiguration($group->identifier(), '', 'Some new group title', $collection);
 
         $extendedBeGroup = $group->extendByConfiguration($configuration);
 
-        $expectedBeGroup = new BeGroup($group->identifier(), $group->title(),
-            NonExcludeFields::createFromConfigurationArray([
-                'pages' => [
-                    'media',
-                    'hidden',
-                    'title'
+        $collection = new BeGroupFieldCollection();
+
+        $collection->add(NonExcludeFields::createFromConfigurationArray([
+            'pages' => [
+                'media',
+                'hidden',
+                'title'
+            ],
+            'tt_content' => [
+                'pages',
+                'date',
+                'some_additiona_field',
+                'another_field',
+                'hidden'
+            ]
+        ]));
+        $collection->add(ExplicitAllowDeny::createFromConfigurationArray([
+            'tt_content' => [
+                'CType' => [
+                    'header' => 'ALLOW',
+                    'text' => 'DENY',
+                    'textpic' => 'ALLOW'
                 ],
-                'tt_content' => [
-                    'pages',
-                    'date',
-                    'some_additiona_field',
-                    'another_field',
-                    'hidden'
+                'list_type' => [
+                    'some_plugina' => 'ALLOW',
+                    'another_pluginb' => 'ALLOW',
+                    'third_plugin' => 'ALLOW'
                 ]
-            ]),
-            ExplicitAllowDeny::createFromConfigurationArray([
-                'tt_content' => [
-                    'CType' => [
-                        'header' => 'ALLOW',
-                        'text' => 'DENY',
-                        'textpic' => 'ALLOW'
-                    ],
-                    'list_type' => [
-                        'some_plugina' => 'ALLOW',
-                        'another_pluginb' => 'ALLOW',
-                        'third_plugin' => 'ALLOW'
-                    ]
-                ]
-            ]),
-        AllowedLanguages::createFromConfigurationArray([0,3,4,5])
-        );
+            ]
+        ]));
+        $collection->add(AllowedLanguages::createFromConfigurationArray([0,3,4,5]));
+
+        $expectedBeGroup = new BeGroup($group->identifier(), $group->title(), $collection);
 
         $this->assertEquals($expectedBeGroup, $extendedBeGroup);
     }
@@ -347,6 +339,11 @@ final class BeGroupTest extends UnitTestCase
         );
         $allowedLanguages = AllowedLanguages::createFromConfigurationArray([0,3,5]);
 
-        return new BeGroup($identifier, '[PERM] Basic permissions', $nonExcludeFields, $explicitAllowDeny, $allowedLanguages);
+        $beGroupFieldCollection = new BeGroupFieldCollection();
+        $beGroupFieldCollection->add($nonExcludeFields);
+        $beGroupFieldCollection->add($explicitAllowDeny);
+        $beGroupFieldCollection->add($allowedLanguages);
+
+        return new BeGroup($identifier, '[PERM] Basic permissions', $beGroupFieldCollection);
     }
 }

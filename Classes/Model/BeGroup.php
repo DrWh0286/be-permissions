@@ -4,8 +4,10 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Model;
 
+use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
 use Pluswerk\BePermissions\Value\AllowedLanguages;
+use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
@@ -14,17 +16,13 @@ final class BeGroup
 {
     private Identifier $identifier;
     private string $title;
-    private NonExcludeFields $nonExcludeFields;
-    private ExplicitAllowDeny $explicitAllowDeny;
-    private AllowedLanguages $allowedLanguages;
+    private BeGroupFieldCollection $beGroupFieldCollection;
 
-    public function __construct(Identifier $identifier, string $title, NonExcludeFields $nonExcludeFields, ExplicitAllowDeny $explicitAllowDeny, AllowedLanguages $allowedLanguages)
+    public function __construct(Identifier $identifier, string $title, BeGroupFieldCollection $beGroupFieldCollection)
     {
         $this->title = $title;
         $this->identifier = $identifier;
-        $this->nonExcludeFields = $nonExcludeFields;
-        $this->explicitAllowDeny = $explicitAllowDeny;
-        $this->allowedLanguages = $allowedLanguages;
+        $this->beGroupFieldCollection = $beGroupFieldCollection;
     }
 
     public static function createFromDBValues(array $dbValues): BeGroup
@@ -40,12 +38,15 @@ final class BeGroup
         $explicitAllowDeny = ExplicitAllowDeny::createFromDBValue($dbValues['explicit_allowdeny'] ?? '');
         $allowedLanguages = AllowedLanguages::createFromDBValue($dbValues['allowed_languages'] ?? '');
 
+        $beGroupFieldCollection = new BeGroupFieldCollection();
+        $beGroupFieldCollection->add($nonExcludeFields);
+        $beGroupFieldCollection->add($explicitAllowDeny);
+        $beGroupFieldCollection->add($allowedLanguages);
+
         return new self(
             new Identifier($dbValues['identifier']),
             $dbValues['title'],
-            $nonExcludeFields,
-            $explicitAllowDeny,
-            $allowedLanguages
+            $beGroupFieldCollection
         );
     }
 
@@ -59,55 +60,40 @@ final class BeGroup
         return $this->title;
     }
 
-    public function nonExcludeFields(): NonExcludeFields
+    public function beGroupFieldCollection(): BeGroupFieldCollection
     {
-        return $this->nonExcludeFields;
-    }
-
-    public function explicitAllowDeny(): ExplicitAllowDeny
-    {
-        return $this->explicitAllowDeny;
-    }
-
-    public function allowedLanguages(): AllowedLanguages
-    {
-        return $this->allowedLanguages;
+        return $this->beGroupFieldCollection;
     }
 
     public function databaseValues(): array
     {
-        return [
-            'identifier' => (string)$this->identifier,
-            'title' => $this->title,
-            'non_exclude_fields' => (string)$this->nonExcludeFields,
-            'explicit_allowdeny' => (string)$this->explicitAllowDeny,
-            'allowed_languages' => (string)$this->allowedLanguages
-        ];
+        $dbValues = [];
+        $dbValues['identifier'] = (string)$this->identifier;
+        $dbValues['title'] = $this->title;
+
+        /** @var BeGroupFieldInterface $field */
+        foreach ($this->beGroupFieldCollection as $field) {
+            $dbValues[$field->getFieldName()] = (string)$field;
+        }
+
+        return $dbValues;
     }
 
     public function overruleByConfiguration(BeGroupConfiguration $configuration): BeGroup
     {
-        return new BeGroup(
-            $this->identifier,
-            $configuration->title(),
-            $configuration->nonExcludeFields(),
-            $configuration->explicitAllowDeny(),
-            $configuration->allowedLanguages()
-        );
+        $collection = $configuration->beGroupFieldCollection();
+
+        return new BeGroup($this->identifier, $configuration->title(), $collection);
     }
 
     public function extendByConfiguration(BeGroupConfiguration $configuration): BeGroup
     {
-        $nonExcludeFields = $this->nonExcludeFields->extend($configuration->nonExcludeFields());
-        $explicitAllowDeny = $this->explicitAllowDeny->extend($configuration->explicitAllowDeny());
-        $allowedLanguages = $this->allowedLanguages->extend($configuration->allowedLanguages());
+        $collection = $this->beGroupFieldCollection->extend($configuration->beGroupFieldCollection());
 
         return new BeGroup(
             $this->identifier,
             $this->title,
-            $nonExcludeFields,
-            $explicitAllowDeny,
-            $allowedLanguages
+            $collection
         );
     }
 }

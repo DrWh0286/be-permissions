@@ -74,8 +74,10 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
         $collection->add($beGroupFieldC);
 
         $actual = [];
-        foreach ($collection as $beGroupField) {
+        $i = 0;
+        foreach ($collection as $key => $beGroupField) {
             $actual[] = $beGroupField;
+            $this->assertSame($i++, $key);
         }
 
         $this->assertSame($expected, $actual);
@@ -155,6 +157,11 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
             }
 
             public function getFieldName(): string
+            {
+                return '';
+            }
+
+            public function __toString(): string
             {
                 return '';
             }

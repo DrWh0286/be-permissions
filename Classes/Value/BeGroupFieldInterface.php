@@ -14,4 +14,6 @@ interface BeGroupFieldInterface
     public function extend(BeGroupFieldInterface $beGroupField): BeGroupFieldInterface;
 
     public function getFieldName(): string;
+
+    public function __toString(): string;
 }
