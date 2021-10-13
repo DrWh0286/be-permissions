@@ -12,6 +12,7 @@ final class BeGroupFieldCollection implements IteratorAggregate
 {
     /** @var BeGroupFieldInterface[] $beGroupFields */
     private array $beGroupFields = [];
+    /** @var BeGroupFieldInterface[] $associativeBeGroupFields */
     private array $associativeBeGroupFields;
 
     /**
@@ -72,5 +73,27 @@ final class BeGroupFieldCollection implements IteratorAggregate
                 $this->position = 0;
             }
         };
+    }
+
+    public function extend(BeGroupFieldCollection $beGroupFieldCollection): BeGroupFieldCollection
+    {
+        $extendedCollection = new self();
+        $baseArray = $this->associativeBeGroupFields;
+
+        foreach ($beGroupFieldCollection as $beGroupField) {
+            if (isset($baseArray[get_class($beGroupField)])) {
+                $baseGroupField = $baseArray[get_class($beGroupField)];
+                $extendedCollection->add($baseGroupField->extend($beGroupField));
+                unset($baseArray[get_class($beGroupField)]);
+            } else {
+                $extendedCollection->add($beGroupField);
+            }
+        }
+
+        foreach ($baseArray as $remainingBGroupField) {
+            $extendedCollection->add($remainingBGroupField);
+        }
+
+        return $extendedCollection;
     }
 }

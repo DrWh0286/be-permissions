@@ -81,6 +81,49 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
         $this->assertSame($expected, $actual);
     }
 
+    /**
+     * @test
+     */
+    public function can_be_immutable_extended_by_another_collection(): void
+    {
+        $fieldAA = $this->getMockBeGroupField('FieldA');
+        $fieldAB = $this->getMockBeGroupField('FieldB');
+        $fieldAC = $this->getMockBeGroupField('FieldC');
+        $fieldBA = $this->getMockBeGroupField('FieldA');
+        $fieldBB = $this->getMockBeGroupField('FieldB');
+        $fieldBD = $this->getMockBeGroupField('FieldD');
+
+        $fieldCA = $this->getMockBeGroupField('FieldCA');
+        $fieldCB = $this->getMockBeGroupField('FieldCB');
+
+        $collectionA = new BeGroupFieldCollection();
+        $collectionB = new BeGroupFieldCollection();
+
+        $collectionA->add($fieldAA);
+        $collectionA->add($fieldAB);
+        $collectionA->add($fieldAC);
+
+        $collectionB->add($fieldBA);
+        $collectionB->add($fieldBB);
+        $collectionB->add($fieldBD);
+
+        $fieldAA->expects($this->once())->method('extend')->with($fieldBA)->willReturn($fieldCA);
+        $fieldAB->expects($this->once())->method('extend')->with($fieldBB)->willReturn($fieldCB);
+
+        $resultingCollection = $collectionA->extend($collectionB);
+
+        $expectedCollection = new BeGroupFieldCollection();
+        $expectedCollection->add($fieldCA);
+        $expectedCollection->add($fieldCB);
+        $expectedCollection->add($fieldBD);
+        $expectedCollection->add($fieldAC);
+
+        $this->assertEquals($expectedCollection, $resultingCollection);
+
+        $this->assertNotSame($resultingCollection, $collectionA);
+        $this->assertNotSame($resultingCollection, $collectionB);
+    }
+
     private function getMockBeGroupField(string $className)
     {
         return $this->getMockBuilder(BeGroupFieldInterface::class)
