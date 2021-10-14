@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" bootstrap=".Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php" forceCoversAnnotation="true" beStrictAboutCoversAnnotation="true" beStrictAboutOutputDuringTests="true" beStrictAboutTodoAnnotatedTests="true" verbose="true" colors="true">
-  <coverage processUncoveredFiles="true">
-    <include>
-      <directory suffix=".php">Classes</directory>
-    </include>
-  </coverage>
-  <testsuites>
-    <testsuite name="Unit-Tests">
-      <directory suffix="Test.php">Tests/Unit</directory>
-    </testsuite>
-  </testsuites>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+         bootstrap=".Build/vendor/typo3/testing-framework/Resources/Core/Build/UnitTestsBootstrap.php"
+         forceCoversAnnotation="true" beStrictAboutCoversAnnotation="false" beStrictAboutOutputDuringTests="true"
+         beStrictAboutTodoAnnotatedTests="true" verbose="true" colors="true">
+    <coverage processUncoveredFiles="false">
+        <include>
+            <directory suffix=".php">Classes/Builder</directory>
+            <directory suffix=".php">Classes/Configuration</directory>
+            <directory suffix=".php">Classes/Configuration</directory>
+            <directory suffix=".php">Classes/Model</directory>
+            <directory suffix=".php">Classes/Value</directory>
+        </include>
+    </coverage>
+    <testsuites>
+        <testsuite name="Unit-Tests">
+            <directory suffix="Test.php">Tests/Unit</directory>
+        </testsuite>
+    </testsuites>
 </phpunit>

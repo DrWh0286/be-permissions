@@ -3,3 +3,6 @@ composer.lock
 .Build
 .phpunit.result.cache
 var
+coverage
+coverage-functional
+coverage-integration
