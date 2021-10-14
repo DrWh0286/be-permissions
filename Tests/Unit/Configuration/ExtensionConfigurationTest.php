@@ -10,6 +10,7 @@ use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\DbMountpoints;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
+use Pluswerk\BePermissions\Value\TablesModify;
 use Pluswerk\BePermissions\Value\TablesSelect;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -71,6 +72,7 @@ final class ExtensionConfigurationTest extends UnitTestCase
             'db_mountpoints' => DbMountpoints::class,
             'explicit_allowdeny' => ExplicitAllowDeny::class,
             'tables_select' => TablesSelect::class,
+            'tables_modify' => TablesModify::class,
         ];
 
         $extensionConfiguration = new ExtensionConfiguration();
