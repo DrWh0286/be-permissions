@@ -4,43 +4,27 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Value;
 
-final class Title implements StringBasedFieldInterface
+final class Title extends AbstractStringField
 {
-    private string $title;
     private string $fieldName = 'title';
 
     public static function createFromDBValue(string $dbValue): Title
     {
-        return new self($dbValue);
+        return parent::createFromDBValue($dbValue);
     }
 
     public static function createFromYamlConfiguration($configValue): Title
     {
-        return new self($configValue);
-    }
-
-    public function __construct(string $title)
-    {
-        $this->title = $title;
-    }
-
-    public function yamlConfigurationValue(): string
-    {
-        return $this->title;
+        return parent::createFromYamlConfiguration($configValue);
     }
 
     public function extend(BeGroupFieldInterface $beGroupField): Title
     {
-        return clone $this;
+        return parent::extend($beGroupField);
     }
 
     public function getFieldName(): string
     {
         return $this->fieldName;
-    }
-
-    public function __toString(): string
-    {
-        return $this->title;
     }
 }
