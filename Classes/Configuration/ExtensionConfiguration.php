@@ -8,6 +8,7 @@ use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\DbMountpoints;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
+use Pluswerk\BePermissions\Value\PageTypesSelect;
 use Pluswerk\BePermissions\Value\TablesModify;
 use Pluswerk\BePermissions\Value\TablesSelect;
 use Pluswerk\BePermissions\Value\Title;
@@ -28,7 +29,8 @@ final class ExtensionConfiguration implements SingletonInterface, ExtensionConfi
             'explicit_allowdeny' => ExplicitAllowDeny::class,
             'tables_select' => TablesSelect::class,
             'tables_modify' => TablesModify::class,
-            'title' => Title::class
+            'title' => Title::class,
+            'pagetypes_select' => PageTypesSelect::class
         ]
     ];
 
