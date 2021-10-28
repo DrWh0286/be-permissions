@@ -4,46 +4,23 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Value;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-final class TablesModify implements ArrayBasedFieldInterface
+final class TablesModify extends AbstractStringArrayField
 {
-    private array $tablesSelect;
     private string $fieldName = 'tables_modify';
 
     public static function createFromDBValue(string $dbValue): TablesModify
     {
-        $tablesSelect = ($dbValue !== '') ? GeneralUtility::trimExplode(',', $dbValue) : [];
-
-        return new self($tablesSelect);
+        return parent::createFromDBValue($dbValue);
     }
 
     public static function createFromYamlConfiguration($configValue): TablesModify
     {
-        return new self($configValue);
-    }
-
-    public function __construct(array $tablesSelect)
-    {
-        $this->tablesSelect = $tablesSelect;
-    }
-
-    public function yamlConfigurationValue(): array
-    {
-        return $this->tablesSelect;
-    }
-
-    public function __toString(): string
-    {
-        return implode(',', $this->tablesSelect);
+        return parent::createFromYamlConfiguration($configValue);
     }
 
     public function extend(BeGroupFieldInterface $tablesSelect): TablesModify
     {
-        $tablesSelectArray = array_unique(array_merge($this->tablesSelect, $tablesSelect->yamlConfigurationValue()));
-        asort($tablesSelectArray);
-
-        return new self(array_values($tablesSelectArray));
+        return parent::extend($tablesSelect);
     }
 
     public function getFieldName(): string

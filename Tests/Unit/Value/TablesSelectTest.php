@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Unit\Value;
 
+use Pluswerk\BePermissions\Value\AbstractStringArrayField;
 use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use Pluswerk\BePermissions\Value\TablesSelect;
@@ -72,7 +73,7 @@ final class TablesSelectTest extends UnitTestCase
     /**
      * @test
      */
-    public function field_name_is_allowed_languages(): void
+    public function field_name_is_tables_select(): void
     {
         $tablesSelect = TablesSelect::createFromYamlConfiguration([]);
         $this->assertSame('tables_select', $tablesSelect->getFieldName());
@@ -81,9 +82,9 @@ final class TablesSelectTest extends UnitTestCase
     /**
      * @test
      */
-    public function implements_be_group_field_interface(): void
+    public function extends_AbstractStringArrayField(): void
     {
         $tablesSelect = TablesSelect::createFromYamlConfiguration([]);
-        $this->assertInstanceOf(BeGroupFieldInterface::class, $tablesSelect);
+        $this->assertInstanceOf(AbstractStringArrayField::class, $tablesSelect);
     }
 }
