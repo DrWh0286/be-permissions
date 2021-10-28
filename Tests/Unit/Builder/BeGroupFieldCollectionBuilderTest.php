@@ -24,7 +24,7 @@ final class BeGroupFieldCollectionBuilderTest extends UnitTestCase
     /**
      * @test
      */
-    public function a_be_group_field_collection_is_built_from_database_array(): void
+    public function a_be_group_field_collection_is_built_from_database_array(): void //phpcs:ignore
     {
         $fieldFactory = $this->createMock(BeGroupFieldFactoryInterface::class);
         $builder = new BeGroupFieldCollectionBuilder($fieldFactory);
@@ -52,7 +52,7 @@ final class BeGroupFieldCollectionBuilderTest extends UnitTestCase
     /**
      * @test
      */
-    public function a_be_group_collection_is_built_from_yaml_configuration_array(): void
+    public function a_be_group_collection_is_built_from_yaml_configuration_array(): void //phpcs:ignore
     {
         $fieldFactory = $this->createMock(BeGroupFieldFactoryInterface::class);
         $builder = new BeGroupFieldCollectionBuilder($fieldFactory);

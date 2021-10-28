@@ -17,7 +17,7 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
     /**
      * @test
      */
-    public function a_be_group_field_can_be_added(): void
+    public function a_be_group_field_can_be_added(): void //phpcs:ignore
     {
         $beGroupField = $this->getDummyBeGroupField();
 
@@ -31,7 +31,7 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
     /**
      * @test
      */
-    public function a_be_group_field_collection_can_be_empty(): void
+    public function a_be_group_field_collection_can_be_empty(): void //phpcs:ignore
     {
         $collection = new BeGroupFieldCollection();
         $this->assertNull($collection->getBeGroupField(0));
@@ -40,7 +40,7 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
     /**
      * @test
      */
-    public function a_field_type_can_be_added_just_once(): void
+    public function a_field_type_can_be_added_just_once(): void //phpcs:ignore
     {
         $beGroupFieldA = $this->getMockBuilder(BeGroupFieldInterface::class)
             ->setMockClassName('SomeBeGroupFieldImplementation')
@@ -55,11 +55,11 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
         $this->expectException(DuplicateBeGroupFieldException::class);
         $collection->add($beGroupFieldB);
     }
-    
+
     /**
      * @test
      */
-    public function the_collection_is_usable_for_iterations(): void
+    public function the_collection_is_usable_for_iterations(): void //phpcs:ignore
     {
         $beGroupFieldA = $this->getMockBeGroupField('SomeBeGroupFieldA');
         $beGroupFieldB = $this->getMockBeGroupField('SomeBeGroupFieldB');
@@ -86,7 +86,7 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_immutable_extended_by_another_collection(): void
+    public function can_be_immutable_extended_by_another_collection(): void //phpcs:ignore
     {
         $fieldAA = $this->getMockBeGroupField('FieldA');
         $fieldAB = $this->getMockBeGroupField('FieldB');
@@ -146,7 +146,7 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
                 return new self();
             }
 
-            public function yamlConfigurationValue(): array
+            public function yamlConfigurationValue()
             {
                 return [];
             }
@@ -156,12 +156,12 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
                 return new self();
             }
 
-            public function getFieldName(): string
+            public function getFieldName()
             {
                 return '';
             }
 
-            public function __toString(): string
+            public function __toString()
             {
                 return '';
             }

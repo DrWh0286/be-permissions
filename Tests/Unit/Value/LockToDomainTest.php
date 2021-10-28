@@ -15,7 +15,7 @@ final class LockToDomainTest extends UnitTestCase
     /**
      * @test
      */
-    public function field_name_is_lockToDomain(): void
+    public function field_name_is_lockToDomain(): void //phpcs:ignore
     {
         $lockToDomain = LockToDomain::createFromYamlConfiguration('');
         $this->assertSame('lockToDomain', $lockToDomain->getFieldName());
@@ -24,7 +24,7 @@ final class LockToDomainTest extends UnitTestCase
     /**
      * @test
      */
-    public function LockToDomain_is_changed_by_extend(): void
+    public function LockToDomain_is_changed_by_extend(): void //phpcs:ignore
     {
         $lockToDomain = LockToDomain::createFromDBValue('domain.a');
         $extendLockToDomain = LockToDomain::createFromYamlConfiguration('domain.b');

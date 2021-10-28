@@ -50,7 +50,7 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function a_connected_configuration_can_extend_the_be_group_record(): void
+    public function a_connected_configuration_can_extend_the_be_group_record(): void //phpcs:ignore
     {
         $this->importDataSet(__DIR__ . '/Fixtures/be_groups.xml');
 

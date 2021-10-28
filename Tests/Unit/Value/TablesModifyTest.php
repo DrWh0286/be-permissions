@@ -16,7 +16,7 @@ final class TablesModifyTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_created_from_database_value_and_returned_as_configuration_array(): void
+    public function can_be_created_from_database_value_and_returned_as_configuration_array(): void //phpcs:ignore
     {
         $dbValue = 'pages,sys_category,sys_file,sys_file_metadata,sys_file_reference,tt_content,tx_news_domain_model_link,tx_news_domain_model_news,tx_basepackage_accordion_content';
 
@@ -31,7 +31,7 @@ final class TablesModifyTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_created_from_configuration_array_and_returned_as_database_value(): void
+    public function can_be_created_from_configuration_array_and_returned_as_database_value(): void //phpcs:ignore
     {
         $confArray = ['pages','sys_category','sys_file','sys_file_metadata','sys_file_reference','tt_content','tx_news_domain_model_link','tx_news_domain_model_news','tx_basepackage_accordion_content'];
 
@@ -46,7 +46,7 @@ final class TablesModifyTest extends UnitTestCase
     /**
      * @test
      */
-    public function with_empty_database_field_an_empty_db_mountpoints_array_is_returned(): void
+    public function with_empty_database_field_an_empty_db_mountpoints_array_is_returned(): void //phpcs:ignore
     {
         $tablesSelect = TablesModify::createFromDBValue('');
 
@@ -56,7 +56,7 @@ final class TablesModifyTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_extended_by_another_db_mountpoints_object(): void
+    public function can_be_extended_by_another_db_mountpoints_object(): void //phpcs:ignore
     {
         $confArray = ['pages','sys_category','sys_file','sys_file_metadata','sys_file_reference','tt_content'];
 
@@ -72,7 +72,7 @@ final class TablesModifyTest extends UnitTestCase
     /**
      * @test
      */
-    public function field_name_is_allowed_languages(): void
+    public function field_name_is_allowed_languages(): void //phpcs:ignore
     {
         $tablesSelect = TablesModify::createFromYamlConfiguration([]);
         $this->assertSame('tables_modify', $tablesSelect->getFieldName());
@@ -81,7 +81,7 @@ final class TablesModifyTest extends UnitTestCase
     /**
      * @test
      */
-    public function implements_be_group_field_interface(): void
+    public function implements_be_group_field_interface(): void //phpcs:ignore
     {
         $tablesSelect = TablesModify::createFromYamlConfiguration([]);
         $this->assertInstanceOf(BeGroupFieldInterface::class, $tablesSelect);

@@ -34,7 +34,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function holds_an_identifier(): void
+    public function holds_an_identifier(): void //phpcs:ignore
     {
         $config = $this->getTestConfiguration();
 
@@ -44,7 +44,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function holds_a_config_path(): void
+    public function holds_a_config_path(): void //phpcs:ignore
     {
         $config = $this->getTestConfiguration();
 
@@ -54,7 +54,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_created_from_be_group_model(): void
+    public function can_be_created_from_be_group_model(): void //phpcs:ignore
     {
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('from-be-group');
@@ -129,7 +129,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function holds_the_group_title(): void
+    public function holds_the_group_title(): void //phpcs:ignore
     {
         $conf = $this->getTestConfiguration();
 
@@ -139,7 +139,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function holds_a_be_group_field_collection(): void
+    public function holds_a_be_group_field_collection(): void //phpcs:ignore
     {
         $config = $this->getTestConfiguration();
 
@@ -179,7 +179,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_fetched_as_configuration_array_for_writing(): void
+    public function can_be_fetched_as_configuration_array_for_writing(): void //phpcs:ignore
     {
         $config = $this->getTestConfiguration();
 

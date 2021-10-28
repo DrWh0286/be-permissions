@@ -45,7 +45,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function be_group_can_be_written_to_configuration_file(): void
+    public function be_group_can_be_written_to_configuration_file(): void //phpcs:ignore
     {
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('from-be-group');
@@ -109,7 +109,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function configuration_file_is_updated(): void
+    public function configuration_file_is_updated(): void //phpcs:ignore
     {
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('update-test-identifier');
@@ -211,7 +211,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function configuration_is_loaded_from_existing_config_file(): void
+    public function configuration_is_loaded_from_existing_config_file(): void //phpcs:ignore
     {
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('existing-config-identifier');
@@ -256,7 +256,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function throws_exception_when_file_to_load_does_not_exist(): void
+    public function throws_exception_when_file_to_load_does_not_exist(): void //phpcs:ignore
     {
         $configPath = $this->basePath . '/config/be_groups';
         $identifier = new Identifier('non-existing-config-identifier');
@@ -273,7 +273,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function no_empty_arrays_are_written_to_configuration_file(): void
+    public function no_empty_arrays_are_written_to_configuration_file(): void //phpcs:ignore
     {
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('from-be-group');

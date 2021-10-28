@@ -16,7 +16,7 @@ final class GroupModsTest extends UnitTestCase
     /**
      * @test
      */
-    public function field_name_is_groupMods(): void
+    public function field_name_is_groupMods(): void //phpcs:ignore
     {
         $groupMods = GroupMods::createFromYamlConfiguration([]);
         $this->assertSame('groupMods', $groupMods->getFieldName());
@@ -25,7 +25,7 @@ final class GroupModsTest extends UnitTestCase
     /**
      * @test
      */
-    public function extends_AbstractStringArrayField(): void
+    public function extends_AbstractStringArrayField(): void //phpcs:ignore
     {
         $groupMods = GroupMods::createFromYamlConfiguration([]);
         $this->assertInstanceOf(AbstractStringArrayField::class, $groupMods);

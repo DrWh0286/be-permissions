@@ -16,7 +16,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
     /**
      * @test
      */
-    public function no_error_with_empty_database_field(): void
+    public function no_error_with_empty_database_field(): void //phpcs:ignore
     {
         ExplicitAllowDeny::createFromDBValue('');
     }
@@ -24,7 +24,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_created_from_database_value_and_returned_as_configuration_array(): void
+    public function can_be_created_from_database_value_and_returned_as_configuration_array(): void //phpcs:ignore
     {
         $dbValue = 'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:some_plugina:ALLOW,tt_content:list_type:another_pluginb:ALLOW';
 
@@ -51,7 +51,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_created_from_configuration_array_and_returned_as_database_value(): void
+    public function can_be_created_from_configuration_array_and_returned_as_database_value(): void //phpcs:ignore
     {
         $configArray = [
             'tt_content' => [
@@ -78,7 +78,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_extended_by_another_explicit_allow_deny_object(): void
+    public function can_be_extended_by_another_explicit_allow_deny_object(): void //phpcs:ignore
     {
         $baseConfigArray = [
             'tt_content' => [
@@ -137,7 +137,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
     /**
      * @test
      */
-    public function field_name_is_explicit_allowdeny(): void
+    public function field_name_is_explicit_allowdeny(): void //phpcs:ignore
     {
         $explicitAllowDeny = ExplicitAllowDeny::createFromYamlConfiguration([]);
         $this->assertSame('explicit_allowdeny', $explicitAllowDeny->getFieldName());
@@ -146,7 +146,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
     /**
      * @test
      */
-    public function implements_be_group_field_interface(): void
+    public function implements_be_group_field_interface(): void //phpcs:ignore
     {
         $explicitAllowDeny = ExplicitAllowDeny::createFromYamlConfiguration([]);
         $this->assertInstanceOf(BeGroupFieldInterface::class, $explicitAllowDeny);

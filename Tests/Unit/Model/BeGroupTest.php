@@ -26,7 +26,7 @@ final class BeGroupTest extends UnitTestCase
     /**
      * @test
      */
-    public function a_group_has_a_title(): void
+    public function a_group_has_a_title(): void //phpcs:ignore
     {
         $group = $this->createTestGroup();
 
@@ -36,7 +36,7 @@ final class BeGroupTest extends UnitTestCase
     /**
      * @test
      */
-    public function a_group_has_an_identifier(): void
+    public function a_group_has_an_identifier(): void //phpcs:ignore
     {
         $group = $this->createTestGroup();
 
@@ -48,7 +48,7 @@ final class BeGroupTest extends UnitTestCase
     /**
      * @test
      */
-    public function a_be_group_has_be_group_field_collection(): void
+    public function a_be_group_has_be_group_field_collection(): void //phpcs:ignore
     {
         $group = $this->createTestGroup();
 
@@ -85,7 +85,7 @@ final class BeGroupTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_created_from_database_values(): void
+    public function can_be_created_from_database_values(): void //phpcs:ignore
     {
         $dbValues = [
             'identifier' => 'some-identifier',
@@ -124,7 +124,7 @@ final class BeGroupTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_prepared_for_writing_to_database(): void
+    public function can_be_prepared_for_writing_to_database(): void //phpcs:ignore
     {
         $group = $this->createTestGroup();
 
@@ -143,7 +143,7 @@ final class BeGroupTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_overruled_by_be_group_configuration(): void
+    public function can_be_overruled_by_be_group_configuration(): void //phpcs:ignore
     {
         $group = $this->createTestGroup();
 
@@ -216,7 +216,7 @@ final class BeGroupTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_extended_by_configuration(): void
+    public function can_be_extended_by_configuration(): void //phpcs:ignore
     {
         $group = $this->createTestGroup();
 
@@ -291,7 +291,7 @@ final class BeGroupTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_created_only_with_title_and_identifier(): void
+    public function can_be_created_only_with_title_and_identifier(): void //phpcs:ignore
     {
         BeGroup::createFromDBValues(['title' => 'some title', 'identifier' => 'some-identifier']);
     }
@@ -299,7 +299,7 @@ final class BeGroupTest extends UnitTestCase
     /**
      * @test
      */
-    public function a_be_group_needs_a_title(): void
+    public function a_be_group_needs_a_title(): void //phpcs:ignore
     {
         $this->expectException(\RuntimeException::class);
         BeGroup::createFromDBValues(['identifier' => 'some-identifier']);
@@ -308,7 +308,7 @@ final class BeGroupTest extends UnitTestCase
     /**
      * @test
      */
-    public function a_be_group_needs_an_identifier(): void
+    public function a_be_group_needs_an_identifier(): void //phpcs:ignore
     {
         $this->expectException(\RuntimeException::class);
         BeGroup::createFromDBValues(['title' => 'some title']);

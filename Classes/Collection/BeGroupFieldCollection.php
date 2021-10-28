@@ -38,7 +38,7 @@ final class BeGroupFieldCollection implements IteratorAggregate
 
     public function getIterator(): Iterator
     {
-        return new class($this) implements Iterator {
+        return new class ($this) implements Iterator {
 
             private BeGroupFieldCollection $beGroupFieldCollection;
             private int $position = 0;

@@ -50,7 +50,7 @@ final class OverruleBeGroupFromConfigurationFileTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function a_connected_configuration_can_overrule_the_be_group_record(): void
+    public function a_connected_configuration_can_overrule_the_be_group_record(): void //phpcs:ignore
     {
         $this->importDataSet(__DIR__ . '/Fixtures/be_groups.xml');
 

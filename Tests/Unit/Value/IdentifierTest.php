@@ -16,7 +16,7 @@ final class IdentifierTest extends UnitTestCase
     /**
      * @test
      */
-    public function an_identifier_must_not_contain_spaces(): void
+    public function an_identifier_must_not_contain_spaces(): void //phpcs:ignore
     {
         $this->expectException(InvalidIdentifierException::class);
         $this->expectExceptionMessage('Spaces are not allowed within an identifier string!');
@@ -26,7 +26,7 @@ final class IdentifierTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_casted_to_string(): void
+    public function can_be_casted_to_string(): void //phpcs:ignore
     {
         $id = new Identifier('some-identifier');
 
