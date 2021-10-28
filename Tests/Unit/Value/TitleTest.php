@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Unit\Value;
 
-use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
+use Pluswerk\BePermissions\Value\AbstractStringField;
 use Pluswerk\BePermissions\Value\Title;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -59,10 +59,10 @@ final class TitleTest extends UnitTestCase
     /**
      * @test
      */
-    public function implements_be_group_field_interface(): void
+    public function implements_AbstractStringField(): void
     {
         $title = Title::createFromYamlConfiguration('');
-        $this->assertInstanceOf(BeGroupFieldInterface::class, $title);
+        $this->assertInstanceOf(AbstractStringField::class, $title);
     }
 
     /**

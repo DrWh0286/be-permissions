@@ -28,11 +28,6 @@ abstract class AbstractStringField implements StringBasedFieldInterface
         return $this->value;
     }
 
-    public function extend(BeGroupFieldInterface $beGroupField): AbstractStringField
-    {
-        return clone $this;
-    }
-
     public function __toString(): string
     {
         return $this->value;

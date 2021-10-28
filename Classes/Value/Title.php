@@ -18,9 +18,9 @@ final class Title extends AbstractStringField
         return parent::createFromYamlConfiguration($configValue);
     }
 
-    public function extend(BeGroupFieldInterface $beGroupField): Title
+    public function extend(BeGroupFieldInterface $beGroupField): AbstractStringField
     {
-        return parent::extend($beGroupField);
+        return clone $this;
     }
 
     public function getFieldName(): string
