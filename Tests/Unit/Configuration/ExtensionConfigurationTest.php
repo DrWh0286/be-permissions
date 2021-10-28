@@ -7,8 +7,13 @@ namespace Pluswerk\BePermissions\Tests\Unit\Configuration;
 use Pluswerk\BePermissions\Configuration\ExtensionConfiguration;
 use Pluswerk\BePermissions\Configuration\NoValueObjectConfiguredException;
 use Pluswerk\BePermissions\Value\AllowedLanguages;
+use Pluswerk\BePermissions\Value\CategoryPerms;
 use Pluswerk\BePermissions\Value\DbMountpoints;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
+use Pluswerk\BePermissions\Value\FileMountpoints;
+use Pluswerk\BePermissions\Value\FilePermissions;
+use Pluswerk\BePermissions\Value\GroupMods;
+use Pluswerk\BePermissions\Value\LockToDomain;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
 use Pluswerk\BePermissions\Value\PageTypesSelect;
 use Pluswerk\BePermissions\Value\TablesModify;
@@ -76,7 +81,12 @@ final class ExtensionConfigurationTest extends UnitTestCase
             'tables_select' => TablesSelect::class,
             'tables_modify' => TablesModify::class,
             'title' => Title::class,
-            'pagetypes_select' => PageTypesSelect::class
+            'pagetypes_select' => PageTypesSelect::class,
+            'file_mountpoint' => FileMountpoints::class,
+            'category_perms' => CategoryPerms::class,
+            'lockToDomain' => LockToDomain::class,
+            'groupMods' => GroupMods::class,
+            'file_permissions' => FilePermissions::class
         ];
 
         $extensionConfiguration = new ExtensionConfiguration();
