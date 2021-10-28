@@ -4,51 +4,39 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Configuration;
 
+use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
 use Pluswerk\BePermissions\Model\BeGroup;
+use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 use Pluswerk\BePermissions\Value\Identifier;
-use Symfony\Component\Yaml\Yaml;
-use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class BeGroupConfiguration
 {
     private Identifier $identifier;
     private string $configPath;
-    private array $config;
+    private string $title;
+    private BeGroupFieldCollection $beGroupFieldCollection;
 
-    public function __construct(Identifier $identifier, string $configPath, array $config = [])
+    public function __construct(Identifier $identifier, string $configPath, string $title, BeGroupFieldCollection $beGroupFieldCollection)
     {
         $this->identifier = $identifier;
         $this->configPath = $configPath;
-        $this->config = $config;
+        $this->title = $title;
+        $this->beGroupFieldCollection = $beGroupFieldCollection;
     }
 
     public static function createFromBeGroup(BeGroup $beGroup, string $configPath): BeGroupConfiguration
     {
-        $config = [
-            'title' => $beGroup->title(),
-            'non_exclude_fields' => $beGroup->nonExcludeFields()
-        ];
-
-        return new self($beGroup->identifier(), $configPath, $config);
+        return new self($beGroup->identifier(), $configPath, $beGroup->title(), $beGroup->beGroupFieldCollection());
     }
 
-    public function rawConfiguration(): array
+    public function title(): string
     {
-        return $this->config;
+        return $this->title;
     }
 
-    public function nonExcludeFields(): array
+    public function beGroupFieldCollection(): BeGroupFieldCollection
     {
-        return $this->config['non_exclude_fields'] ?? [];
-    }
-
-    /**
-     * @return array
-     */
-    public function config(): array
-    {
-        return $this->config;
+        return $this->beGroupFieldCollection;
     }
 
     /**
@@ -65,5 +53,18 @@ final class BeGroupConfiguration
     public function configPath(): string
     {
         return $this->configPath;
+    }
+
+    public function asArray(): array
+    {
+        $array = [];
+        $array['title'] = $this->title;
+
+        /** @var BeGroupFieldInterface $field */
+        foreach ($this->beGroupFieldCollection as $field) {
+            $array[$field->getFieldName()] = $field->yamlConfigurationValue();
+        }
+
+        return array_filter($array);
     }
 }

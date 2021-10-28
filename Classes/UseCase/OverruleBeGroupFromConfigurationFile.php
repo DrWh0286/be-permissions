@@ -6,7 +6,6 @@ namespace Pluswerk\BePermissions\UseCase;
 
 use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
-use Pluswerk\BePermissions\Repository\BeGroupRepository;
 use Pluswerk\BePermissions\Repository\BeGroupRepositoryInterface;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Value\InvalidIdentifierException;
@@ -14,7 +13,7 @@ use TYPO3\CMS\Core\Core\Environment;
 
 final class OverruleBeGroupFromConfigurationFile
 {
-    private BeGroupRepository $beGroupRepository;
+    private BeGroupRepositoryInterface $beGroupRepository;
     private BeGroupConfigurationRepositoryInterface $beGroupConfigurationRepository;
 
     public function __construct(BeGroupRepositoryInterface $beGroupRepository, BeGroupConfigurationRepositoryInterface $beGroupConfigurationRepository)

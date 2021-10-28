@@ -4,15 +4,22 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Unit\Configuration;
 
+use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
-use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
 use Pluswerk\BePermissions\Model\BeGroup;
+use Pluswerk\BePermissions\Value\AllowedLanguages;
+use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
-use Symfony\Component\Yaml\Yaml;
+use Pluswerk\BePermissions\Value\NonExcludeFields;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
+ * @covers \Pluswerk\BePermissions\Configuration\BeGroupConfiguration
+ * @uses \Pluswerk\BePermissions\Model\BeGroup
+ * @uses \Pluswerk\BePermissions\Value\AllowedLanguages
+ * @uses \Pluswerk\BePermissions\Value\ExplicitAllowDeny
+ * @uses \Pluswerk\BePermissions\Value\Identifier
+ * @uses \Pluswerk\BePermissions\Value\NonExcludeFields
  */
 final class BeGroupConfigurationTest extends UnitTestCase
 {
@@ -27,34 +34,93 @@ final class BeGroupConfigurationTest extends UnitTestCase
     /**
      * @test
      */
+    public function holds_an_identifier(): void
+    {
+        $config = $this->getTestConfiguration();
+
+        $this->assertEquals(new Identifier('from-be-group'), $config->identifier());
+    }
+
+    /**
+     * @test
+     */
+    public function holds_a_config_path(): void
+    {
+        $config = $this->getTestConfiguration();
+
+        $this->assertSame($this->basePath . '/config', $config->configPath());
+    }
+
+    /**
+     * @test
+     */
     public function can_be_created_from_be_group_model(): void
     {
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('from-be-group');
-        $beGroup = new BeGroup(
-            $identifier,
-            'Group title',
-            [
+
+        $collection = new BeGroupFieldCollection();
+
+        $collection->add(NonExcludeFields::createFromYamlConfiguration([
             'pages' => [
                 'title',
                 'media'
             ]
-        ]);
+        ]));
+        $collection->add(ExplicitAllowDeny::createFromYamlConfiguration([
+            'tt_content' => [
+                'CType' => [
+                    'header' => 'ALLOW',
+                    'text' => 'ALLOW',
+                    'textpic' => 'ALLOW'
+                ],
+                'list_type' => [
+                    'some_plugina' => 'ALLOW',
+                    'another_pluginb' => 'ALLOW'
+                ]
+            ]
+        ]));
+        $collection->add(AllowedLanguages::createFromYamlConfiguration([0,3,5]));
+
+        $beGroup = new BeGroup($identifier, 'Group title', $collection);
 
         $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
+
+        $collection = new BeGroupFieldCollection();
+        $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
+            [
+                'pages' => [
+                    'title',
+                    'media'
+                ]
+            ]
+        );
+        $explicitAllowdeny = ExplicitAllowDeny::createFromYamlConfiguration(
+            [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW'
+                    ]
+                ]
+            ]
+        );
+        $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([0,3,5]);
+
+        $collection->add($nonExcludeFields);
+        $collection->add($explicitAllowdeny);
+        $collection->add($allowedLanguages);
 
         $expectedConfig = new BeGroupConfiguration(
             $identifier,
             $configPath,
-            [
-                'title' => 'Group title',
-                'non_exclude_fields' => [
-                    'pages' => [
-                        'title',
-                        'media'
-                    ]
-                ]
-            ]
+            'Group title',
+            $collection
         );
 
         $this->assertEquals($expectedConfig, $config);
@@ -63,35 +129,126 @@ final class BeGroupConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function non_exclude_fields_can_be_fetched(): void
+    public function holds_the_group_title(): void
     {
-        $configPath = $this->basePath . '/config';
-        $identifier = new Identifier('some-identifier');
-        $config = [
-            'non_exclude_fields' => [
-                'pages' => [
-                    'title',
-                    'media'
-                ]
-            ]
-        ];
+        $conf = $this->getTestConfiguration();
 
-        $config = new BeGroupConfiguration($identifier, $configPath, $config);
+        $this->assertSame('Group title', $conf->title());
+    }
 
-        $this->assertSame(
+    /**
+     * @test
+     */
+    public function holds_a_be_group_field_collection(): void
+    {
+        $config = $this->getTestConfiguration();
+
+        $expectedCollection = new BeGroupFieldCollection();
+        $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
                     'title',
                     'media'
                 ]
-            ],
-            $config->nonExcludeFields()
+            ]
         );
+        $explicitAllowdeny = ExplicitAllowDeny::createFromYamlConfiguration(
+            [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW'
+                    ]
+                ]
+            ]
+        );
+        $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([0,3,5]);
+
+        $expectedCollection->add($nonExcludeFields);
+        $expectedCollection->add($explicitAllowdeny);
+        $expectedCollection->add($allowedLanguages);
+
+        $this->assertEquals($expectedCollection, $config->beGroupFieldCollection());
     }
 
-    private function cleanup(Identifier $identifier)
+    /**
+     * @test
+     */
+    public function can_be_fetched_as_configuration_array_for_writing(): void
     {
-        @unlink($this->basePath . '/config/be_groups/' . $identifier . '/be_group.yaml');
-        rmdir($this->basePath . '/config/be_groups/' . $identifier);
+        $config = $this->getTestConfiguration();
+
+        $this->assertSame([
+            'title' => 'Group title',
+            'non_exclude_fields' => [
+                'pages' => [
+                    'title',
+                    'media'
+                ]
+            ],
+            'explicit_allowdeny' => [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW'
+                    ]
+                ]
+            ],
+            'allowed_languages' => [0,3,5]
+        ], $config->asArray());
+    }
+
+    private function getTestConfiguration(): BeGroupConfiguration
+    {
+        $configPath = $this->basePath . '/config';
+        $identifier = new Identifier('from-be-group');
+
+        $collection = new BeGroupFieldCollection();
+        $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
+            [
+                'pages' => [
+                    'title',
+                    'media'
+                ]
+            ]
+        );
+        $explicitAllowdeny = ExplicitAllowDeny::createFromYamlConfiguration(
+            [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW'
+                    ]
+                ]
+            ]
+        );
+        $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([0,3,5]);
+
+        $collection->add($nonExcludeFields);
+        $collection->add($explicitAllowdeny);
+        $collection->add($allowedLanguages);
+        $config = new BeGroupConfiguration(
+            $identifier,
+            $configPath,
+            'Group title',
+            $collection
+        );
+
+        return $config;
     }
 }

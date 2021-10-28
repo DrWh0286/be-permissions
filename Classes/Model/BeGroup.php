@@ -4,46 +4,50 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Model;
 
+use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
+use Pluswerk\BePermissions\Value\AllowedLanguages;
+use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
+use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Pluswerk\BePermissions\Value\NonExcludeFields;
 
 final class BeGroup
 {
     private Identifier $identifier;
     private string $title;
-    private array $nonExcludeFields;
+    private BeGroupFieldCollection $beGroupFieldCollection;
 
-    public function __construct(Identifier $identifier, string $title, array $nonExcludeFields)
+    public function __construct(Identifier $identifier, string $title, BeGroupFieldCollection $beGroupFieldCollection)
     {
         $this->title = $title;
         $this->identifier = $identifier;
-        $this->nonExcludeFields = $nonExcludeFields;
+        $this->beGroupFieldCollection = $beGroupFieldCollection;
     }
 
     public static function createFromDBValues(array $dbValues): BeGroup
     {
-        $nonExcludeFields = self::explodeNonExcludeFields($dbValues['non_exclude_fields']);
+        if (empty($dbValues['title'])) {
+            throw new \RuntimeException('A ' . __CLASS__ . ' needs a title!');
+        }
+        if (empty($dbValues['identifier'])) {
+            throw new \RuntimeException('A ' . __CLASS__ . ' needs an identifier!');
+        }
+
+        $nonExcludeFields = NonExcludeFields::createFromDBValue($dbValues['non_exclude_fields'] ?? '');
+        $explicitAllowDeny = ExplicitAllowDeny::createFromDBValue($dbValues['explicit_allowdeny'] ?? '');
+        $allowedLanguages = AllowedLanguages::createFromDBValue($dbValues['allowed_languages'] ?? '');
+
+        $beGroupFieldCollection = new BeGroupFieldCollection();
+        $beGroupFieldCollection->add($nonExcludeFields);
+        $beGroupFieldCollection->add($explicitAllowDeny);
+        $beGroupFieldCollection->add($allowedLanguages);
 
         return new self(
             new Identifier($dbValues['identifier']),
             $dbValues['title'],
-            $nonExcludeFields
+            $beGroupFieldCollection
         );
-    }
-
-    private static function explodeNonExcludeFields(string $nonExcludeFields): array
-    {
-        $basicArray = GeneralUtility::trimExplode(',', $nonExcludeFields);
-
-        $nonExcludeFieldsArray = [];
-
-        foreach ($basicArray as $entry) {
-            $entryArray = GeneralUtility::trimExplode(':', $entry);
-            $nonExcludeFieldsArray[$entryArray[0]][] = $entryArray[1];
-        }
-
-        return $nonExcludeFieldsArray;
     }
 
     public function identifier(): Identifier
@@ -56,59 +60,40 @@ final class BeGroup
         return $this->title;
     }
 
-    public function nonExcludeFields(): array
+    public function beGroupFieldCollection(): BeGroupFieldCollection
     {
-        return $this->nonExcludeFields;
+        return $this->beGroupFieldCollection;
     }
 
     public function databaseValues(): array
     {
-        return [
-            'identifier' => (string)$this->identifier,
-            'title' => $this->title,
-            'non_exclude_fields' => $this->implodeExcludeFields()
-        ];
-    }
+        $dbValues = [];
+        $dbValues['identifier'] = (string)$this->identifier;
+        $dbValues['title'] = $this->title;
 
-    private function implodeExcludeFields(): string
-    {
-        $nonExcludeFieldsArray = [];
-
-        foreach ($this->nonExcludeFields as $nonExcludeFieldsTable => $nonExcludeFields) {
-            foreach ($nonExcludeFields as $nonExcludeField) {
-                $nonExcludeFieldsArray[] = $nonExcludeFieldsTable . ':' . $nonExcludeField;
-            }
+        /** @var BeGroupFieldInterface $field */
+        foreach ($this->beGroupFieldCollection as $field) {
+            $dbValues[$field->getFieldName()] = (string)$field;
         }
 
-        return implode(',', $nonExcludeFieldsArray);
+        return $dbValues;
     }
 
     public function overruleByConfiguration(BeGroupConfiguration $configuration): BeGroup
     {
-        return new BeGroup(
-            $this->identifier,
-            $configuration->rawConfiguration()['title'],
-            $configuration->rawConfiguration()['non_exclude_fields']
-        );
+        $collection = $configuration->beGroupFieldCollection();
+
+        return new BeGroup($this->identifier, $configuration->title(), $collection);
     }
 
     public function extendByConfiguration(BeGroupConfiguration $configuration): BeGroup
     {
-        $nonExcludeFields = array_merge_recursive(
-            $this->nonExcludeFields,
-            $configuration->rawConfiguration()['non_exclude_fields'] ?? []
-        );
-
-        foreach ($nonExcludeFields as $key => $nonExcludeField) {
-            $nonExcludeField = array_unique($nonExcludeField);
-            asort($nonExcludeField);
-            $nonExcludeFields[$key] = $nonExcludeField;
-        }
+        $collection = $this->beGroupFieldCollection->extend($configuration->beGroupFieldCollection());
 
         return new BeGroup(
             $this->identifier,
             $this->title,
-            $nonExcludeFields
+            $collection
         );
     }
 }
