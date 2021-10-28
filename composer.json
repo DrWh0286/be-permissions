@@ -45,6 +45,7 @@
     "bin-dir": ".Build/bin"
   },
   "require-dev": {
-    "typo3/testing-framework": "^6.9"
+    "typo3/testing-framework": "^6.9",
+    "pluswerk/grumphp-config": "^5.0"
   }
 }

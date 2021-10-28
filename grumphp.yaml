@@ -1,0 +1,2 @@
+imports:
+  - { resource: .Build/vendor/pluswerk/grumphp-config/grumphp.yml }
