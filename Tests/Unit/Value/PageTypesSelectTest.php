@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Unit\Value;
 
+use Pluswerk\BePermissions\Value\AbstractIntArrayField;
 use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use Pluswerk\BePermissions\Value\PageTypesSelect;
@@ -78,8 +79,8 @@ final class PageTypesSelectTest extends UnitTestCase
     /**
      * @test
      */
-    public function implements_be_group_field_interface(): void
+    public function extends_AbstractIntArrayField(): void
     {
-        $this->assertInstanceOf(BeGroupFieldInterface::class, PageTypesSelect::createFromYamlConfiguration([]));
+        $this->assertInstanceOf(AbstractIntArrayField::class, PageTypesSelect::createFromYamlConfiguration([]));
     }
 }

@@ -6,50 +6,27 @@ namespace Pluswerk\BePermissions\Value;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class PageTypesSelect implements ArrayBasedFieldInterface
+final class PageTypesSelect extends AbstractIntArrayField
 {
-    /** @var int[] */
-    private array $pageTypes;
     private string $fieldName = 'pagetypes_select';
 
-    public static function createFromYamlConfiguration($configValue): ArrayBasedFieldInterface
+    public static function createFromYamlConfiguration($configValue): PageTypesSelect
     {
-        return new self($configValue);
+        return parent::createFromYamlConfiguration($configValue);
     }
 
-    public static function createFromDBValue(string $dbValue): BeGroupFieldInterface
+    public static function createFromDBValue(string $dbValue): PageTypesSelect
     {
-        $pageTypes = GeneralUtility::intExplode(',', $dbValue);
-
-        return new self($pageTypes);
-    }
-
-    public function __construct(array $pageTypes)
-    {
-        asort($pageTypes);
-        $this->pageTypes = array_values(array_filter($pageTypes));
-    }
-
-    public function yamlConfigurationValue(): array
-    {
-        return $this->pageTypes;
+        return parent::createFromDBValue($dbValue);
     }
 
     public function extend(BeGroupFieldInterface $beGroupField): PageTypesSelect
     {
-        $newPageTypesSelectedArray = array_unique(array_merge($this->pageTypes, $beGroupField->yamlConfigurationValue()));
-        asort($newPageTypesSelectedArray);
-
-        return new PageTypesSelect(array_values($newPageTypesSelectedArray));
+        return parent::extend($beGroupField);
     }
 
     public function getFieldName(): string
     {
         return $this->fieldName;
-    }
-
-    public function __toString(): string
-    {
-        return implode(',', $this->pageTypes);
     }
 }
