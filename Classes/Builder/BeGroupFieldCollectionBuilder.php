@@ -5,21 +5,20 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Builder;
 
 use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
-use Pluswerk\BePermissions\Configuration\ExtensionConfiguration;
-use Pluswerk\BePermissions\Configuration\NoValueObjectConfiguredException;
+use Pluswerk\BePermissions\Value\BeGroupFieldFactoryInterface;
 use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 
 final class BeGroupFieldCollectionBuilder
 {
-    private ExtensionConfiguration $config;
+    private BeGroupFieldFactoryInterface $beGroupFieldFactory;
 
     /**
      * BeGroupFieldCollectionBuilder constructor.
-     * @param ExtensionConfiguration $config
+     * @param BeGroupFieldFactoryInterface $beGroupFieldFactory
      */
-    public function __construct(ExtensionConfiguration $config)
+    public function __construct(BeGroupFieldFactoryInterface $beGroupFieldFactory)
     {
-        $this->config = $config;
+        $this->beGroupFieldFactory = $beGroupFieldFactory;
     }
 
     public function buildFromDatabaseValues(array $dbValues): BeGroupFieldCollection
@@ -27,17 +26,8 @@ final class BeGroupFieldCollectionBuilder
         $collection = new BeGroupFieldCollection();
 
         foreach ($dbValues as $dbFieldName => $dbValue) {
-
-            try {
-                $valueClass = $this->config->getClassNameByFieldName($dbFieldName);
-            } catch (NoValueObjectConfiguredException $exception) {
-                continue;
-            }
-
-            // @todo: Move to a BeGroupFieldFactory
-            $implementArray = class_implements($valueClass);
-            if (in_array(BeGroupFieldInterface::class, $implementArray)) {
-                $valueObject = $valueClass::createFromDBValue($dbValue);
+            $valueObject = $this->beGroupFieldFactory->buildFromFieldNameAndDatabaseValue($dbFieldName, $dbValue);
+            if ($valueObject instanceof BeGroupFieldInterface) {
                 $collection->add($valueObject);
             }
         }
@@ -49,16 +39,9 @@ final class BeGroupFieldCollectionBuilder
     {
         $collection = new BeGroupFieldCollection();
 
-        foreach ($configurationArray as $fieldName => $valueArray) {
-            try {
-                $valueClass = $this->config->getClassNameByFieldName($fieldName);
-            } catch (NoValueObjectConfiguredException $exception) {
-                continue;
-            }
-
-            $implementArray = class_implements($valueClass);
-            if (in_array(BeGroupFieldInterface::class, $implementArray)) {
-                $valueObject = $valueClass::createFromConfigurationArray($valueArray);
+        foreach ($configurationArray as $dbFieldName => $dbValue) {
+            $valueObject = $this->beGroupFieldFactory->buildFromFieldNameAndYamlValue($dbFieldName, $dbValue);
+            if ($valueObject instanceof BeGroupFieldInterface) {
                 $collection->add($valueObject);
             }
         }

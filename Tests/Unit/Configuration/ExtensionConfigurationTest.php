@@ -12,6 +12,7 @@ use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
 use Pluswerk\BePermissions\Value\TablesModify;
 use Pluswerk\BePermissions\Value\TablesSelect;
+use Pluswerk\BePermissions\Value\Title;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -73,6 +74,7 @@ final class ExtensionConfigurationTest extends UnitTestCase
             'explicit_allowdeny' => ExplicitAllowDeny::class,
             'tables_select' => TablesSelect::class,
             'tables_modify' => TablesModify::class,
+            'title' => Title::class
         ];
 
         $extensionConfiguration = new ExtensionConfiguration();

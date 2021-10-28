@@ -62,7 +62,7 @@ final class BeGroupConfiguration
 
         /** @var BeGroupFieldInterface $field */
         foreach ($this->beGroupFieldCollection as $field) {
-            $array[$field->getFieldName()] = $field->asArray();
+            $array[$field->getFieldName()] = $field->yamlConfigurationValue();
         }
 
         return array_filter($array);

@@ -7,9 +7,9 @@ interface BeGroupFieldInterface
 {
     public static function createFromDBValue(string $dbValue): BeGroupFieldInterface;
 
-    public static function createFromConfigurationArray(array $confArray): BeGroupFieldInterface;
+    public static function createFromYamlConfiguration($configValue);
 
-    public function asArray(): array;
+    public function yamlConfigurationValue();
 
     public function extend(BeGroupFieldInterface $beGroupField): BeGroupFieldInterface;
 

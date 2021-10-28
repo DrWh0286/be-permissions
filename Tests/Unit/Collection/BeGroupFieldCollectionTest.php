@@ -141,12 +141,12 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
                 return new self();
             }
 
-            public static function createFromConfigurationArray(array $confArray): BeGroupFieldInterface
+            public static function createFromYamlConfiguration($configValue): BeGroupFieldInterface
             {
                 return new self();
             }
 
-            public function asArray(): array
+            public function yamlConfigurationValue(): array
             {
                 return [];
             }

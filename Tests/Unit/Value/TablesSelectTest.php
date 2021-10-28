@@ -24,7 +24,7 @@ final class TablesSelectTest extends UnitTestCase
 
         $this->assertSame(
             ['pages','sys_category','sys_file','sys_file_metadata','sys_file_reference','tt_content','tx_news_domain_model_link','tx_news_domain_model_news','tx_basepackage_accordion_content'],
-            $tablesSelect->asArray()
+            $tablesSelect->yamlConfigurationValue()
         );
     }
 
@@ -35,7 +35,7 @@ final class TablesSelectTest extends UnitTestCase
     {
         $confArray = ['pages','sys_category','sys_file','sys_file_metadata','sys_file_reference','tt_content','tx_news_domain_model_link','tx_news_domain_model_news','tx_basepackage_accordion_content'];
 
-        $tablesSelect = TablesSelect::createFromConfigurationArray($confArray);
+        $tablesSelect = TablesSelect::createFromYamlConfiguration($confArray);
 
         $this->assertSame(
             'pages,sys_category,sys_file,sys_file_metadata,sys_file_reference,tt_content,tx_news_domain_model_link,tx_news_domain_model_news,tx_basepackage_accordion_content',
@@ -50,7 +50,7 @@ final class TablesSelectTest extends UnitTestCase
     {
         $tablesSelect = TablesSelect::createFromDBValue('');
 
-        $this->assertSame([], $tablesSelect->asArray());
+        $this->assertSame([], $tablesSelect->yamlConfigurationValue());
     }
 
     /**
@@ -60,12 +60,12 @@ final class TablesSelectTest extends UnitTestCase
     {
         $confArray = ['pages','sys_category','sys_file','sys_file_metadata','sys_file_reference','tt_content'];
 
-        $tablesSelect = TablesSelect::createFromConfigurationArray($confArray);
-        $extendTablesSelect = TablesSelect::createFromConfigurationArray(['tt_content','tx_news_domain_model_link','tx_news_domain_model_news','tx_basepackage_accordion_content']);
+        $tablesSelect = TablesSelect::createFromYamlConfiguration($confArray);
+        $extendTablesSelect = TablesSelect::createFromYamlConfiguration(['tt_content','tx_news_domain_model_link','tx_news_domain_model_news','tx_basepackage_accordion_content']);
 
         $this->assertSame(
             ['pages','sys_category','sys_file','sys_file_metadata','sys_file_reference','tt_content','tx_basepackage_accordion_content','tx_news_domain_model_link','tx_news_domain_model_news'],
-            $tablesSelect->extend($extendTablesSelect)->asArray()
+            $tablesSelect->extend($extendTablesSelect)->yamlConfigurationValue()
         );
     }
 
@@ -74,7 +74,7 @@ final class TablesSelectTest extends UnitTestCase
      */
     public function field_name_is_allowed_languages(): void
     {
-        $tablesSelect = TablesSelect::createFromConfigurationArray([]);
+        $tablesSelect = TablesSelect::createFromYamlConfiguration([]);
         $this->assertSame('tables_select', $tablesSelect->getFieldName());
     }
 
@@ -83,7 +83,7 @@ final class TablesSelectTest extends UnitTestCase
      */
     public function implements_be_group_field_interface(): void
     {
-        $tablesSelect = TablesSelect::createFromConfigurationArray([]);
+        $tablesSelect = TablesSelect::createFromYamlConfiguration([]);
         $this->assertInstanceOf(BeGroupFieldInterface::class, $tablesSelect);
     }
 }

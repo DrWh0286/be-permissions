@@ -6,7 +6,7 @@ namespace Pluswerk\BePermissions\Value;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class NonExcludeFields implements BeGroupFieldInterface
+final class NonExcludeFields implements ArrayBasedFieldInterface
 {
     private array $nonExcludeFields;
     private string $fieldName = 'non_exclude_fields';
@@ -25,9 +25,9 @@ final class NonExcludeFields implements BeGroupFieldInterface
         return new self($nonExcludeFieldsArray);
     }
 
-    public static function createFromConfigurationArray(array $nonExcludeFieldsArray): NonExcludeFields
+    public static function createFromYamlConfiguration($configValue): NonExcludeFields
     {
-        return new self($nonExcludeFieldsArray);
+        return new self($configValue);
     }
 
     private function __construct(array $nonExcludeFields)
@@ -35,7 +35,7 @@ final class NonExcludeFields implements BeGroupFieldInterface
         $this->nonExcludeFields = $nonExcludeFields;
     }
 
-    public function asArray(): array
+    public function yamlConfigurationValue(): array
     {
         return $this->nonExcludeFields;
     }
@@ -55,7 +55,7 @@ final class NonExcludeFields implements BeGroupFieldInterface
 
     public function extend(BeGroupFieldInterface $extendingNonExcludeFields): NonExcludeFields
     {
-        $extendedArray = array_merge_recursive($this->nonExcludeFields, $extendingNonExcludeFields->asArray());
+        $extendedArray = array_merge_recursive($this->nonExcludeFields, $extendingNonExcludeFields->yamlConfigurationValue());
 
         foreach ($extendedArray as $table => $fields) {
             $extendedArray[$table] = array_values(array_unique($fields));

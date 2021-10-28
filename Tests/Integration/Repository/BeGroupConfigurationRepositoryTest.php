@@ -12,6 +12,7 @@ use Pluswerk\BePermissions\Configuration\ExtensionConfiguration;
 use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository;
 use Pluswerk\BePermissions\Value\AllowedLanguages;
+use Pluswerk\BePermissions\Value\BeGroupFieldFactory;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
@@ -50,13 +51,13 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $identifier = new Identifier('from-be-group');
         $collection = new BeGroupFieldCollection();
 
-        $collection->add(NonExcludeFields::createFromConfigurationArray([
+        $collection->add(NonExcludeFields::createFromYamlConfiguration([
             'pages' => [
                 'title',
                 'media'
             ]
         ]));
-        $collection->add(ExplicitAllowDeny::createFromConfigurationArray([
+        $collection->add(ExplicitAllowDeny::createFromYamlConfiguration([
             'tt_content' => [
                 'CType' => [
                     'header' => 'ALLOW',
@@ -65,13 +66,14 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
                 ]
             ]
         ]));
-        $collection->add(AllowedLanguages::createFromConfigurationArray([0,3,5]));
+        $collection->add(AllowedLanguages::createFromYamlConfiguration([0,3,5]));
 
         $beGroup = new BeGroup($identifier, 'Group title', $collection);
 
         $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
         $extConfig = new ExtensionConfiguration();
-        $builder = new BeGroupFieldCollectionBuilder($extConfig);
+        $factory = new BeGroupFieldFactory($extConfig);
+        $builder = new BeGroupFieldCollectionBuilder($factory);
         $repository = new BeGroupConfigurationRepository($builder);
         $repository->write($config);
 
@@ -113,7 +115,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $identifier = new Identifier('update-test-identifier');
 
         $collection = new BeGroupFieldCollection();
-        $collection->add(NonExcludeFields::createFromConfigurationArray(
+        $collection->add(NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
                     'title',
@@ -121,7 +123,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
                 ]
             ]
         ));
-        $collection->add(ExplicitAllowDeny::createFromConfigurationArray(
+        $collection->add(ExplicitAllowDeny::createFromYamlConfiguration(
             [
                 'tt_content' => [
                     'CType' => [
@@ -140,12 +142,13 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $config = new BeGroupConfiguration($identifier, $configPath, 'some group title', $collection);
 
         $extConfig = new ExtensionConfiguration();
-        $builder = new BeGroupFieldCollectionBuilder($extConfig);
+        $factory = new BeGroupFieldFactory($extConfig);
+        $builder = new BeGroupFieldCollectionBuilder($factory);
         $repository = new BeGroupConfigurationRepository($builder);
         $repository->write($config);
 
         $collection = new BeGroupFieldCollection();
-        $collection->add(NonExcludeFields::createFromConfigurationArray(
+        $collection->add(NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
                     'title',
@@ -154,7 +157,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
                 ]
             ]
         ));
-        $collection->add(ExplicitAllowDeny::createFromConfigurationArray(
+        $collection->add(ExplicitAllowDeny::createFromYamlConfiguration(
             [
                 'tt_content' => [
                     'CType' => [
@@ -213,14 +216,15 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('existing-config-identifier');
         $config = new ExtensionConfiguration();
-        $builder = new BeGroupFieldCollectionBuilder($config);
+        $factory = new BeGroupFieldFactory($config);
+        $builder = new BeGroupFieldCollectionBuilder($factory);
         $repository = new BeGroupConfigurationRepository($builder);
 
         $config = $repository->load($identifier, $configPath);
 
         $collection = new BeGroupFieldCollection();
 
-        $collection->add(NonExcludeFields::createFromConfigurationArray(
+        $collection->add(NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
                     'title',
@@ -228,7 +232,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
                 ]
             ]
         ));
-        $collection->add(ExplicitAllowDeny::createFromConfigurationArray(
+        $collection->add(ExplicitAllowDeny::createFromYamlConfiguration(
             [
                 'tt_content' => [
                     'CType' => [
@@ -257,7 +261,8 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $configPath = $this->basePath . '/config/be_groups';
         $identifier = new Identifier('non-existing-config-identifier');
         $extConfig = new ExtensionConfiguration();
-        $builder = new BeGroupFieldCollectionBuilder($extConfig);
+        $factory = new BeGroupFieldFactory($extConfig);
+        $builder = new BeGroupFieldCollectionBuilder($factory);
         $repository = new BeGroupConfigurationRepository($builder);
 
         $this->expectException(ConfigurationFileMissingException::class);
@@ -274,14 +279,14 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $identifier = new Identifier('from-be-group');
         $collection = new BeGroupFieldCollection();
 
-        $collection->add(NonExcludeFields::createFromConfigurationArray([
+        $collection->add(NonExcludeFields::createFromYamlConfiguration([
             'pages' => [
                 'title',
                 'media'
             ]
         ]));
-        $collection->add(ExplicitAllowDeny::createFromConfigurationArray([]));
-        $collection->add(AllowedLanguages::createFromConfigurationArray([]));
+        $collection->add(ExplicitAllowDeny::createFromYamlConfiguration([]));
+        $collection->add(AllowedLanguages::createFromYamlConfiguration([]));
 
         $beGroup = new BeGroup(
             $identifier,
@@ -292,7 +297,8 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
 
         $extConfig = new ExtensionConfiguration();
-        $builder = new BeGroupFieldCollectionBuilder($extConfig);
+        $factory = new BeGroupFieldFactory($extConfig);
+        $builder = new BeGroupFieldCollectionBuilder($factory);
         $repository = new BeGroupConfigurationRepository($builder);
         $repository->write($config);
 

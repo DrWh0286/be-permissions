@@ -44,7 +44,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
                     ]
                 ]
             ],
-            $explicitAllowDeny->asArray()
+            $explicitAllowDeny->yamlConfigurationValue()
         );
     }
 
@@ -67,7 +67,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
             ]
         ];
 
-        $explicitAllowDeny = ExplicitAllowDeny::createFromConfigurationArray($configArray);
+        $explicitAllowDeny = ExplicitAllowDeny::createFromYamlConfiguration($configArray);
 
         $this->assertSame(
             'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:some_plugina:ALLOW,tt_content:list_type:another_pluginb:ALLOW',
@@ -94,7 +94,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
             ]
         ];
 
-        $baseExplicitAllowDeny = ExplicitAllowDeny::createFromConfigurationArray($baseConfigArray);
+        $baseExplicitAllowDeny = ExplicitAllowDeny::createFromYamlConfiguration($baseConfigArray);
 
         $extendingConfigArray = [
             'tt_content' => [
@@ -111,7 +111,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
             ]
         ];
 
-        $extendingExplicitAllowDeny = ExplicitAllowDeny::createFromConfigurationArray($extendingConfigArray);
+        $extendingExplicitAllowDeny = ExplicitAllowDeny::createFromYamlConfiguration($extendingConfigArray);
 
         $expectedConfigArray = [
             'tt_content' => [
@@ -129,7 +129,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
             ]
         ];
 
-        $expectedExplicitAllowDeny = ExplicitAllowDeny::createFromConfigurationArray($expectedConfigArray);
+        $expectedExplicitAllowDeny = ExplicitAllowDeny::createFromYamlConfiguration($expectedConfigArray);
 
         $this->assertEquals($expectedExplicitAllowDeny, $baseExplicitAllowDeny->extend($extendingExplicitAllowDeny));
     }
@@ -139,7 +139,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
      */
     public function field_name_is_explicit_allowdeny(): void
     {
-        $explicitAllowDeny = ExplicitAllowDeny::createFromConfigurationArray([]);
+        $explicitAllowDeny = ExplicitAllowDeny::createFromYamlConfiguration([]);
         $this->assertSame('explicit_allowdeny', $explicitAllowDeny->getFieldName());
     }
 
@@ -148,7 +148,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
      */
     public function implements_be_group_field_interface(): void
     {
-        $explicitAllowDeny = ExplicitAllowDeny::createFromConfigurationArray([]);
+        $explicitAllowDeny = ExplicitAllowDeny::createFromYamlConfiguration([]);
         $this->assertInstanceOf(BeGroupFieldInterface::class, $explicitAllowDeny);
     }
 }

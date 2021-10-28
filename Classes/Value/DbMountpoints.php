@@ -6,7 +6,7 @@ namespace Pluswerk\BePermissions\Value;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class DbMountpoints implements BeGroupFieldInterface
+final class DbMountpoints implements ArrayBasedFieldInterface
 {
     private array $dbMountpoints;
     private string $fieldName = 'db_mountpoints';
@@ -23,12 +23,12 @@ final class DbMountpoints implements BeGroupFieldInterface
         $this->dbMountpoints = $dbMountpoints;
     }
 
-    public static function createFromConfigurationArray(array $confArray): DbMountpoints
+    public static function createFromYamlConfiguration($configValue): DbMountpoints
     {
-        return new self($confArray);
+        return new self($configValue);
     }
 
-    public function asArray(): array
+    public function yamlConfigurationValue(): array
     {
         return $this->dbMountpoints;
     }
@@ -40,7 +40,7 @@ final class DbMountpoints implements BeGroupFieldInterface
 
     public function extend(BeGroupFieldInterface $extendDbMountpoints): DbMountpoints
     {
-        $array = array_unique(array_merge($this->dbMountpoints, $extendDbMountpoints->asArray()));
+        $array = array_unique(array_merge($this->dbMountpoints, $extendDbMountpoints->yamlConfigurationValue()));
         asort($array);
 
         return new self(array_values($array));

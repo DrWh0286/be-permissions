@@ -61,13 +61,13 @@ final class BeGroupConfigurationTest extends UnitTestCase
 
         $collection = new BeGroupFieldCollection();
 
-        $collection->add(NonExcludeFields::createFromConfigurationArray([
+        $collection->add(NonExcludeFields::createFromYamlConfiguration([
             'pages' => [
                 'title',
                 'media'
             ]
         ]));
-        $collection->add(ExplicitAllowDeny::createFromConfigurationArray([
+        $collection->add(ExplicitAllowDeny::createFromYamlConfiguration([
             'tt_content' => [
                 'CType' => [
                     'header' => 'ALLOW',
@@ -80,14 +80,14 @@ final class BeGroupConfigurationTest extends UnitTestCase
                 ]
             ]
         ]));
-        $collection->add(AllowedLanguages::createFromConfigurationArray([0,3,5]));
+        $collection->add(AllowedLanguages::createFromYamlConfiguration([0,3,5]));
 
         $beGroup = new BeGroup($identifier, 'Group title', $collection);
 
         $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
 
         $collection = new BeGroupFieldCollection();
-        $nonExcludeFields = NonExcludeFields::createFromConfigurationArray(
+        $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
                     'title',
@@ -95,7 +95,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
                 ]
             ]
         );
-        $explicitAllowdeny = ExplicitAllowDeny::createFromConfigurationArray(
+        $explicitAllowdeny = ExplicitAllowDeny::createFromYamlConfiguration(
             [
                 'tt_content' => [
                     'CType' => [
@@ -110,7 +110,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
                 ]
             ]
         );
-        $allowedLanguages = AllowedLanguages::createFromConfigurationArray([0,3,5]);
+        $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([0,3,5]);
 
         $collection->add($nonExcludeFields);
         $collection->add($explicitAllowdeny);
@@ -144,7 +144,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
         $config = $this->getTestConfiguration();
 
         $expectedCollection = new BeGroupFieldCollection();
-        $nonExcludeFields = NonExcludeFields::createFromConfigurationArray(
+        $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
                     'title',
@@ -152,7 +152,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
                 ]
             ]
         );
-        $explicitAllowdeny = ExplicitAllowDeny::createFromConfigurationArray(
+        $explicitAllowdeny = ExplicitAllowDeny::createFromYamlConfiguration(
             [
                 'tt_content' => [
                     'CType' => [
@@ -167,7 +167,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
                 ]
             ]
         );
-        $allowedLanguages = AllowedLanguages::createFromConfigurationArray([0,3,5]);
+        $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([0,3,5]);
 
         $expectedCollection->add($nonExcludeFields);
         $expectedCollection->add($explicitAllowdeny);
@@ -214,7 +214,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
         $identifier = new Identifier('from-be-group');
 
         $collection = new BeGroupFieldCollection();
-        $nonExcludeFields = NonExcludeFields::createFromConfigurationArray(
+        $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
                     'title',
@@ -222,7 +222,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
                 ]
             ]
         );
-        $explicitAllowdeny = ExplicitAllowDeny::createFromConfigurationArray(
+        $explicitAllowdeny = ExplicitAllowDeny::createFromYamlConfiguration(
             [
                 'tt_content' => [
                     'CType' => [
@@ -237,7 +237,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
                 ]
             ]
         );
-        $allowedLanguages = AllowedLanguages::createFromConfigurationArray([0,3,5]);
+        $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([0,3,5]);
 
         $collection->add($nonExcludeFields);
         $collection->add($explicitAllowdeny);

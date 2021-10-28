@@ -6,7 +6,7 @@ namespace Pluswerk\BePermissions\Value;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class AllowedLanguages implements BeGroupFieldInterface
+final class AllowedLanguages implements ArrayBasedFieldInterface
 {
     /** @var int[] */
     private array $allowedLanguages;
@@ -24,12 +24,12 @@ final class AllowedLanguages implements BeGroupFieldInterface
     }
 
     /**
-     * @param int[] $confArray
+     * @param int[] $configValue
      * @return AllowedLanguages
      */
-    public static function createFromConfigurationArray(array $confArray): AllowedLanguages
+    public static function createFromYamlConfiguration($configValue): AllowedLanguages
     {
-        return new self($confArray);
+        return new self($configValue);
     }
 
     private function __construct(array $allowedLanguages)
@@ -40,7 +40,7 @@ final class AllowedLanguages implements BeGroupFieldInterface
     /**
      * @return int[]
      */
-    public function asArray(): array
+    public function yamlConfigurationValue(): array
     {
         return $this->allowedLanguages;
     }
@@ -62,7 +62,7 @@ final class AllowedLanguages implements BeGroupFieldInterface
         $newLanguageArray = array_unique(array_merge($this->allowedLanguages, $extendAllowedLanguages->allowedLanguages));
         asort($newLanguageArray);
 
-        return AllowedLanguages::createFromConfigurationArray(array_values($newLanguageArray));
+        return AllowedLanguages::createFromYamlConfiguration(array_values($newLanguageArray));
     }
 
     public function getFieldName(): string

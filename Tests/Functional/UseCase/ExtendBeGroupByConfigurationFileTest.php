@@ -13,6 +13,7 @@ use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository;
 use Pluswerk\BePermissions\Repository\BeGroupRepository;
 use Pluswerk\BePermissions\UseCase\ExtendBeGroupByConfigurationFile;
 use Pluswerk\BePermissions\Value\AllowedLanguages;
+use Pluswerk\BePermissions\Value\BeGroupFieldFactory;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
@@ -57,7 +58,7 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
         $identifier = new Identifier('test-group');
 
         $collection = new BeGroupFieldCollection();
-        $collection->add(NonExcludeFields::createFromConfigurationArray(
+        $collection->add(NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
                     'title',
@@ -73,7 +74,8 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
 
         $configuration = new BeGroupConfiguration($identifier, Environment::getConfigPath(), 'Some new group title', $collection);
         $extConfig = new ExtensionConfiguration();
-        $builder = new BeGroupFieldCollectionBuilder($extConfig);
+        $factory = new BeGroupFieldFactory($extConfig);
+        $builder = new BeGroupFieldCollectionBuilder($factory);
         $repository = new BeGroupConfigurationRepository($builder);
         $repository->write($configuration);
 
@@ -89,7 +91,7 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
 
         $expectedCollection = new BeGroupFieldCollection();
 
-        $expectedCollection->add(NonExcludeFields::createFromConfigurationArray(
+        $expectedCollection->add(NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
                     'title',
@@ -103,8 +105,8 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
                 ]
             ]
         ));
-        $expectedCollection->add(ExplicitAllowDeny::createFromConfigurationArray([]));
-        $expectedCollection->add(AllowedLanguages::createFromConfigurationArray([]));
+        $expectedCollection->add(ExplicitAllowDeny::createFromYamlConfiguration([]));
+        $expectedCollection->add(AllowedLanguages::createFromYamlConfiguration([]));
         $expectedBeGroup = new BeGroup(
             $identifier,
             'Some group title',

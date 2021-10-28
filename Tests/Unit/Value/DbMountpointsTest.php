@@ -22,7 +22,7 @@ final class DbMountpointsTest extends UnitTestCase
 
         $dbMountpoints = DbMountpoints::createFromDBValue($dbValue);
 
-        $this->assertSame([1,2], $dbMountpoints->asArray());
+        $this->assertSame([1,2], $dbMountpoints->yamlConfigurationValue());
     }
 
     /**
@@ -32,7 +32,7 @@ final class DbMountpointsTest extends UnitTestCase
     {
         $confArray = [1,2];
 
-        $dbMountpoints = DbMountpoints::createFromConfigurationArray($confArray);
+        $dbMountpoints = DbMountpoints::createFromYamlConfiguration($confArray);
 
         $this->assertSame('1,2', (string)$dbMountpoints);
     }
@@ -44,7 +44,7 @@ final class DbMountpointsTest extends UnitTestCase
     {
         $dbMountpoints = DbMountpoints::createFromDBValue('');
 
-        $this->assertSame([], $dbMountpoints->asArray());
+        $this->assertSame([], $dbMountpoints->yamlConfigurationValue());
     }
 
     /**
@@ -54,10 +54,10 @@ final class DbMountpointsTest extends UnitTestCase
     {
         $confArray = [1,2];
 
-        $dbMountpoints = DbMountpoints::createFromConfigurationArray($confArray);
-        $extendDbMountpoints = DbMountpoints::createFromConfigurationArray([2,3]);
+        $dbMountpoints = DbMountpoints::createFromYamlConfiguration($confArray);
+        $extendDbMountpoints = DbMountpoints::createFromYamlConfiguration([2,3]);
 
-        $this->assertSame([1,2,3], $dbMountpoints->extend($extendDbMountpoints)->asArray());
+        $this->assertSame([1,2,3], $dbMountpoints->extend($extendDbMountpoints)->yamlConfigurationValue());
     }
 
     /**
@@ -65,7 +65,7 @@ final class DbMountpointsTest extends UnitTestCase
      */
     public function field_name_is_db_mountpoints(): void
     {
-        $dbMountpoints = DbMountpoints::createFromConfigurationArray([]);
+        $dbMountpoints = DbMountpoints::createFromYamlConfiguration([]);
         $this->assertSame('db_mountpoints', $dbMountpoints->getFieldName());
     }
 
@@ -74,7 +74,7 @@ final class DbMountpointsTest extends UnitTestCase
      */
     public function implements_be_group_field_interface(): void
     {
-        $dbMountpoints = DbMountpoints::createFromConfigurationArray([]);
+        $dbMountpoints = DbMountpoints::createFromYamlConfiguration([]);
         $this->assertInstanceOf(BeGroupFieldInterface::class, $dbMountpoints);
     }
 }

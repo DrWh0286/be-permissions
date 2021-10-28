@@ -10,11 +10,12 @@ use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
 use Pluswerk\BePermissions\Value\TablesModify;
 use Pluswerk\BePermissions\Value\TablesSelect;
+use Pluswerk\BePermissions\Value\Title;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration as T3ExtensionConfiguration;
 
-final class ExtensionConfiguration implements SingletonInterface
+final class ExtensionConfiguration implements SingletonInterface, ExtensionConfigurationInterface
 {
     /** @var array|null */
     private ?array $config = null;
@@ -27,6 +28,7 @@ final class ExtensionConfiguration implements SingletonInterface
             'explicit_allowdeny' => ExplicitAllowDeny::class,
             'tables_select' => TablesSelect::class,
             'tables_modify' => TablesModify::class,
+            'title' => Title::class
         ]
     ];
 

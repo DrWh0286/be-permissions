@@ -22,7 +22,7 @@ final class AllowedLanguagesTest extends UnitTestCase
 
         $allowedLanguages = AllowedLanguages::createFromDBValue($dbValue);
 
-        $this->assertSame([0,3,5], $allowedLanguages->asArray());
+        $this->assertSame([0,3,5], $allowedLanguages->yamlConfigurationValue());
     }
 
     /**
@@ -32,7 +32,7 @@ final class AllowedLanguagesTest extends UnitTestCase
     {
         $confArray = [0,3,5];
 
-        $allowedLanguages = AllowedLanguages::createFromConfigurationArray($confArray);
+        $allowedLanguages = AllowedLanguages::createFromYamlConfiguration($confArray);
 
         $this->assertSame('0,3,5', (string)$allowedLanguages);
     }
@@ -44,7 +44,7 @@ final class AllowedLanguagesTest extends UnitTestCase
     {
         $allowedLanguages = AllowedLanguages::createFromDBValue('');
 
-        $this->assertSame([], $allowedLanguages->asArray());
+        $this->assertSame([], $allowedLanguages->yamlConfigurationValue());
     }
 
     /**
@@ -54,9 +54,9 @@ final class AllowedLanguagesTest extends UnitTestCase
     {
         $confArray = [0,3,5];
 
-        $allowedLanguages = AllowedLanguages::createFromConfigurationArray($confArray);
+        $allowedLanguages = AllowedLanguages::createFromYamlConfiguration($confArray);
 
-        $extendAllowedLanguages = AllowedLanguages::createFromConfigurationArray([3,4,5]);
+        $extendAllowedLanguages = AllowedLanguages::createFromYamlConfiguration([3,4,5]);
 
         $this->assertSame('0,3,4,5', (string)($allowedLanguages->extend($extendAllowedLanguages)));
     }
@@ -66,7 +66,7 @@ final class AllowedLanguagesTest extends UnitTestCase
      */
     public function field_name_is_allowed_languages(): void
     {
-        $allowedLanguages = AllowedLanguages::createFromConfigurationArray([]);
+        $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([]);
         $this->assertSame('allowed_languages', $allowedLanguages->getFieldName());
     }
 
@@ -75,7 +75,7 @@ final class AllowedLanguagesTest extends UnitTestCase
      */
     public function implements_be_group_field_interface(): void
     {
-        $allowedLanguages = AllowedLanguages::createFromConfigurationArray([]);
+        $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([]);
         $this->assertInstanceOf(BeGroupFieldInterface::class, $allowedLanguages);
     }
 }

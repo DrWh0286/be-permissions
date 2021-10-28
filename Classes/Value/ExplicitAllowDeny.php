@@ -6,7 +6,7 @@ namespace Pluswerk\BePermissions\Value;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class ExplicitAllowDeny implements BeGroupFieldInterface
+final class ExplicitAllowDeny implements ArrayBasedFieldInterface
 {
     private array $explicitAllowDeny;
     private string $fieldName = 'explicit_allowdeny';
@@ -25,9 +25,9 @@ final class ExplicitAllowDeny implements BeGroupFieldInterface
         return new self($explicitAllowDeny);
     }
 
-    public static function createFromConfigurationArray(array $configArray): ExplicitAllowDeny
+    public static function createFromYamlConfiguration($configValue): ExplicitAllowDeny
     {
-        return new self($configArray);
+        return new self($configValue);
     }
 
     private function __construct(array $explicitAllowDeny)
@@ -35,7 +35,7 @@ final class ExplicitAllowDeny implements BeGroupFieldInterface
         $this->explicitAllowDeny = $explicitAllowDeny;
     }
 
-    public function asArray(): array
+    public function yamlConfigurationValue(): array
     {
         return $this->explicitAllowDeny;
     }
@@ -60,7 +60,7 @@ final class ExplicitAllowDeny implements BeGroupFieldInterface
 
     public function extend(BeGroupFieldInterface $extendingExplicitAllowDeny): ExplicitAllowDeny
     {
-        $extendedArray = array_replace_recursive($this->explicitAllowDeny, $extendingExplicitAllowDeny->asArray());
+        $extendedArray = array_replace_recursive($this->explicitAllowDeny, $extendingExplicitAllowDeny->yamlConfigurationValue());
 
         return new ExplicitAllowDeny($extendedArray);
     }

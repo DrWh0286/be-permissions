@@ -35,7 +35,7 @@ final class NonExcludeFieldsTest extends UnitTestCase
                 'pages' => ['media', 'hidden'],
                 'tt_content' => ['pages', 'date']
             ],
-            $nonExcludeFields->asArray()
+            $nonExcludeFields->yamlConfigurationValue()
         );
     }
 
@@ -44,7 +44,7 @@ final class NonExcludeFieldsTest extends UnitTestCase
      */
     public function can_be_created_from_configuration_array_and_returned_as_database_value(): void
     {
-        $nonExcludeFields = NonExcludeFields::createFromConfigurationArray(
+        $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => ['media', 'hidden'],
                 'tt_content' => ['pages', 'date']
@@ -62,21 +62,21 @@ final class NonExcludeFieldsTest extends UnitTestCase
      */
     public function can_be_extended_by_another_non_exclude_fields_object(): void
     {
-        $baseNonExcludeFields = NonExcludeFields::createFromConfigurationArray(
+        $baseNonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => ['media', 'hidden'],
                 'tt_content' => ['pages', 'date']
             ]
         );
 
-        $extendingNonExcludeFields = NonExcludeFields::createFromConfigurationArray(
+        $extendingNonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => ['media', 'title'],
                 'tt_content' => ['pages', 'date', 'another_field']
             ]
         );
 
-        $expectedNonExcludeFields = NonExcludeFields::createFromConfigurationArray(
+        $expectedNonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => ['media', 'hidden', 'title'],
                 'tt_content' => ['pages', 'date', 'another_field']
@@ -91,7 +91,7 @@ final class NonExcludeFieldsTest extends UnitTestCase
      */
     public function field_name_is_non_exclude_fields(): void
     {
-        $nonExcludeFields = NonExcludeFields::createFromConfigurationArray([]);
+        $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration([]);
         $this->assertSame('non_exclude_fields', $nonExcludeFields->getFieldName());
     }
 
@@ -100,7 +100,7 @@ final class NonExcludeFieldsTest extends UnitTestCase
      */
     public function implements_be_group_field_interface(): void
     {
-        $nonExcludeFields = NonExcludeFields::createFromConfigurationArray([]);
+        $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration([]);
         $this->assertInstanceOf(BeGroupFieldInterface::class, $nonExcludeFields);
     }
 }

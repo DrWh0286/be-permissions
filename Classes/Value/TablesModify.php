@@ -6,7 +6,7 @@ namespace Pluswerk\BePermissions\Value;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-final class TablesModify implements BeGroupFieldInterface
+final class TablesModify implements ArrayBasedFieldInterface
 {
     private array $tablesSelect;
     private string $fieldName = 'tables_modify';
@@ -18,9 +18,9 @@ final class TablesModify implements BeGroupFieldInterface
         return new self($tablesSelect);
     }
 
-    public static function createFromConfigurationArray(array $confArray): TablesModify
+    public static function createFromYamlConfiguration($configValue): TablesModify
     {
-        return new self($confArray);
+        return new self($configValue);
     }
 
     public function __construct(array $tablesSelect)
@@ -28,7 +28,7 @@ final class TablesModify implements BeGroupFieldInterface
         $this->tablesSelect = $tablesSelect;
     }
 
-    public function asArray(): array
+    public function yamlConfigurationValue(): array
     {
         return $this->tablesSelect;
     }
@@ -40,7 +40,7 @@ final class TablesModify implements BeGroupFieldInterface
 
     public function extend(BeGroupFieldInterface $tablesSelect): TablesModify
     {
-        $tablesSelectArray = array_unique(array_merge($this->tablesSelect, $tablesSelect->asArray()));
+        $tablesSelectArray = array_unique(array_merge($this->tablesSelect, $tablesSelect->yamlConfigurationValue()));
         asort($tablesSelectArray);
 
         return new self(array_values($tablesSelectArray));
