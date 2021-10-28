@@ -30,5 +30,4 @@ final class SubgroupTest extends UnitTestCase
         $this->assertInstanceOf(AbstractIntArrayField::class, Subgroup::createFromYamlConfiguration([]));
         $this->assertInstanceOf(AbstractIntArrayField::class, Subgroup::createFromDBValue(''));
     }
-
 }
