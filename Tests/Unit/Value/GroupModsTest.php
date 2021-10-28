@@ -16,7 +16,7 @@ final class GroupModsTest extends UnitTestCase
     /**
      * @test
      */
-    public function field_name_is_tables_select(): void
+    public function field_name_is_groupMods(): void
     {
         $groupMods = GroupMods::createFromYamlConfiguration([]);
         $this->assertSame('groupMods', $groupMods->getFieldName());
@@ -30,5 +30,4 @@ final class GroupModsTest extends UnitTestCase
         $groupMods = GroupMods::createFromYamlConfiguration([]);
         $this->assertInstanceOf(AbstractStringArrayField::class, $groupMods);
     }
-
 }
