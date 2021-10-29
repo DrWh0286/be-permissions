@@ -1,2 +1,7 @@
 imports:
   - { resource: .Build/vendor/pluswerk/grumphp-config/grumphp.yml }
+
+grumphp:
+  ascii:
+    failed: ./.Build/vendor/pluswerk/grumphp-config/logo.txt
+    succeeded: ./.Build/vendor/pluswerk/grumphp-config/logo.txt
