@@ -6,3 +6,4 @@ var
 coverage
 coverage-functional
 coverage-integration
+.ddev
