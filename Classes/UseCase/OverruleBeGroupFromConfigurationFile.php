@@ -26,7 +26,7 @@ final class OverruleBeGroupFromConfigurationFile
      * @throws ConfigurationFileMissingException
      * @throws InvalidIdentifierException
      */
-    public function overruleGroup(string $identifier)
+    public function overruleGroup(string $identifier): void
     {
         $identifier = new Identifier($identifier);
         $configPath = Environment::getConfigPath();

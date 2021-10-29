@@ -8,19 +8,20 @@ final class FileMountpoints extends AbstractIntArrayField
 {
     private string $fieldName = 'file_mountpoints';
 
-    public static function createFromYamlConfiguration($configValue): FileMountpoints
+    /** @param int[] $configValue */
+    public static function createFromYamlConfiguration(array $configValue): FileMountpoints
     {
-        return parent::createFromYamlConfiguration($configValue);
+        return new self($configValue);
     }
 
     public static function createFromDBValue(string $dbValue): FileMountpoints
     {
-        return parent::createFromDBValue($dbValue);
+        return new self(self::createFromDBValueHelper($dbValue));
     }
 
     public function extend(BeGroupFieldInterface $beGroupField): FileMountpoints
     {
-        return parent::extend($beGroupField);
+        return new self($this->extendHelper($beGroupField));
     }
 
     public function getFieldName(): string

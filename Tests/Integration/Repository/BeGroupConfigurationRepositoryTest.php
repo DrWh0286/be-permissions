@@ -16,6 +16,7 @@ use Pluswerk\BePermissions\Value\BeGroupFieldFactory;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
+use Pluswerk\BePermissions\Value\Title;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -99,7 +100,8 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
             'allowed_languages' => [0,3,5]
         ];
 
-        $actualContent = Yaml::parse(file_get_contents($expectedFilename));
+        $expectedJsonString = file_get_contents($expectedFilename) ?: '';
+        $actualContent = Yaml::parse($expectedJsonString);
 
         $this->assertSame($expectedValue, $actualContent);
 
@@ -200,8 +202,9 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
             ]
         ];
 
-        $expectedFilename = $configPath . '/be_groups/' . $identifier . '/be_group.yaml';
-        $actualContent = Yaml::parse(file_get_contents($expectedFilename));
+        $filename = $configPath . '/be_groups/' . $identifier . '/be_group.yaml';
+        $actualJsonString = file_get_contents($filename) ?: '';
+        $actualContent = Yaml::parse($actualJsonString);
 
         $this->assertSame($expectedValue, $actualContent);
 
@@ -224,6 +227,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
 
         $collection = new BeGroupFieldCollection();
 
+        $collection->add(Title::createFromYamlConfiguration('Some group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
@@ -314,14 +318,15 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
             ]
         ];
 
-        $actualContent = Yaml::parse(file_get_contents($expectedFilename));
+        $actualJsonString = file_get_contents($expectedFilename) ?: '';
+        $actualContent = Yaml::parse($actualJsonString);
 
         $this->assertSame($expectedValue, $actualContent);
 
         $this->cleanup($identifier);
     }
 
-    private function cleanup(Identifier $identifier)
+    private function cleanup(Identifier $identifier): void
     {
         @unlink($this->basePath . '/config/be_groups/' . $identifier . '/be_group.yaml');
         rmdir($this->basePath . '/config/be_groups/' . $identifier);

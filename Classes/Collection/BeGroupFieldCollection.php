@@ -8,6 +8,9 @@ use Iterator;
 use IteratorAggregate;
 use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 
+/**
+ * @implements IteratorAggregate<BeGroupFieldInterface>
+ */
 final class BeGroupFieldCollection implements IteratorAggregate
 {
     /** @var BeGroupFieldInterface[] $beGroupFields */
@@ -18,7 +21,7 @@ final class BeGroupFieldCollection implements IteratorAggregate
     /**
      * @throws DuplicateBeGroupFieldException
      */
-    public function add(BeGroupFieldInterface $beGroupField)
+    public function add(BeGroupFieldInterface $beGroupField): void
     {
         $this->beGroupFields[] = $beGroupField;
 
@@ -36,6 +39,9 @@ final class BeGroupFieldCollection implements IteratorAggregate
         return $this->beGroupFields[$position] ?? null;
     }
 
+    /**
+     * @return Iterator<BeGroupFieldInterface>
+     */
     public function getIterator(): Iterator
     {
         return new class ($this) implements Iterator {
@@ -48,7 +54,7 @@ final class BeGroupFieldCollection implements IteratorAggregate
                 $this->beGroupFieldCollection = $beGroupFieldCollection;
             }
 
-            public function current(): BeGroupFieldInterface
+            public function current(): ?BeGroupFieldInterface
             {
                 return $this->beGroupFieldCollection->getBeGroupField($this->position);
             }

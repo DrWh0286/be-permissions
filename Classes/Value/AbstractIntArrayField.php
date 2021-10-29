@@ -8,24 +8,22 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractIntArrayField implements ArrayBasedFieldInterface
 {
+    /** @var array<int> */
     private array $fieldValues;
 
-    public static function createFromDBValue(string $dbValue): AbstractIntArrayField
+    /** @return array<int> */
+    public static function createFromDBValueHelper(string $dbValue): array
     {
-        $dbMountpoints = ($dbValue === '') ? [] : GeneralUtility::intExplode(',', $dbValue);
-
-        return new static($dbMountpoints);
+        return ($dbValue === '') ? [] : GeneralUtility::intExplode(',', $dbValue);
     }
 
+    /**
+     * @param array<int> $fieldValues
+     */
     public function __construct(array $fieldValues)
     {
         asort($fieldValues);
-        $this->fieldValues = array_values(array_filter($fieldValues));
-    }
-
-    public static function createFromYamlConfiguration($configValue): AbstractIntArrayField
-    {
-        return new static($configValue);
+        $this->fieldValues = array_values($fieldValues);
     }
 
     public function yamlConfigurationValue(): array
@@ -38,11 +36,12 @@ abstract class AbstractIntArrayField implements ArrayBasedFieldInterface
         return implode(',', $this->fieldValues);
     }
 
-    public function extend(BeGroupFieldInterface $extendDbMountpoints): AbstractIntArrayField
+    /** @return array<int> */
+    public function extendHelper(BeGroupFieldInterface $extendDbMountpoints): array
     {
         $array = array_unique(array_merge($this->fieldValues, $extendDbMountpoints->yamlConfigurationValue()));
         asort($array);
 
-        return new static(array_values($array));
+        return array_values($array);
     }
 }

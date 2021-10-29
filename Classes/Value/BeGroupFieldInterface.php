@@ -8,8 +8,7 @@ interface BeGroupFieldInterface
 {
     public static function createFromDBValue(string $dbValue): BeGroupFieldInterface;
 
-    public static function createFromYamlConfiguration($configValue);
-
+    /** @return mixed */
     public function yamlConfigurationValue();
 
     public function extend(BeGroupFieldInterface $beGroupField): BeGroupFieldInterface;

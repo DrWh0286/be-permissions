@@ -10,17 +10,21 @@ final class TablesSelect extends AbstractStringArrayField
 
     public static function createFromDBValue(string $dbValue): TablesSelect
     {
-        return parent::createFromDBValue($dbValue);
+        return new self(self::createFromDBValueHelper($dbValue));
     }
 
-    public static function createFromYamlConfiguration($configValue): TablesSelect
+    /**
+     * @param string[] $configValue
+     * @return TablesSelect
+     */
+    public static function createFromYamlConfiguration(array $configValue): TablesSelect
     {
-        return parent::createFromYamlConfiguration($configValue);
+        return new self($configValue);
     }
 
     public function extend(BeGroupFieldInterface $tablesSelect): TablesSelect
     {
-        return parent::extend($tablesSelect);
+        return new self($this->extendHelper($tablesSelect));
     }
 
     public function getFieldName(): string

@@ -16,8 +16,14 @@ final class BeGroup
 {
     private Identifier $identifier;
     private string $title;
+    /** @var BeGroupFieldCollection<BeGroupFieldInterface> */
     private BeGroupFieldCollection $beGroupFieldCollection;
 
+    /**
+     * @param Identifier $identifier
+     * @param string $title
+     * @param BeGroupFieldCollection<BeGroupFieldInterface> $beGroupFieldCollection
+     */
     public function __construct(Identifier $identifier, string $title, BeGroupFieldCollection $beGroupFieldCollection)
     {
         $this->title = $title;
@@ -25,6 +31,12 @@ final class BeGroup
         $this->beGroupFieldCollection = $beGroupFieldCollection;
     }
 
+    /**
+     * @param array<mixed> $dbValues
+     * @return BeGroup
+     * @throws \Pluswerk\BePermissions\Collection\DuplicateBeGroupFieldException
+     * @throws \Pluswerk\BePermissions\Value\InvalidIdentifierException
+     */
     public static function createFromDBValues(array $dbValues): BeGroup
     {
         if (empty($dbValues['title'])) {
@@ -60,21 +72,27 @@ final class BeGroup
         return $this->title;
     }
 
+    /**
+     * @return BeGroupFieldCollection<BeGroupFieldInterface>
+     */
     public function beGroupFieldCollection(): BeGroupFieldCollection
     {
         return $this->beGroupFieldCollection;
     }
 
+    /**
+     * @return array<string>
+     */
     public function databaseValues(): array
     {
         $dbValues = [];
         $dbValues['identifier'] = (string)$this->identifier;
-        $dbValues['title'] = $this->title;
 
         /** @var BeGroupFieldInterface $field */
         foreach ($this->beGroupFieldCollection as $field) {
             $dbValues[$field->getFieldName()] = (string)$field;
         }
+        $dbValues['title'] = $this->title;
 
         return $dbValues;
     }

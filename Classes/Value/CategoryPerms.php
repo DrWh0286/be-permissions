@@ -8,19 +8,20 @@ final class CategoryPerms extends AbstractIntArrayField
 {
     private string $fieldName = 'category_perms';
 
-    public static function createFromYamlConfiguration($configValue): CategoryPerms
+    /** @param int[] $configValue */
+    public static function createFromYamlConfiguration(array $configValue): CategoryPerms
     {
-        return parent::createFromYamlConfiguration($configValue);
+        return new self($configValue);
     }
 
     public static function createFromDBValue(string $dbValue): CategoryPerms
     {
-        return parent::createFromDBValue($dbValue);
+        return new self(self::createFromDBValueHelper($dbValue));
     }
 
     public function extend(BeGroupFieldInterface $beGroupField): CategoryPerms
     {
-        return parent::extend($beGroupField);
+        return new self($this->extendHelper($beGroupField));
     }
 
     public function getFieldName(): string

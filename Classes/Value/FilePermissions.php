@@ -10,17 +10,21 @@ final class FilePermissions extends AbstractStringArrayField
 
     public static function createFromDBValue(string $dbValue): FilePermissions
     {
-        return parent::createFromDBValue($dbValue);
+        return new self(self::createFromDBValueHelper($dbValue));
     }
 
-    public static function createFromYamlConfiguration($configValue): FilePermissions
+    /**
+     * @param string[] $configValue
+     * @return FilePermissions
+     */
+    public static function createFromYamlConfiguration(array $configValue): FilePermissions
     {
-        return parent::createFromYamlConfiguration($configValue);
+        return new self($configValue);
     }
 
-    public function extend(BeGroupFieldInterface $tablesSelect): FilePermissions
+    public function extend(BeGroupFieldInterface $filePermissions): FilePermissions
     {
-        return parent::extend($tablesSelect);
+        return new self($this->extendHelper($filePermissions));
     }
 
     public function getFieldName(): string

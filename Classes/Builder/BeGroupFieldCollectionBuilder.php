@@ -21,6 +21,11 @@ final class BeGroupFieldCollectionBuilder
         $this->beGroupFieldFactory = $beGroupFieldFactory;
     }
 
+    /**
+     * @param array<string> $dbValues
+     * @return BeGroupFieldCollection
+     * @throws \Pluswerk\BePermissions\Collection\DuplicateBeGroupFieldException
+     */
     public function buildFromDatabaseValues(array $dbValues): BeGroupFieldCollection
     {
         $collection = new BeGroupFieldCollection();
@@ -35,6 +40,11 @@ final class BeGroupFieldCollectionBuilder
         return $collection;
     }
 
+    /**
+     * @param array<string, array> $configurationArray
+     * @return BeGroupFieldCollection
+     * @throws \Pluswerk\BePermissions\Collection\DuplicateBeGroupFieldException
+     */
     public function buildFromConfigurationArray(array $configurationArray): BeGroupFieldCollection
     {
         $collection = new BeGroupFieldCollection();

@@ -10,15 +10,15 @@ final class Title extends AbstractStringField
 
     public static function createFromDBValue(string $dbValue): Title
     {
-        return parent::createFromDBValue($dbValue);
+        return new self($dbValue);
     }
 
-    public static function createFromYamlConfiguration($configValue): Title
+    public static function createFromYamlConfiguration(string $configValue): Title
     {
-        return parent::createFromYamlConfiguration($configValue);
+        return new self($configValue);
     }
 
-    public function extend(BeGroupFieldInterface $beGroupField): AbstractStringField
+    public function extend(BeGroupFieldInterface $beGroupField): Title
     {
         return clone $this;
     }

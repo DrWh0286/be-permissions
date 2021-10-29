@@ -6,7 +6,7 @@ namespace Pluswerk\BePermissions\Value;
 
 interface StringBasedFieldInterface extends BeGroupFieldInterface
 {
-    public static function createFromYamlConfiguration($configValue): StringBasedFieldInterface;
+    public static function createFromYamlConfiguration(string $configValue): StringBasedFieldInterface;
 
     public function yamlConfigurationValue(): string;
 }

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Unit\Collection;
 
+use PHPUnit\Framework\MockObject\MockObject;
 use Pluswerk\BePermissions\Collection\DuplicateBeGroupFieldException;
 use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
@@ -109,7 +110,9 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
         $collectionB->add($fieldBB);
         $collectionB->add($fieldBD);
 
+        /** @var MockObject $fieldAA */
         $fieldAA->expects($this->once())->method('extend')->with($fieldBA)->willReturn($fieldCA);
+        /** @var MockObject $fieldAB */
         $fieldAB->expects($this->once())->method('extend')->with($fieldBB)->willReturn($fieldCB);
 
         $resultingCollection = $collectionA->extend($collectionB);
@@ -126,6 +129,10 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
         $this->assertNotSame($resultingCollection, $collectionB);
     }
 
+    /**
+     * @param string $className
+     * @return BeGroupFieldInterface
+     */
     private function getMockBeGroupField(string $className)
     {
         return $this->getMockBuilder(BeGroupFieldInterface::class)
@@ -141,12 +148,8 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
                 return new self();
             }
 
-            public static function createFromYamlConfiguration($configValue): BeGroupFieldInterface
-            {
-                return new self();
-            }
-
-            public function yamlConfigurationValue()
+            /** @return string[] */
+            public function yamlConfigurationValue(): array
             {
                 return [];
             }
@@ -156,12 +159,12 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
                 return new self();
             }
 
-            public function getFieldName()
+            public function getFieldName(): string
             {
                 return '';
             }
 
-            public function __toString()
+            public function __toString(): string
             {
                 return '';
             }

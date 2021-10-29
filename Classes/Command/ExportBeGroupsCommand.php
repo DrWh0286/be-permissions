@@ -20,7 +20,7 @@ final class ExportBeGroupsCommand extends Command
         $this->exportBeGroupToConfigurationFile = $exportBeGroupToConfigurationFile;
     }
 
-    protected function configure()
+    protected function configure(): void
     {
         $this->setDescription('Exports a be_group to yaml file.');
         $this->addArgument('identifier', InputArgument::REQUIRED, 'The group identifier');

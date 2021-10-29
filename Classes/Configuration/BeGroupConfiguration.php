@@ -14,8 +14,15 @@ final class BeGroupConfiguration
     private Identifier $identifier;
     private string $configPath;
     private string $title;
+    /** @var BeGroupFieldCollection<BeGroupFieldInterface> */
     private BeGroupFieldCollection $beGroupFieldCollection;
 
+    /**
+     * @param Identifier $identifier
+     * @param string $configPath
+     * @param string $title
+     * @param BeGroupFieldCollection<BeGroupFieldInterface> $beGroupFieldCollection
+     */
     public function __construct(Identifier $identifier, string $configPath, string $title, BeGroupFieldCollection $beGroupFieldCollection)
     {
         $this->identifier = $identifier;
@@ -34,6 +41,9 @@ final class BeGroupConfiguration
         return $this->title;
     }
 
+    /**
+     * @return BeGroupFieldCollection<BeGroupFieldInterface>
+     */
     public function beGroupFieldCollection(): BeGroupFieldCollection
     {
         return $this->beGroupFieldCollection;
@@ -55,6 +65,9 @@ final class BeGroupConfiguration
         return $this->configPath;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function asArray(): array
     {
         $array = [];

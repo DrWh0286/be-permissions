@@ -16,6 +16,7 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
     {
         $connection = $this->getConnection();
 
+        /** @phpstan-ignore-next-line */
         $row = $connection->select(
             ['identifier', 'title', 'non_exclude_fields'],
             'be_groups',
@@ -41,6 +42,7 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
 
     private function getConnection(): Connection
     {
+        /** @phpstan-ignore-next-line */
         return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('be_groups');
     }
 }

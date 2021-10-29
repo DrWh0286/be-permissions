@@ -4,12 +4,8 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Value;
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-final class AllowedLanguages implements ArrayBasedFieldInterface
+final class AllowedLanguages extends AbstractIntArrayField
 {
-    /** @var int[] */
-    private array $allowedLanguages;
     private string $fieldName = 'allowed_languages';
 
     /**
@@ -18,39 +14,16 @@ final class AllowedLanguages implements ArrayBasedFieldInterface
      */
     public static function createFromDBValue(string $dbValue): AllowedLanguages
     {
-        $allowedLanguages = ($dbValue !== '') ? GeneralUtility::intExplode(',', $dbValue) : [];
-
-        return new self($allowedLanguages);
+        return new self(self::createFromDBValueHelper($dbValue));
     }
 
     /**
      * @param int[] $configValue
      * @return AllowedLanguages
      */
-    public static function createFromYamlConfiguration($configValue): AllowedLanguages
+    public static function createFromYamlConfiguration(array $configValue): AllowedLanguages
     {
         return new self($configValue);
-    }
-
-    private function __construct(array $allowedLanguages)
-    {
-        $this->allowedLanguages = $allowedLanguages;
-    }
-
-    /**
-     * @return int[]
-     */
-    public function yamlConfigurationValue(): array
-    {
-        return $this->allowedLanguages;
-    }
-
-    /**
-     * @return string
-     */
-    public function __toString(): string
-    {
-        return implode(',', $this->allowedLanguages);
     }
 
     /**
@@ -59,10 +32,7 @@ final class AllowedLanguages implements ArrayBasedFieldInterface
      */
     public function extend(BeGroupFieldInterface $extendAllowedLanguages): AllowedLanguages
     {
-        $newLanguageArray = array_unique(array_merge($this->allowedLanguages, $extendAllowedLanguages->allowedLanguages));
-        asort($newLanguageArray);
-
-        return AllowedLanguages::createFromYamlConfiguration(array_values($newLanguageArray));
+        return new self($this->extendHelper($extendAllowedLanguages));
     }
 
     public function getFieldName(): string

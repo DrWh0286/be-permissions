@@ -25,7 +25,7 @@ final class BeGroupFieldFactory implements BeGroupFieldFactoryInterface
             return null;
         }
 
-        $implementArray = class_implements($valueClass);
+        $implementArray = class_implements($valueClass) ?: [];
 
         if (in_array(ArrayBasedFieldInterface::class, $implementArray) && !is_array($value)) {
             throw new \InvalidArgumentException('Value for field ' . $fieldName . ' must be of type array!');
