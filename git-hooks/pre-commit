@@ -1,0 +1,15 @@
+#!/bin/sh
+
+#
+# Run the hook command.
+# Note: this will be replaced by the real command during copy.
+#
+
+# Name of the project => change to current project name
+PROJECT_NAME=be-permissions
+
+# Fetch the GIT diff and format it as command input:
+DIFF=$(git diff -r -p -m -M --full-index --staged | cat)
+
+# Run GrumPHP
+(cd "${HOOK_EXEC_PATH}" && printf "%s\n" "${DIFF}" | /usr/local/bin/docker exec -w /var/www/html -i ddev-$PROJECT_NAME-web $(HOOK_COMMAND) '--skip-success-output')
