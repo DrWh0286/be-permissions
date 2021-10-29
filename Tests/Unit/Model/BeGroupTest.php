@@ -11,6 +11,7 @@ use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
+use Pluswerk\BePermissions\Value\Title;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -23,16 +24,6 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
  */
 final class BeGroupTest extends UnitTestCase
 {
-    /**
-     * @test
-     */
-    public function a_group_has_a_title(): void //phpcs:ignore
-    {
-        $group = $this->createTestGroup();
-
-        $this->assertSame('[PERM] Basic permissions', $group->title());
-    }
-
     /**
      * @test
      */
@@ -52,6 +43,7 @@ final class BeGroupTest extends UnitTestCase
     {
         $group = $this->createTestGroup();
 
+        $title = Title::createFromYamlConfiguration('[PERM] Basic permissions');
         $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration([
             'pages' => ['media', 'hidden'],
             'tt_content' => ['pages', 'date']
@@ -75,50 +67,12 @@ final class BeGroupTest extends UnitTestCase
         $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([0,3,5]);
 
         $expectedCollection = new BeGroupFieldCollection();
+        $expectedCollection->add($title);
         $expectedCollection->add($nonExcludeFields);
         $expectedCollection->add($explicitAllowDeny);
         $expectedCollection->add($allowedLanguages);
 
         $this->assertEquals($expectedCollection, $group->beGroupFieldCollection());
-    }
-
-    /**
-     * @test
-     */
-    public function can_be_created_from_database_values(): void //phpcs:ignore
-    {
-        $dbValues = [
-            'identifier' => 'some-identifier',
-            'title' => 'A title',
-            'non_exclude_fields' => 'pages:media,pages:hidden,tt_content:pages,tt_content:date',
-            'explicit_allowdeny' => 'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:some_plugina:ALLOW,tt_content:list_type:another_pluginb:ALLOW',
-            'allowed_languages' => '0,3,5'
-        ];
-
-        $collection = new BeGroupFieldCollection();
-
-        $collection->add(NonExcludeFields::createFromYamlConfiguration([
-            'pages' => ['media', 'hidden'],
-            'tt_content' => ['pages', 'date']
-        ]));
-        $collection->add(ExplicitAllowDeny::createFromYamlConfiguration([
-            'tt_content' => [
-                'CType' => [
-                    'header' => 'ALLOW',
-                    'text' => 'ALLOW',
-                    'textpic' => 'ALLOW'
-                ],
-                'list_type' => [
-                    'some_plugina' => 'ALLOW',
-                    'another_pluginb' => 'ALLOW'
-                ]
-            ]
-        ]));
-        $collection->add(AllowedLanguages::createFromYamlConfiguration([0,3,5]));
-
-        $expectedGroup = new BeGroup(new Identifier('some-identifier'), 'A title', $collection);
-
-        $this->assertEquals($expectedGroup, BeGroup::createFromDBValues($dbValues));
     }
 
     /**
@@ -131,10 +85,10 @@ final class BeGroupTest extends UnitTestCase
         $this->assertSame(
             [
                 'identifier' => 'some-identifier',
+                'title' => '[PERM] Basic permissions',
                 'non_exclude_fields' => 'pages:media,pages:hidden,tt_content:pages,tt_content:date',
                 'explicit_allowdeny' => 'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:some_plugina:ALLOW,tt_content:list_type:another_pluginb:ALLOW',
-                'allowed_languages' => '0,3,5',
-                'title' => '[PERM] Basic permissions',
+                'allowed_languages' => '0,3,5'
             ],
             $group->databaseValues()
         );
@@ -148,6 +102,7 @@ final class BeGroupTest extends UnitTestCase
         $group = $this->createTestGroup();
 
         $collection = new BeGroupFieldCollection();
+        $collection->add(Title::createFromYamlConfiguration('Some new group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
@@ -177,12 +132,13 @@ final class BeGroupTest extends UnitTestCase
         ));
         $collection->add(AllowedLanguages::createFromYamlConfiguration([1,2,4]));
 
-        $configuration = new BeGroupConfiguration($group->identifier(), '', 'Some new group title', $collection);
+        $configuration = new BeGroupConfiguration($group->identifier(), '', $collection);
 
         $overruledBeGroup = $group->overruleByConfiguration($configuration);
 
         $collection = new BeGroupFieldCollection();
 
+        $collection->add(Title::createFromYamlConfiguration('Some new group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration([
             'pages' => [
                 'title'
@@ -208,7 +164,7 @@ final class BeGroupTest extends UnitTestCase
         ]));
         $collection->add(AllowedLanguages::createFromYamlConfiguration([1,2,4]));
 
-        $expectedBeGroup = new BeGroup($group->identifier(), 'Some new group title', $collection);
+        $expectedBeGroup = new BeGroup($group->identifier(), $collection);
 
         $this->assertEquals($expectedBeGroup, $overruledBeGroup);
     }
@@ -222,6 +178,7 @@ final class BeGroupTest extends UnitTestCase
 
         $collection = new BeGroupFieldCollection();
 
+        $collection->add(Title::createFromYamlConfiguration('Some new group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration([
             'pages' => [
                 'title'
@@ -247,11 +204,13 @@ final class BeGroupTest extends UnitTestCase
         ]));
         $collection->add(AllowedLanguages::createFromYamlConfiguration([3,4]));
 
-        $configuration = new BeGroupConfiguration($group->identifier(), '', 'Some new group title', $collection);
+        $configuration = new BeGroupConfiguration($group->identifier(), '', $collection);
 
         $extendedBeGroup = $group->extendByConfiguration($configuration);
 
         $collection = new BeGroupFieldCollection();
+
+        $collection->add(Title::createFromYamlConfiguration('[PERM] Basic permissions'));
 
         $collection->add(NonExcludeFields::createFromYamlConfiguration([
             'pages' => [
@@ -283,40 +242,15 @@ final class BeGroupTest extends UnitTestCase
         ]));
         $collection->add(AllowedLanguages::createFromYamlConfiguration([0,3,4,5]));
 
-        $expectedBeGroup = new BeGroup($group->identifier(), $group->title(), $collection);
+        $expectedBeGroup = new BeGroup($group->identifier(), $collection);
 
         $this->assertEquals($expectedBeGroup, $extendedBeGroup);
-    }
-
-    /**
-     * @test
-     */
-    public function can_be_created_only_with_title_and_identifier(): void //phpcs:ignore
-    {
-        BeGroup::createFromDBValues(['title' => 'some title', 'identifier' => 'some-identifier']);
-    }
-
-    /**
-     * @test
-     */
-    public function a_be_group_needs_a_title(): void //phpcs:ignore
-    {
-        $this->expectException(\RuntimeException::class);
-        BeGroup::createFromDBValues(['identifier' => 'some-identifier']);
-    }
-
-    /**
-     * @test
-     */
-    public function a_be_group_needs_an_identifier(): void //phpcs:ignore
-    {
-        $this->expectException(\RuntimeException::class);
-        BeGroup::createFromDBValues(['title' => 'some title']);
     }
 
     private function createTestGroup(): BeGroup
     {
         $identifier = new Identifier('some-identifier');
+        $title = Title::createFromYamlConfiguration('[PERM] Basic permissions');
         $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration([
             'pages' => ['media', 'hidden'],
             'tt_content' => ['pages', 'date']
@@ -340,10 +274,11 @@ final class BeGroupTest extends UnitTestCase
         $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([0,3,5]);
 
         $beGroupFieldCollection = new BeGroupFieldCollection();
+        $beGroupFieldCollection->add($title);
         $beGroupFieldCollection->add($nonExcludeFields);
         $beGroupFieldCollection->add($explicitAllowDeny);
         $beGroupFieldCollection->add($allowedLanguages);
 
-        return new BeGroup($identifier, '[PERM] Basic permissions', $beGroupFieldCollection);
+        return new BeGroup($identifier, $beGroupFieldCollection);
     }
 }

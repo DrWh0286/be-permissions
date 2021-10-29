@@ -20,4 +20,6 @@ services:
     public: true
   Pluswerk\BePermissions\UseCase\ExtendBeGroupByConfigurationFile:
     public: true
+  Pluswerk\BePermissions\Repository\BeGroupRepository:
+    public: true
 

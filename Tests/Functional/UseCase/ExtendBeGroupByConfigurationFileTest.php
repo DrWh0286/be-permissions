@@ -14,9 +14,18 @@ use Pluswerk\BePermissions\Repository\BeGroupRepository;
 use Pluswerk\BePermissions\UseCase\ExtendBeGroupByConfigurationFile;
 use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\BeGroupFieldFactory;
+use Pluswerk\BePermissions\Value\CategoryPerms;
+use Pluswerk\BePermissions\Value\DbMountpoints;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
+use Pluswerk\BePermissions\Value\FilePermissions;
+use Pluswerk\BePermissions\Value\GroupMods;
 use Pluswerk\BePermissions\Value\Identifier;
+use Pluswerk\BePermissions\Value\LockToDomain;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
+use Pluswerk\BePermissions\Value\PageTypesSelect;
+use Pluswerk\BePermissions\Value\TablesModify;
+use Pluswerk\BePermissions\Value\TablesSelect;
+use Pluswerk\BePermissions\Value\Title;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -58,6 +67,7 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
         $identifier = new Identifier('test-group');
 
         $collection = new BeGroupFieldCollection();
+        $collection->add(Title::createFromYamlConfiguration('Some new group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
@@ -72,7 +82,7 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
             ]
         ));
 
-        $configuration = new BeGroupConfiguration($identifier, Environment::getConfigPath(), 'Some new group title', $collection);
+        $configuration = new BeGroupConfiguration($identifier, Environment::getConfigPath(), $collection);
         $extConfig = new ExtensionConfiguration();
         $factory = new BeGroupFieldFactory($extConfig);
         $builder = new BeGroupFieldCollectionBuilder($factory);
@@ -91,6 +101,7 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
 
         $expectedCollection = new BeGroupFieldCollection();
 
+        $expectedCollection->add(Title::createFromYamlConfiguration('Some group title'));
         $expectedCollection->add(NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
@@ -107,9 +118,16 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
         ));
         $expectedCollection->add(ExplicitAllowDeny::createFromYamlConfiguration([]));
         $expectedCollection->add(AllowedLanguages::createFromYamlConfiguration([]));
+        $expectedCollection->add(DbMountpoints::createFromYamlConfiguration([]));
+        $expectedCollection->add(PageTypesSelect::createFromYamlConfiguration([]));
+        $expectedCollection->add(TablesSelect::createFromYamlConfiguration([]));
+        $expectedCollection->add(TablesModify::createFromYamlConfiguration([]));
+        $expectedCollection->add(GroupMods::createFromYamlConfiguration([]));
+        $expectedCollection->add(FilePermissions::createFromYamlConfiguration([]));
+        $expectedCollection->add(LockToDomain::createFromYamlConfiguration(''));
+        $expectedCollection->add(CategoryPerms::createFromYamlConfiguration([]));
         $expectedBeGroup = new BeGroup(
             $identifier,
-            'Some group title',
             $expectedCollection
         );
 

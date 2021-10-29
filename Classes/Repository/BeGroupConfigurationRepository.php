@@ -52,6 +52,6 @@ final class BeGroupConfigurationRepository implements BeGroupConfigurationReposi
 
         $collection = $this->beGroupFieldCollectionBuilder->buildFromConfigurationArray($configuration);
 
-        return new BeGroupConfiguration($identifier, $configPath, $configuration['title'] ?? '', $collection);
+        return new BeGroupConfiguration($identifier, $configPath, $collection);
     }
 }

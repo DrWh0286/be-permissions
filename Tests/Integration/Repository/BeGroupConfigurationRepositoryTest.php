@@ -52,6 +52,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $identifier = new Identifier('from-be-group');
         $collection = new BeGroupFieldCollection();
 
+        $collection->add(Title::createFromYamlConfiguration('Group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration([
             'pages' => [
                 'title',
@@ -69,7 +70,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         ]));
         $collection->add(AllowedLanguages::createFromYamlConfiguration([0,3,5]));
 
-        $beGroup = new BeGroup($identifier, 'Group title', $collection);
+        $beGroup = new BeGroup($identifier, $collection);
 
         $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
         $extConfig = new ExtensionConfiguration();
@@ -117,6 +118,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $identifier = new Identifier('update-test-identifier');
 
         $collection = new BeGroupFieldCollection();
+        $collection->add(Title::createFromYamlConfiguration('some group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
@@ -141,7 +143,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
             ]
         ));
 
-        $config = new BeGroupConfiguration($identifier, $configPath, 'some group title', $collection);
+        $config = new BeGroupConfiguration($identifier, $configPath, $collection);
 
         $extConfig = new ExtensionConfiguration();
         $factory = new BeGroupFieldFactory($extConfig);
@@ -150,6 +152,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $repository->write($config);
 
         $collection = new BeGroupFieldCollection();
+        $collection->add(Title::createFromYamlConfiguration('some group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
@@ -175,7 +178,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
             ]
         ));
 
-        $config = new BeGroupConfiguration($identifier, $configPath, 'some group title', $collection);
+        $config = new BeGroupConfiguration($identifier, $configPath, $collection);
         $repository->write($config);
 
         $expectedValue = [
@@ -252,7 +255,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
             ]
         ));
 
-        $expected = new BeGroupConfiguration($identifier, $configPath, 'Some group title', $collection);
+        $expected = new BeGroupConfiguration($identifier, $configPath, $collection);
 
         $this->assertEquals($expected, $config);
     }
@@ -283,6 +286,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $identifier = new Identifier('from-be-group');
         $collection = new BeGroupFieldCollection();
 
+        $collection->add(Title::createFromYamlConfiguration('Group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration([
             'pages' => [
                 'title',
@@ -294,7 +298,6 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
 
         $beGroup = new BeGroup(
             $identifier,
-            'Group title',
             $collection
         );
 

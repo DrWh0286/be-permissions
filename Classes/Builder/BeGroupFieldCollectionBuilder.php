@@ -31,7 +31,7 @@ final class BeGroupFieldCollectionBuilder
         $collection = new BeGroupFieldCollection();
 
         foreach ($dbValues as $dbFieldName => $dbValue) {
-            $valueObject = $this->beGroupFieldFactory->buildFromFieldNameAndDatabaseValue($dbFieldName, $dbValue);
+            $valueObject = $this->beGroupFieldFactory->buildFromFieldNameAndDatabaseValue($dbFieldName, (string)$dbValue);
             if ($valueObject instanceof BeGroupFieldInterface) {
                 $collection->add($valueObject);
             }
