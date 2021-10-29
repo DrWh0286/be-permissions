@@ -8,19 +8,27 @@ final class TablesModify extends AbstractStringArrayField
 {
     private string $fieldName = 'tables_modify';
 
+    /**
+     * @param string $dbValue
+     * @return TablesModify
+     */
     public static function createFromDBValue(string $dbValue): TablesModify
     {
-        return parent::createFromDBValue($dbValue);
+        return new self(self::createFromDBValueHelper($dbValue));
     }
 
-    public static function createFromYamlConfiguration($configValue): TablesModify
+    /**
+     * @param string[] $configValue
+     * @return TablesModify
+     */
+    public static function createFromYamlConfiguration(array $configValue): TablesModify
     {
-        return parent::createFromYamlConfiguration($configValue);
+        return new self($configValue);
     }
 
-    public function extend(BeGroupFieldInterface $tablesSelect): TablesModify
+    public function extend(BeGroupFieldInterface $tablesModify): TablesModify
     {
-        return parent::extend($tablesSelect);
+        return new self($this->extendHelper($tablesModify));
     }
 
     public function getFieldName(): string

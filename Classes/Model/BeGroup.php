@@ -15,39 +15,17 @@ use Pluswerk\BePermissions\Value\NonExcludeFields;
 final class BeGroup
 {
     private Identifier $identifier;
-    private string $title;
+    /** @var BeGroupFieldCollection<BeGroupFieldInterface> */
     private BeGroupFieldCollection $beGroupFieldCollection;
 
-    public function __construct(Identifier $identifier, string $title, BeGroupFieldCollection $beGroupFieldCollection)
+    /**
+     * @param Identifier $identifier
+     * @param BeGroupFieldCollection<BeGroupFieldInterface> $beGroupFieldCollection
+     */
+    public function __construct(Identifier $identifier, BeGroupFieldCollection $beGroupFieldCollection)
     {
-        $this->title = $title;
         $this->identifier = $identifier;
         $this->beGroupFieldCollection = $beGroupFieldCollection;
-    }
-
-    public static function createFromDBValues(array $dbValues): BeGroup
-    {
-        if (empty($dbValues['title'])) {
-            throw new \RuntimeException('A ' . __CLASS__ . ' needs a title!');
-        }
-        if (empty($dbValues['identifier'])) {
-            throw new \RuntimeException('A ' . __CLASS__ . ' needs an identifier!');
-        }
-
-        $nonExcludeFields = NonExcludeFields::createFromDBValue($dbValues['non_exclude_fields'] ?? '');
-        $explicitAllowDeny = ExplicitAllowDeny::createFromDBValue($dbValues['explicit_allowdeny'] ?? '');
-        $allowedLanguages = AllowedLanguages::createFromDBValue($dbValues['allowed_languages'] ?? '');
-
-        $beGroupFieldCollection = new BeGroupFieldCollection();
-        $beGroupFieldCollection->add($nonExcludeFields);
-        $beGroupFieldCollection->add($explicitAllowDeny);
-        $beGroupFieldCollection->add($allowedLanguages);
-
-        return new self(
-            new Identifier($dbValues['identifier']),
-            $dbValues['title'],
-            $beGroupFieldCollection
-        );
     }
 
     public function identifier(): Identifier
@@ -55,21 +33,21 @@ final class BeGroup
         return $this->identifier;
     }
 
-    public function title(): string
-    {
-        return $this->title;
-    }
-
+    /**
+     * @return BeGroupFieldCollection<BeGroupFieldInterface>
+     */
     public function beGroupFieldCollection(): BeGroupFieldCollection
     {
         return $this->beGroupFieldCollection;
     }
 
+    /**
+     * @return array<string>
+     */
     public function databaseValues(): array
     {
         $dbValues = [];
         $dbValues['identifier'] = (string)$this->identifier;
-        $dbValues['title'] = $this->title;
 
         /** @var BeGroupFieldInterface $field */
         foreach ($this->beGroupFieldCollection as $field) {
@@ -83,7 +61,7 @@ final class BeGroup
     {
         $collection = $configuration->beGroupFieldCollection();
 
-        return new BeGroup($this->identifier, $configuration->title(), $collection);
+        return new BeGroup($this->identifier, $collection);
     }
 
     public function extendByConfiguration(BeGroupConfiguration $configuration): BeGroup
@@ -92,7 +70,6 @@ final class BeGroup
 
         return new BeGroup(
             $this->identifier,
-            $this->title,
             $collection
         );
     }

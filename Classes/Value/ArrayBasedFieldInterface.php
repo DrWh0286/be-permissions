@@ -6,7 +6,9 @@ namespace Pluswerk\BePermissions\Value;
 
 interface ArrayBasedFieldInterface extends BeGroupFieldInterface
 {
-    public static function createFromYamlConfiguration($configValue): ArrayBasedFieldInterface;
+    /** @param array<mixed> $configValue */
+    public static function createFromYamlConfiguration(array $configValue): ArrayBasedFieldInterface;
 
+    /** @return array<mixed> */
     public function yamlConfigurationValue(): array;
 }

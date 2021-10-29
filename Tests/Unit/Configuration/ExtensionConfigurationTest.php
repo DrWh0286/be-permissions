@@ -34,7 +34,7 @@ final class ExtensionConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function value_object_class_name_can_be_fetched_by_db_field_name(): void
+    public function value_object_class_name_can_be_fetched_by_db_field_name(): void //phpcs:ignore
     {
         $extensionConfiguration = new ExtensionConfiguration();
 
@@ -44,7 +44,7 @@ final class ExtensionConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function an_exception_is_thrown_if_no_value_object_is_configured(): void
+    public function an_exception_is_thrown_if_no_value_object_is_configured(): void //phpcs:ignore
     {
         $extensionConfiguration = new ExtensionConfiguration();
 
@@ -55,7 +55,7 @@ final class ExtensionConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function the_configuration_can_be_overwritten(): void
+    public function the_configuration_can_be_overwritten(): void //phpcs:ignore
     {
         $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_permissions'] = [
             'valueObjectMapping' => [
@@ -71,7 +71,7 @@ final class ExtensionConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function default_configuration_is_set_for_value_object_mapping(): void
+    public function default_configuration_is_set_for_value_object_mapping(): void //phpcs:ignore
     {
         $valueObjectMapping = [
             'non_exclude_fields' => NonExcludeFields::class,

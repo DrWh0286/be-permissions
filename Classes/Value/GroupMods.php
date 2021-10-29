@@ -10,17 +10,21 @@ final class GroupMods extends AbstractStringArrayField
 
     public static function createFromDBValue(string $dbValue): GroupMods
     {
-        return parent::createFromDBValue($dbValue);
+        return new self(self::createFromDBValueHelper($dbValue));
     }
 
-    public static function createFromYamlConfiguration($configValue): GroupMods
+    /**
+     * @param string[] $configValue
+     * @return GroupMods
+     */
+    public static function createFromYamlConfiguration(array $configValue): GroupMods
     {
-        return parent::createFromYamlConfiguration($configValue);
+        return new self($configValue);
     }
 
-    public function extend(BeGroupFieldInterface $tablesSelect): GroupMods
+    public function extend(BeGroupFieldInterface $groupMods): GroupMods
     {
-        return parent::extend($tablesSelect);
+        return new self($this->extendHelper($groupMods));
     }
 
     public function getFieldName(): string

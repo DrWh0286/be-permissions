@@ -16,7 +16,7 @@ final class FileMountpointsTest extends UnitTestCase
     /**
      * @test
      */
-    public function field_name_is_file_mountpoints(): void
+    public function field_name_is_file_mountpoints(): void //phpcs:ignore
     {
         $pageTypesSelect = FileMountpoints::createFromYamlConfiguration([]);
         $this->assertSame('file_mountpoints', $pageTypesSelect->getFieldName());
@@ -25,7 +25,7 @@ final class FileMountpointsTest extends UnitTestCase
     /**
      * @test
      */
-    public function extends_AbstractIntArrayField(): void
+    public function extends_AbstractIntArrayField(): void //phpcs:ignore
     {
         $this->assertInstanceOf(AbstractIntArrayField::class, FileMountpoints::createFromYamlConfiguration([]));
         $this->assertInstanceOf(AbstractIntArrayField::class, FileMountpoints::createFromDBValue(''));

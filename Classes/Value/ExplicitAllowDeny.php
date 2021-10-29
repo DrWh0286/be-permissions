@@ -8,6 +8,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class ExplicitAllowDeny implements ArrayBasedFieldInterface
 {
+    /** @var array<string, array> */
     private array $explicitAllowDeny;
     private string $fieldName = 'explicit_allowdeny';
 
@@ -25,16 +26,19 @@ final class ExplicitAllowDeny implements ArrayBasedFieldInterface
         return new self($explicitAllowDeny);
     }
 
-    public static function createFromYamlConfiguration($configValue): ExplicitAllowDeny
+    /** @param array<string, array> $configValue */
+    public static function createFromYamlConfiguration(array $configValue): ExplicitAllowDeny
     {
         return new self($configValue);
     }
 
+    /** @param array<string, array> $explicitAllowDeny */
     private function __construct(array $explicitAllowDeny)
     {
         $this->explicitAllowDeny = $explicitAllowDeny;
     }
 
+    /** @return array<string, array> */
     public function yamlConfigurationValue(): array
     {
         return $this->explicitAllowDeny;

@@ -11,6 +11,7 @@ use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
+use Pluswerk\BePermissions\Value\Title;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -34,7 +35,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function holds_an_identifier(): void
+    public function holds_an_identifier(): void //phpcs:ignore
     {
         $config = $this->getTestConfiguration();
 
@@ -44,7 +45,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function holds_a_config_path(): void
+    public function holds_a_config_path(): void //phpcs:ignore
     {
         $config = $this->getTestConfiguration();
 
@@ -54,13 +55,14 @@ final class BeGroupConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_created_from_be_group_model(): void
+    public function can_be_created_from_be_group_model(): void //phpcs:ignore
     {
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('from-be-group');
 
         $collection = new BeGroupFieldCollection();
 
+        $collection->add(Title::createFromYamlConfiguration('Group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration([
             'pages' => [
                 'title',
@@ -82,11 +84,12 @@ final class BeGroupConfigurationTest extends UnitTestCase
         ]));
         $collection->add(AllowedLanguages::createFromYamlConfiguration([0,3,5]));
 
-        $beGroup = new BeGroup($identifier, 'Group title', $collection);
+        $beGroup = new BeGroup($identifier, $collection);
 
         $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
 
         $collection = new BeGroupFieldCollection();
+        $title = Title::createFromYamlConfiguration('Group title');
         $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
@@ -112,6 +115,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
         );
         $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([0,3,5]);
 
+        $collection->add($title);
         $collection->add($nonExcludeFields);
         $collection->add($explicitAllowdeny);
         $collection->add($allowedLanguages);
@@ -119,7 +123,6 @@ final class BeGroupConfigurationTest extends UnitTestCase
         $expectedConfig = new BeGroupConfiguration(
             $identifier,
             $configPath,
-            'Group title',
             $collection
         );
 
@@ -129,21 +132,12 @@ final class BeGroupConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function holds_the_group_title(): void
-    {
-        $conf = $this->getTestConfiguration();
-
-        $this->assertSame('Group title', $conf->title());
-    }
-
-    /**
-     * @test
-     */
-    public function holds_a_be_group_field_collection(): void
+    public function holds_a_be_group_field_collection(): void //phpcs:ignore
     {
         $config = $this->getTestConfiguration();
 
         $expectedCollection = new BeGroupFieldCollection();
+        $title = Title::createFromYamlConfiguration('Group title');
         $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
@@ -169,6 +163,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
         );
         $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([0,3,5]);
 
+        $expectedCollection->add($title);
         $expectedCollection->add($nonExcludeFields);
         $expectedCollection->add($explicitAllowdeny);
         $expectedCollection->add($allowedLanguages);
@@ -179,7 +174,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_fetched_as_configuration_array_for_writing(): void
+    public function can_be_fetched_as_configuration_array_for_writing(): void //phpcs:ignore
     {
         $config = $this->getTestConfiguration();
 
@@ -214,6 +209,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
         $identifier = new Identifier('from-be-group');
 
         $collection = new BeGroupFieldCollection();
+        $title = Title::createFromYamlConfiguration('Group title');
         $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
@@ -239,13 +235,13 @@ final class BeGroupConfigurationTest extends UnitTestCase
         );
         $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([0,3,5]);
 
+        $collection->add($title);
         $collection->add($nonExcludeFields);
         $collection->add($explicitAllowdeny);
         $collection->add($allowedLanguages);
         $config = new BeGroupConfiguration(
             $identifier,
             $configPath,
-            'Group title',
             $collection
         );
 

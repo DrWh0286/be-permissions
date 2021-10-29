@@ -16,7 +16,7 @@ final class SubgroupTest extends UnitTestCase
     /**
     * @test
     */
-    public function field_name_is_subgroup(): void
+    public function field_name_is_subgroup(): void //phpcs:ignore
     {
         $pageTypesSelect = Subgroup::createFromYamlConfiguration([]);
         $this->assertSame('subgroup', $pageTypesSelect->getFieldName());
@@ -25,7 +25,7 @@ final class SubgroupTest extends UnitTestCase
     /**
      * @test
      */
-    public function extends_AbstractIntArrayField(): void
+    public function extends_AbstractIntArrayField(): void //phpcs:ignore
     {
         $this->assertInstanceOf(AbstractIntArrayField::class, Subgroup::createFromYamlConfiguration([]));
         $this->assertInstanceOf(AbstractIntArrayField::class, Subgroup::createFromDBValue(''));

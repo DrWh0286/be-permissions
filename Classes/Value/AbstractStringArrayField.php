@@ -8,23 +8,21 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class AbstractStringArrayField implements ArrayBasedFieldInterface
 {
+    /** @var array<string> */
     private array $values;
 
-    public static function createFromDBValue(string $dbValue): AbstractStringArrayField
+    /** @return array<string> */
+    protected static function createFromDBValueHelper(string $dbValue): array
     {
-        $tablesSelect = ($dbValue !== '') ? GeneralUtility::trimExplode(',', $dbValue) : [];
-
-        return new static($tablesSelect);
+        return ($dbValue !== '') ? GeneralUtility::trimExplode(',', $dbValue) : [];
     }
 
-    public static function createFromYamlConfiguration($configValue): AbstractStringArrayField
+    /**
+     * @param array<string> $values
+     */
+    public function __construct(array $values)
     {
-        return new static($configValue);
-    }
-
-    public function __construct(array $tablesSelect)
-    {
-        $this->values = $tablesSelect;
+        $this->values = $values;
     }
 
     public function yamlConfigurationValue(): array
@@ -37,11 +35,12 @@ abstract class AbstractStringArrayField implements ArrayBasedFieldInterface
         return implode(',', $this->values);
     }
 
-    public function extend(BeGroupFieldInterface $tablesSelect): AbstractStringArrayField
+    /** @return array<string> */
+    protected function extendHelper(BeGroupFieldInterface $tablesSelect): array
     {
         $tablesSelectArray = array_unique(array_merge($this->values, $tablesSelect->yamlConfigurationValue()));
         asort($tablesSelectArray);
 
-        return new static(array_values($tablesSelectArray));
+        return array_values($tablesSelectArray);
     }
 }

@@ -8,6 +8,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class NonExcludeFields implements ArrayBasedFieldInterface
 {
+    /** @var array<string, array> */
     private array $nonExcludeFields;
     private string $fieldName = 'non_exclude_fields';
 
@@ -25,16 +26,19 @@ final class NonExcludeFields implements ArrayBasedFieldInterface
         return new self($nonExcludeFieldsArray);
     }
 
-    public static function createFromYamlConfiguration($configValue): NonExcludeFields
+    /** @param array<string, array> $configValue */
+    public static function createFromYamlConfiguration(array $configValue): NonExcludeFields
     {
         return new self($configValue);
     }
 
+    /** @param array<string, array> $nonExcludeFields */
     private function __construct(array $nonExcludeFields)
     {
         $this->nonExcludeFields = $nonExcludeFields;
     }
 
+    /** @return array<string, array> */
     public function yamlConfigurationValue(): array
     {
         return $this->nonExcludeFields;

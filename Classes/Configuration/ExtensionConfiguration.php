@@ -23,9 +23,10 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration as T3ExtensionConfigurat
 
 final class ExtensionConfiguration implements SingletonInterface, ExtensionConfigurationInterface
 {
-    /** @var array|null */
+    /** @var array<array, string>|null */
     private ?array $config = null;
 
+    /** @var array|string[][] */
     private array $baseConfig = [
         'valueObjectMapping' => [
             'non_exclude_fields' => NonExcludeFields::class,
@@ -58,12 +59,18 @@ final class ExtensionConfiguration implements SingletonInterface, ExtensionConfi
         return $config['valueObjectMapping'][$fieldName];
     }
 
+    /**
+     * @return array<array, string>
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
+     * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
+     */
     private function getConfig(): array
     {
         if ($this->config === null) {
             /** @var T3ExtensionConfiguration $config */
             $config = GeneralUtility::makeInstance(T3ExtensionConfiguration::class);
             $tmpConfig = $config->get('be_permissions');
+            /** @var array<array, string> $resultingConfig */
             $resultingConfig = array_replace_recursive($this->baseConfig, $tmpConfig);
             $this->config = $resultingConfig;
         }

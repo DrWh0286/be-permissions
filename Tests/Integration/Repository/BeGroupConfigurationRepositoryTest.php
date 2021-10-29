@@ -16,6 +16,7 @@ use Pluswerk\BePermissions\Value\BeGroupFieldFactory;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
+use Pluswerk\BePermissions\Value\Title;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -45,12 +46,13 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function be_group_can_be_written_to_configuration_file(): void
+    public function be_group_can_be_written_to_configuration_file(): void //phpcs:ignore
     {
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('from-be-group');
         $collection = new BeGroupFieldCollection();
 
+        $collection->add(Title::createFromYamlConfiguration('Group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration([
             'pages' => [
                 'title',
@@ -68,7 +70,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         ]));
         $collection->add(AllowedLanguages::createFromYamlConfiguration([0,3,5]));
 
-        $beGroup = new BeGroup($identifier, 'Group title', $collection);
+        $beGroup = new BeGroup($identifier, $collection);
 
         $config = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
         $extConfig = new ExtensionConfiguration();
@@ -99,7 +101,8 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
             'allowed_languages' => [0,3,5]
         ];
 
-        $actualContent = Yaml::parse(file_get_contents($expectedFilename));
+        $expectedJsonString = file_get_contents($expectedFilename) ?: '';
+        $actualContent = Yaml::parse($expectedJsonString);
 
         $this->assertSame($expectedValue, $actualContent);
 
@@ -109,12 +112,13 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function configuration_file_is_updated(): void
+    public function configuration_file_is_updated(): void //phpcs:ignore
     {
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('update-test-identifier');
 
         $collection = new BeGroupFieldCollection();
+        $collection->add(Title::createFromYamlConfiguration('some group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
@@ -139,7 +143,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
             ]
         ));
 
-        $config = new BeGroupConfiguration($identifier, $configPath, 'some group title', $collection);
+        $config = new BeGroupConfiguration($identifier, $configPath, $collection);
 
         $extConfig = new ExtensionConfiguration();
         $factory = new BeGroupFieldFactory($extConfig);
@@ -148,6 +152,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $repository->write($config);
 
         $collection = new BeGroupFieldCollection();
+        $collection->add(Title::createFromYamlConfiguration('some group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
@@ -173,7 +178,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
             ]
         ));
 
-        $config = new BeGroupConfiguration($identifier, $configPath, 'some group title', $collection);
+        $config = new BeGroupConfiguration($identifier, $configPath, $collection);
         $repository->write($config);
 
         $expectedValue = [
@@ -200,8 +205,9 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
             ]
         ];
 
-        $expectedFilename = $configPath . '/be_groups/' . $identifier . '/be_group.yaml';
-        $actualContent = Yaml::parse(file_get_contents($expectedFilename));
+        $filename = $configPath . '/be_groups/' . $identifier . '/be_group.yaml';
+        $actualJsonString = file_get_contents($filename) ?: '';
+        $actualContent = Yaml::parse($actualJsonString);
 
         $this->assertSame($expectedValue, $actualContent);
 
@@ -211,7 +217,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function configuration_is_loaded_from_existing_config_file(): void
+    public function configuration_is_loaded_from_existing_config_file(): void //phpcs:ignore
     {
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('existing-config-identifier');
@@ -224,6 +230,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
 
         $collection = new BeGroupFieldCollection();
 
+        $collection->add(Title::createFromYamlConfiguration('Some group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration(
             [
                 'pages' => [
@@ -248,7 +255,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
             ]
         ));
 
-        $expected = new BeGroupConfiguration($identifier, $configPath, 'Some group title', $collection);
+        $expected = new BeGroupConfiguration($identifier, $configPath, $collection);
 
         $this->assertEquals($expected, $config);
     }
@@ -256,7 +263,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function throws_exception_when_file_to_load_does_not_exist(): void
+    public function throws_exception_when_file_to_load_does_not_exist(): void //phpcs:ignore
     {
         $configPath = $this->basePath . '/config/be_groups';
         $identifier = new Identifier('non-existing-config-identifier');
@@ -273,12 +280,13 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function no_empty_arrays_are_written_to_configuration_file(): void
+    public function no_empty_arrays_are_written_to_configuration_file(): void //phpcs:ignore
     {
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('from-be-group');
         $collection = new BeGroupFieldCollection();
 
+        $collection->add(Title::createFromYamlConfiguration('Group title'));
         $collection->add(NonExcludeFields::createFromYamlConfiguration([
             'pages' => [
                 'title',
@@ -290,7 +298,6 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
 
         $beGroup = new BeGroup(
             $identifier,
-            'Group title',
             $collection
         );
 
@@ -314,14 +321,15 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
             ]
         ];
 
-        $actualContent = Yaml::parse(file_get_contents($expectedFilename));
+        $actualJsonString = file_get_contents($expectedFilename) ?: '';
+        $actualContent = Yaml::parse($actualJsonString);
 
         $this->assertSame($expectedValue, $actualContent);
 
         $this->cleanup($identifier);
     }
 
-    private function cleanup(Identifier $identifier)
+    private function cleanup(Identifier $identifier): void
     {
         @unlink($this->basePath . '/config/be_groups/' . $identifier . '/be_group.yaml');
         rmdir($this->basePath . '/config/be_groups/' . $identifier);

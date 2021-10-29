@@ -16,7 +16,7 @@ final class NonExcludeFieldsTest extends UnitTestCase
     /**
      * @test
      */
-    public function no_error_with_empty_database_field(): void
+    public function no_error_with_empty_database_field(): void //phpcs:ignore
     {
         $nonExcludeFields = NonExcludeFields::createFromDBValue('');
     }
@@ -24,7 +24,7 @@ final class NonExcludeFieldsTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_created_from_database_value_and_returned_as_array(): void
+    public function can_be_created_from_database_value_and_returned_as_array(): void //phpcs:ignore
     {
         $dbValue = 'pages:media,pages:hidden,tt_content:pages,tt_content:date';
 
@@ -42,7 +42,7 @@ final class NonExcludeFieldsTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_created_from_configuration_array_and_returned_as_database_value(): void
+    public function can_be_created_from_configuration_array_and_returned_as_database_value(): void //phpcs:ignore
     {
         $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
@@ -60,7 +60,7 @@ final class NonExcludeFieldsTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_extended_by_another_non_exclude_fields_object(): void
+    public function can_be_extended_by_another_non_exclude_fields_object(): void //phpcs:ignore
     {
         $baseNonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
@@ -89,7 +89,7 @@ final class NonExcludeFieldsTest extends UnitTestCase
     /**
      * @test
      */
-    public function field_name_is_non_exclude_fields(): void
+    public function field_name_is_non_exclude_fields(): void //phpcs:ignore
     {
         $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration([]);
         $this->assertSame('non_exclude_fields', $nonExcludeFields->getFieldName());
@@ -98,7 +98,7 @@ final class NonExcludeFieldsTest extends UnitTestCase
     /**
      * @test
      */
-    public function implements_be_group_field_interface(): void
+    public function implements_be_group_field_interface(): void //phpcs:ignore
     {
         $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration([]);
         $this->assertInstanceOf(BeGroupFieldInterface::class, $nonExcludeFields);

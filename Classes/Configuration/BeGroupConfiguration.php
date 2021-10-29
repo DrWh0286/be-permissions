@@ -13,27 +13,29 @@ final class BeGroupConfiguration
 {
     private Identifier $identifier;
     private string $configPath;
-    private string $title;
+    /** @var BeGroupFieldCollection<BeGroupFieldInterface> */
     private BeGroupFieldCollection $beGroupFieldCollection;
 
-    public function __construct(Identifier $identifier, string $configPath, string $title, BeGroupFieldCollection $beGroupFieldCollection)
+    /**
+     * @param Identifier $identifier
+     * @param string $configPath
+     * @param BeGroupFieldCollection<BeGroupFieldInterface> $beGroupFieldCollection
+     */
+    public function __construct(Identifier $identifier, string $configPath, BeGroupFieldCollection $beGroupFieldCollection)
     {
         $this->identifier = $identifier;
         $this->configPath = $configPath;
-        $this->title = $title;
         $this->beGroupFieldCollection = $beGroupFieldCollection;
     }
 
     public static function createFromBeGroup(BeGroup $beGroup, string $configPath): BeGroupConfiguration
     {
-        return new self($beGroup->identifier(), $configPath, $beGroup->title(), $beGroup->beGroupFieldCollection());
+        return new self($beGroup->identifier(), $configPath, $beGroup->beGroupFieldCollection());
     }
 
-    public function title(): string
-    {
-        return $this->title;
-    }
-
+    /**
+     * @return BeGroupFieldCollection<BeGroupFieldInterface>
+     */
     public function beGroupFieldCollection(): BeGroupFieldCollection
     {
         return $this->beGroupFieldCollection;
@@ -55,10 +57,12 @@ final class BeGroupConfiguration
         return $this->configPath;
     }
 
+    /**
+     * @return array<mixed>
+     */
     public function asArray(): array
     {
         $array = [];
-        $array['title'] = $this->title;
 
         /** @var BeGroupFieldInterface $field */
         foreach ($this->beGroupFieldCollection as $field) {

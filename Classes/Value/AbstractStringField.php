@@ -8,16 +8,6 @@ abstract class AbstractStringField implements StringBasedFieldInterface
 {
     private string $value;
 
-    public static function createFromDBValue(string $dbValue): AbstractStringField
-    {
-        return new static($dbValue);
-    }
-
-    public static function createFromYamlConfiguration($configValue): AbstractStringField
-    {
-        return new static($configValue);
-    }
-
     public function __construct(string $title)
     {
         $this->value = $title;

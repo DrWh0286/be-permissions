@@ -4,6 +4,7 @@
  * Extension Manager/Repository config file for ext "higher_education_package".
  */
 
+/** @phpstan-ignore-next-line */
 $EM_CONF[$_EXTKEY] = [
     'title' => 'Pluswerk Backend Permissions',
     'description' => 'Makes Backend permissions shippable',

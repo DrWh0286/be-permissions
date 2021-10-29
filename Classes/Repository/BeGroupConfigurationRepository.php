@@ -38,7 +38,7 @@ final class BeGroupConfigurationRepository implements BeGroupConfigurationReposi
     /**
      * @throws ConfigurationFileMissingException
      */
-    public function load(Identifier $identifier, string $configPath): ?BeGroupConfiguration
+    public function load(Identifier $identifier, string $configPath): BeGroupConfiguration
     {
         $fileName = $configPath . '/be_groups/' . $identifier . '/' . $this->beGroupConfigurationFileName;
 
@@ -46,11 +46,12 @@ final class BeGroupConfigurationRepository implements BeGroupConfigurationReposi
             throw new ConfigurationFileMissingException('No configuration file \'' . $fileName . '\' found!');
         }
 
+        /** @var YamlFileLoader $loader */
         $loader = GeneralUtility::makeInstance(YamlFileLoader::class);
         $configuration = $loader->load(GeneralUtility::fixWindowsFilePath($fileName));
 
         $collection = $this->beGroupFieldCollectionBuilder->buildFromConfigurationArray($configuration);
 
-        return new BeGroupConfiguration($identifier, $configPath, $configuration['title'] ?? '', $collection);
+        return new BeGroupConfiguration($identifier, $configPath, $collection);
     }
 }

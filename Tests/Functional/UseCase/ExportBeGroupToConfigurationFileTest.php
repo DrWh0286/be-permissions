@@ -27,7 +27,7 @@ final class ExportBeGroupToConfigurationFileTest extends FunctionalTestCase
     /**
      * @test
      */
-    public function an_existing_be_group_can_be_exported_to_a_be_group_configuration_file(): void
+    public function an_existing_be_group_can_be_exported_to_a_be_group_configuration_file(): void //phpcs:ignore
     {
         $this->importDataSet(__DIR__ . '/Fixtures/be_groups.xml');
 

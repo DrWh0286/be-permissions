@@ -17,7 +17,7 @@ final class PageTypesSelectTest extends UnitTestCase
     /**
      * @test
      */
-    public function no_error_with_empty_database_field(): void
+    public function no_error_with_empty_database_field(): void //phpcs:ignore
     {
         $pageTypesSelect = PageTypesSelect::createFromDBValue('');
         $this->assertSame([], $pageTypesSelect->yamlConfigurationValue());
@@ -26,7 +26,7 @@ final class PageTypesSelectTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_created_from_database_value_and_returned_as_array(): void
+    public function can_be_created_from_database_value_and_returned_as_array(): void //phpcs:ignore
     {
         $dbValue = '1,4,3,254,199';
 
@@ -41,7 +41,7 @@ final class PageTypesSelectTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_created_from_configuration_array_and_returned_as_database_value(): void
+    public function can_be_created_from_configuration_array_and_returned_as_database_value(): void //phpcs:ignore
     {
         $yamlValue = [1,4,3,254,199];
 
@@ -56,7 +56,7 @@ final class PageTypesSelectTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_extended_by_another_non_pagetypes_select_object(): void
+    public function can_be_extended_by_another_non_pagetypes_select_object(): void //phpcs:ignore
     {
         $pageTypesSelect = PageTypesSelect::createFromYamlConfiguration([1,4,3,254,199]);
         $pageTypesSelectExtend = PageTypesSelect::createFromYamlConfiguration([1,50,51]);
@@ -66,11 +66,11 @@ final class PageTypesSelectTest extends UnitTestCase
 
         $this->assertEquals($pageTypesSelectExpected, $pageTypesSelectActual);
     }
-    
+
     /**
      * @test
      */
-    public function field_name_is_pagetypes_select(): void
+    public function field_name_is_pagetypes_select(): void //phpcs:ignore
     {
         $pageTypesSelect = PageTypesSelect::createFromYamlConfiguration([]);
         $this->assertSame('pagetypes_select', $pageTypesSelect->getFieldName());
@@ -79,7 +79,7 @@ final class PageTypesSelectTest extends UnitTestCase
     /**
      * @test
      */
-    public function extends_AbstractIntArrayField(): void
+    public function extends_AbstractIntArrayField(): void //phpcs:ignore
     {
         $this->assertInstanceOf(AbstractIntArrayField::class, PageTypesSelect::createFromYamlConfiguration([]));
     }

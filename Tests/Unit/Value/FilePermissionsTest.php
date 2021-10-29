@@ -16,7 +16,7 @@ final class FilePermissionsTest extends UnitTestCase
     /**
      * @test
      */
-    public function field_name_is_file_permissions(): void
+    public function field_name_is_file_permissions(): void //phpcs:ignore
     {
         $filePermissions = FilePermissions::createFromYamlConfiguration([]);
         $this->assertSame('file_permissions', $filePermissions->getFieldName());
@@ -25,10 +25,9 @@ final class FilePermissionsTest extends UnitTestCase
     /**
      * @test
      */
-    public function extends_AbstractStringArrayField(): void
+    public function extends_AbstractStringArrayField(): void //phpcs:ignore
     {
         $filePermissions = FilePermissions::createFromYamlConfiguration([]);
         $this->assertInstanceOf(AbstractStringArrayField::class, $filePermissions);
     }
-
 }

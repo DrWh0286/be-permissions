@@ -22,7 +22,7 @@ final class BeGroupFieldFactoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function array_based_field_can_be_created(): void
+    public function array_based_field_can_be_created(): void //phpcs:ignore
     {
         $configuration = $this->getMockBuilder(ExtensionConfigurationInterface::class)->getMock();
         $factory = new BeGroupFieldFactory($configuration);
@@ -41,7 +41,7 @@ final class BeGroupFieldFactoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function a_string_based_field_can_be_created(): void
+    public function a_string_based_field_can_be_created(): void //phpcs:ignore
     {
         $configuration = $this->getMockBuilder(ExtensionConfigurationInterface::class)->getMock();
         $factory = new BeGroupFieldFactory($configuration);
@@ -60,7 +60,7 @@ final class BeGroupFieldFactoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function null_is_returned_if_no_class_is_configured(): void
+    public function null_is_returned_if_no_class_is_configured(): void //phpcs:ignore
     {
         $configuration = $this->getMockBuilder(ExtensionConfigurationInterface::class)->getMock();
         $factory = new BeGroupFieldFactory($configuration);
@@ -74,7 +74,7 @@ final class BeGroupFieldFactoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function if_an_array_based_field_is_requested_the_value_must_be_an_array(): void
+    public function if_an_array_based_field_is_requested_the_value_must_be_an_array(): void //phpcs:ignore
     {
         $configuration = $this->getMockBuilder(ExtensionConfigurationInterface::class)->getMock();
         $factory = new BeGroupFieldFactory($configuration);
@@ -89,7 +89,7 @@ final class BeGroupFieldFactoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function if_a_string_based_field_is_requested_the_value_must_be_a_string(): void
+    public function if_a_string_based_field_is_requested_the_value_must_be_a_string(): void //phpcs:ignore
     {
         $configuration = $this->getMockBuilder(ExtensionConfigurationInterface::class)->getMock();
         $factory = new BeGroupFieldFactory($configuration);
@@ -101,11 +101,11 @@ final class BeGroupFieldFactoryTest extends UnitTestCase
         $this->expectException(InvalidArgumentException::class);
         $factory->buildFromFieldNameAndYamlValue($fieldName, ['pages', 'tt_content']);
     }
-    
+
     /**
      * @test
      */
-    public function can_be_created_from_database_values(): void
+    public function can_be_created_from_database_values(): void //phpcs:ignore
     {
         $configuration = $this->getMockBuilder(ExtensionConfigurationInterface::class)->getMock();
         $factory = new BeGroupFieldFactory($configuration);
