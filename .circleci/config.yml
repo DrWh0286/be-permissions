@@ -1,23 +1,36 @@
 # PHP CircleCI 2.0 configuration file
 # See: https://circleci.com/docs/2.0/language-php/
-version: 2
+version: 2.1
 
 # Define a job to be invoked later in a workflow.
 # See: https://circleci.com/docs/2.0/configuration-reference/#jobs
 jobs:
-  build:
+  test:
+    parameters:
+      php-version:
+        type: string
+      typo3-version:
+        type: string
+      mysql-version:
+        type: string
     # Specify the execution environment. You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
     # See: https://circleci.com/docs/2.0/configuration-reference/#docker-machine-macos-windows-executor
     docker:
       # Specify the version you desire here
-      - image: circleci/php:7.4-node-browsers
+      - image: circleci/php:<< parameters.php-version >>-cli-node-browsers
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
       # documented at https://circleci.com/docs/2.0/circleci-images/
       # Using the RAM variation mitigates I/O contention
       # for database intensive operations.
-      # - image: circleci/mysql:5.7-ram
+      - image: circleci/mysql:<< parameters.mysql-version >>
+        command: ''
+        environment:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: typo3
+          MYSQL_USER: user
+          MYSQL_PASSWORD: passw0rd
       #
       # - image: redis:2.8.19
 
@@ -25,9 +38,6 @@ jobs:
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
       - checkout
-
-      - run: sudo apt update # PHP CircleCI 2.0 Configuration File# PHP CircleCI 2.0 Configuration File sudo apt install zlib1g-dev libsqlite3-dev
-      - run: sudo docker-php-ext-install zip
 
       # Download and cache dependencies
       - restore_cache:
@@ -37,7 +47,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: composer req typo3/cms-core:^10.4 typo3/cms-backend:^10.4 typo3/cms-frontend:^10.4 typo3/cms-lowlevel:^10.4
+      - run: composer req typo3/cms-core:<< parameters.typo3-version >> typo3/cms-backend:<< parameters.typo3-version >> typo3/cms-frontend:<< parameters.typo3-version >> typo3/cms-lowlevel:<< parameters.typo3-version >>
 
       - save_cache:
           key: v1-dependencies-{{ checksum "composer.json" }}
@@ -45,4 +55,33 @@ jobs:
             - ./.Build/vendor
 
       # run tests with phpunit or codecept
-      - run: ./vendor/bin/phpunit
+      - run: ./.Build/bin/grumphp run
+      - run: ./.Build/bin/phpunit
+      - run: ./.Build/bin/phpunit -c phpunit_integration.xml
+      - run: export TYPO3_CONTEXT=Testing
+      - run:
+          # Our primary container isn't MYSQL so run a sleep command until it's ready.
+          name: Waiting for MySQL to be ready
+          command: |
+            wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz && rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            dockerize -wait tcp://localhost:3306 -timeout 1m
+            sudo apt-get install default-mysql-client
+            mysql -u user -ppassw0rd < show_db.sql
+          environment:
+            DOCKERIZE_VERSION: v0.3.0
+      - run: ./.Build/bin/typo3cms install:setup --no-interaction --force --database-user-name=user --database-user-password=passw0rd --database-host-name=127.0.0.1 --database-name=typo3 --admin-user-name=admin --admin-password=password --site-setup-type=none
+      - run: .Build/bin/phpunit -c phpunit_functional.xml
+
+workflows:
+  all-tests:
+    jobs:
+      - test:
+          matrix:
+            parameters:
+              php-version: [ "7.4", "8.0" ]
+              typo3-version: [ "^10.4", "^11.5" ]
+              mysql-version: ["5.7"]
+            exclude:
+              - php-version: "8.0"
+                typo3-version: "^10.4"
+                mysql-version: "5.7"
