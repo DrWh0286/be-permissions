@@ -8,8 +8,10 @@ call_user_func(function () {
     $fields = [
         'identifier' => [
             'label' => 'configuration identifier',
-            'type' => 'input',
-            'eval' => 'unique'
+            'config' => [
+                'type' => 'input',
+                'eval' => 'unique'
+            ]
         ]
     ];
 

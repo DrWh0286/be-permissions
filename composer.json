@@ -49,6 +49,7 @@
   },
   "require-dev": {
     "typo3/testing-framework": "^6.9",
-    "pluswerk/grumphp-config": "^5.0"
+    "pluswerk/grumphp-config": "^5.0",
+    "helhum/typo3-console": "^6.6 || ^7.0"
   }
 }
