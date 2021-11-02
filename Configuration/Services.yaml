@@ -12,7 +12,19 @@ services:
     tags:
       - name: 'console.command'
         command: 'bepermission:exoport'
-        description: 'Beschreibung'
+        description: 'Exports a be_group to yaml file.'
+  Pluswerk\BePermissions\Command\ExtendBeGroupCommand:
+    public: true
+    tags:
+      - name: 'console.command'
+        command: 'bepermission:extend'
+        description: 'Extends a be_group based on stored yaml file.'
+  Pluswerk\BePermissions\Command\OverruleBeGroupCommand:
+    public: true
+    tags:
+      - name: 'console.command'
+        command: 'bepermission:overrule'
+        description: 'Overrules a be_group based on stored yaml file. Be careful with this command!'
 
   Pluswerk\BePermissions\UseCase\ExportBeGroupToConfigurationFile:
     public: true
