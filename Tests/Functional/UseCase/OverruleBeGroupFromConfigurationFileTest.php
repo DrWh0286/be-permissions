@@ -120,7 +120,6 @@ final class OverruleBeGroupFromConfigurationFileTest extends FunctionalTestCase
         $collection->add(TablesModify::createFromYamlConfiguration([]));
         $collection->add(GroupMods::createFromYamlConfiguration([]));
         $collection->add(FilePermissions::createFromYamlConfiguration([]));
-        $collection->add(LockToDomain::createFromYamlConfiguration(''));
         $collection->add(CategoryPerms::createFromYamlConfiguration([]));
 
         $expectedBeGroup = new BeGroup(

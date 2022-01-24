@@ -124,7 +124,6 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
         $expectedCollection->add(TablesModify::createFromYamlConfiguration([]));
         $expectedCollection->add(GroupMods::createFromYamlConfiguration([]));
         $expectedCollection->add(FilePermissions::createFromYamlConfiguration([]));
-        $expectedCollection->add(LockToDomain::createFromYamlConfiguration(''));
         $expectedCollection->add(CategoryPerms::createFromYamlConfiguration([]));
         $expectedBeGroup = new BeGroup(
             $identifier,
