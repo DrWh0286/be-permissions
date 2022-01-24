@@ -13,10 +13,10 @@
   ],
   "require": {
     "php": ">=7.4.0",
-    "typo3/cms-core": "^10.4",
-    "typo3/cms-backend": "^10.4",
-    "typo3/cms-frontend": "^10.4",
-    "typo3/cms-lowlevel": "^10.4"
+    "typo3/cms-core": "^11.5",
+    "typo3/cms-backend": "^11.5",
+    "typo3/cms-frontend": "^11.5",
+    "typo3/cms-lowlevel": "^11.5"
   },
   "autoload": {
     "psr-4": {
