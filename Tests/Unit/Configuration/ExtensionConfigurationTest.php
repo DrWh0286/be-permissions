@@ -13,7 +13,6 @@ use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\FileMountpoints;
 use Pluswerk\BePermissions\Value\FilePermissions;
 use Pluswerk\BePermissions\Value\GroupMods;
-use Pluswerk\BePermissions\Value\LockToDomain;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
 use Pluswerk\BePermissions\Value\PageTypesSelect;
 use Pluswerk\BePermissions\Value\TablesModify;
@@ -84,7 +83,6 @@ final class ExtensionConfigurationTest extends UnitTestCase
             'pagetypes_select' => PageTypesSelect::class,
             'file_mountpoint' => FileMountpoints::class,
             'category_perms' => CategoryPerms::class,
-            'lockToDomain' => LockToDomain::class,
             'groupMods' => GroupMods::class,
             'file_permissions' => FilePermissions::class
         ];

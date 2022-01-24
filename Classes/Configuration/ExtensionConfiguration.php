@@ -39,7 +39,6 @@ final class ExtensionConfiguration implements SingletonInterface, ExtensionConfi
             'pagetypes_select' => PageTypesSelect::class,
             'file_mountpoint' => FileMountpoints::class,
             'category_perms' => CategoryPerms::class,
-            'lockToDomain' => LockToDomain::class,
             'groupMods' => GroupMods::class,
             'file_permissions' => FilePermissions::class
         ]
