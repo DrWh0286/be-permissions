@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Builder;
 
 use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
+use Pluswerk\BePermissions\Collection\DuplicateBeGroupFieldException;
 use Pluswerk\BePermissions\Value\BeGroupFieldFactoryInterface;
 use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 
@@ -24,7 +25,7 @@ final class BeGroupFieldCollectionBuilder
     /**
      * @param array<string> $dbValues
      * @return BeGroupFieldCollection
-     * @throws \Pluswerk\BePermissions\Collection\DuplicateBeGroupFieldException
+     * @throws DuplicateBeGroupFieldException
      */
     public function buildFromDatabaseValues(array $dbValues): BeGroupFieldCollection
     {
@@ -43,7 +44,7 @@ final class BeGroupFieldCollectionBuilder
     /**
      * @param array<string, array> $configurationArray
      * @return BeGroupFieldCollection
-     * @throws \Pluswerk\BePermissions\Collection\DuplicateBeGroupFieldException
+     * @throws DuplicateBeGroupFieldException
      */
     public function buildFromConfigurationArray(array $configurationArray): BeGroupFieldCollection
     {

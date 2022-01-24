@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Repository;
 
 use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilder;
+use Pluswerk\BePermissions\Collection\DuplicateBeGroupFieldException;
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
 use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
 use Pluswerk\BePermissions\Value\Identifier;
@@ -36,7 +37,7 @@ final class BeGroupConfigurationRepository implements BeGroupConfigurationReposi
     }
 
     /**
-     * @throws ConfigurationFileMissingException
+     * @throws ConfigurationFileMissingException|DuplicateBeGroupFieldException
      */
     public function load(Identifier $identifier, string $configPath): BeGroupConfiguration
     {
