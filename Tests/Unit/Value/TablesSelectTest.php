@@ -47,7 +47,7 @@ final class TablesSelectTest extends UnitTestCase
     /**
      * @test
      */
-    public function with_empty_database_field_an_empty_db_mountpoints_array_is_returned(): void //phpcs:ignore
+    public function with_empty_database_field_an_empty_tables_select_array_is_returned(): void //phpcs:ignore
     {
         $tablesSelect = TablesSelect::createFromDBValue('');
 
@@ -57,7 +57,7 @@ final class TablesSelectTest extends UnitTestCase
     /**
      * @test
      */
-    public function can_be_extended_by_another_db_mountpoints_object(): void //phpcs:ignore
+    public function can_be_extended_by_another_tables_select_object(): void //phpcs:ignore
     {
         $confArray = ['pages','sys_category','sys_file','sys_file_metadata','sys_file_reference','tt_content'];
 
