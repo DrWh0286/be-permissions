@@ -13,6 +13,7 @@ use Pluswerk\BePermissions\Value\FileMountpoints;
 use Pluswerk\BePermissions\Value\FilePermissions;
 use Pluswerk\BePermissions\Value\GroupMods;
 use Pluswerk\BePermissions\Value\LockToDomain;
+use Pluswerk\BePermissions\Value\MfaProviders;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
 use Pluswerk\BePermissions\Value\PageTypesSelect;
 use Pluswerk\BePermissions\Value\TablesModify;
@@ -42,7 +43,8 @@ final class ExtensionConfiguration implements SingletonInterface, ExtensionConfi
             'category_perms' => CategoryPerms::class,
             'groupMods' => GroupMods::class,
             'file_permissions' => FilePermissions::class,
-            'availableWidgets' => AvailableWidgets::class
+            'availableWidgets' => AvailableWidgets::class,
+            'mfa_providers' => MfaProviders::class
         ]
     ];
 
