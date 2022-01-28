@@ -7,6 +7,7 @@ namespace Pluswerk\BePermissions\Tests\Unit\Configuration;
 use Pluswerk\BePermissions\Configuration\ExtensionConfiguration;
 use Pluswerk\BePermissions\Configuration\NoValueObjectConfiguredException;
 use Pluswerk\BePermissions\Value\AllowedLanguages;
+use Pluswerk\BePermissions\Value\AvailableWidgets;
 use Pluswerk\BePermissions\Value\CategoryPerms;
 use Pluswerk\BePermissions\Value\DbMountpoints;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
@@ -84,7 +85,8 @@ final class ExtensionConfigurationTest extends UnitTestCase
             'file_mountpoint' => FileMountpoints::class,
             'category_perms' => CategoryPerms::class,
             'groupMods' => GroupMods::class,
-            'file_permissions' => FilePermissions::class
+            'file_permissions' => FilePermissions::class,
+            'availableWidgets' => AvailableWidgets::class
         ];
 
         $extensionConfiguration = new ExtensionConfiguration();

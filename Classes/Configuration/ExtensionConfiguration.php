@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Configuration;
 
 use Pluswerk\BePermissions\Value\AllowedLanguages;
+use Pluswerk\BePermissions\Value\AvailableWidgets;
 use Pluswerk\BePermissions\Value\CategoryPerms;
 use Pluswerk\BePermissions\Value\DbMountpoints;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
@@ -40,7 +41,8 @@ final class ExtensionConfiguration implements SingletonInterface, ExtensionConfi
             'file_mountpoint' => FileMountpoints::class,
             'category_perms' => CategoryPerms::class,
             'groupMods' => GroupMods::class,
-            'file_permissions' => FilePermissions::class
+            'file_permissions' => FilePermissions::class,
+            'availableWidgets' => AvailableWidgets::class
         ]
     ];
 
