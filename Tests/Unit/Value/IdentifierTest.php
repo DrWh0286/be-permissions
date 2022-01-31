@@ -32,4 +32,40 @@ final class IdentifierTest extends UnitTestCase
 
         $this->assertSame('some-identifier', (string)$id);
     }
+
+    /**
+     * @test
+     * @dataProvider titleProvider
+     */
+    public function a_new_unique_identifier_can_be_built_from_title_string(string $title, string $expectedIdentifierString): void //phpcs:ignore
+    {
+        $identifier = Identifier::buildNewFromTitle($title);
+
+        $this->assertSame($expectedIdentifierString, (string)$identifier);
+    }
+
+    /**
+     * @return string[][]
+     */
+    public function titleProvider(): array
+    {
+        return [
+            'title one' => [
+                'title' => 'Das wäre ein Gruppentitel',
+                'expectedIdentifierString' => 'das_waere_ein_gruppentitel'
+            ],
+            'title two' => [
+                'title' => 'Gruppentitel äöüßÄÖÜ',
+                'expectedIdentifierString' => 'gruppentitel_aeoeuessaeoeue'
+            ],
+            'title three' => [
+                'title' => '[ACCESS] Gruppentitel',
+                'expectedIdentifierString' => 'access_gruppentitel'
+            ],
+            'title four' => [
+                'title' => '[ACCESS] Gruppen-Titel',
+                'expectedIdentifierString' => 'access_gruppen-titel'
+            ]
+        ];
+    }
 }
