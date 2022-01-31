@@ -11,7 +11,7 @@ use Pluswerk\BePermissions\Configuration\ExtensionConfiguration;
 use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository;
 use Pluswerk\BePermissions\Repository\BeGroupRepository;
-use Pluswerk\BePermissions\UseCase\ExtendBeGroupByConfigurationFile;
+use Pluswerk\BePermissions\UseCase\ExtendOrCreateBeGroupByConfigurationFile;
 use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\AvailableWidgets;
 use Pluswerk\BePermissions\Value\BeGroupFieldFactory;
@@ -32,7 +32,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\UseCase\ExtendBeGroupByConfigurationFile
+ * @covers \Pluswerk\BePermissions\UseCase\ExtendOrCreateBeGroupByConfigurationFile
  * @uses \Pluswerk\BePermissions\Configuration\BeGroupConfiguration
  * @uses \Pluswerk\BePermissions\Model\BeGroup
  * @uses \Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository
@@ -44,7 +44,7 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
  * @uses \TYPO3\CMS\Core\Core\Environment
  * @uses \TYPO3\CMS\Core\Utility\GeneralUtility
  */
-final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
+final class ExtendOrCreateBeGroupByConfigurationFileTest extends FunctionalTestCase
 {
     protected $testExtensionsToLoad = [
         'typo3conf/ext/be_permissions'
@@ -90,8 +90,8 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
         $repository = new BeGroupConfigurationRepository($builder);
         $repository->write($configuration);
 
-        /** @var ExtendBeGroupByConfigurationFile $useCase */
-        $useCase = GeneralUtility::makeInstance(ExtendBeGroupByConfigurationFile::class);
+        /** @var ExtendOrCreateBeGroupByConfigurationFile $useCase */
+        $useCase = GeneralUtility::makeInstance(ExtendOrCreateBeGroupByConfigurationFile::class);
 
         $useCase->extendGroup('test-group');
 
@@ -167,8 +167,8 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
         $repository = new BeGroupConfigurationRepository($builder);
         $repository->write($configuration);
 
-        /** @var ExtendBeGroupByConfigurationFile $useCase */
-        $useCase = GeneralUtility::makeInstance(ExtendBeGroupByConfigurationFile::class);
+        /** @var ExtendOrCreateBeGroupByConfigurationFile $useCase */
+        $useCase = GeneralUtility::makeInstance(ExtendOrCreateBeGroupByConfigurationFile::class);
 
         $useCase->extendGroup('test-group');
 

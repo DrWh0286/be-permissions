@@ -28,9 +28,9 @@ services:
 
   Pluswerk\BePermissions\UseCase\ExportBeGroupToConfigurationFile:
     public: true
-  Pluswerk\BePermissions\UseCase\OverruleBeGroupFromConfigurationFile:
+  Pluswerk\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile:
     public: true
-  Pluswerk\BePermissions\UseCase\ExtendBeGroupByConfigurationFile:
+  Pluswerk\BePermissions\UseCase\ExtendOrCreateBeGroupByConfigurationFile:
     public: true
   Pluswerk\BePermissions\Repository\BeGroupRepository:
     public: true

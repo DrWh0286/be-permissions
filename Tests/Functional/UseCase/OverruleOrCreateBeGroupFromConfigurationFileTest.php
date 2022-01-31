@@ -30,10 +30,10 @@ use Pluswerk\BePermissions\Value\Title;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
-use Pluswerk\BePermissions\UseCase\OverruleBeGroupFromConfigurationFile;
+use Pluswerk\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile;
 
 /**
- * @covers \Pluswerk\BePermissions\UseCase\OverruleBeGroupFromConfigurationFile
+ * @covers \Pluswerk\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile
  * @uses \Pluswerk\BePermissions\Configuration\BeGroupConfiguration
  * @uses \Pluswerk\BePermissions\Model\BeGroup
  * @uses \Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository
@@ -45,7 +45,7 @@ use Pluswerk\BePermissions\UseCase\OverruleBeGroupFromConfigurationFile;
  * @uses \TYPO3\CMS\Core\Core\Environment
  * @uses \TYPO3\CMS\Core\Utility\GeneralUtility
  */
-final class OverruleBeGroupFromConfigurationFileTest extends FunctionalTestCase
+final class OverruleOrCreateBeGroupFromConfigurationFileTest extends FunctionalTestCase
 {
     protected $testExtensionsToLoad = [
         'typo3conf/ext/be_permissions'
@@ -90,8 +90,8 @@ final class OverruleBeGroupFromConfigurationFileTest extends FunctionalTestCase
         $repository = new BeGroupConfigurationRepository($builder);
         $repository->write($configuration);
 
-        /** @var OverruleBeGroupFromConfigurationFile $useCase */
-        $useCase = GeneralUtility::makeInstance(OverruleBeGroupFromConfigurationFile::class);
+        /** @var OverruleOrCreateBeGroupFromConfigurationFile $useCase */
+        $useCase = GeneralUtility::makeInstance(OverruleOrCreateBeGroupFromConfigurationFile::class);
 
         $useCase->overruleGroup('test-group');
 
@@ -164,8 +164,8 @@ final class OverruleBeGroupFromConfigurationFileTest extends FunctionalTestCase
         $repository = new BeGroupConfigurationRepository($builder);
         $repository->write($configuration);
 
-        /** @var OverruleBeGroupFromConfigurationFile $useCase */
-        $useCase = GeneralUtility::makeInstance(OverruleBeGroupFromConfigurationFile::class);
+        /** @var OverruleOrCreateBeGroupFromConfigurationFile $useCase */
+        $useCase = GeneralUtility::makeInstance(OverruleOrCreateBeGroupFromConfigurationFile::class);
 
         $useCase->overruleGroup('test-group');
 

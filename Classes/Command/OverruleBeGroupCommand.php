@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Command;
 
-use Pluswerk\BePermissions\UseCase\OverruleBeGroupFromConfigurationFile;
+use Pluswerk\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -12,9 +12,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 final class OverruleBeGroupCommand extends Command
 {
-    private OverruleBeGroupFromConfigurationFile $overruleBeGroupFromConfigurationFile;
+    private OverruleOrCreateBeGroupFromConfigurationFile $overruleBeGroupFromConfigurationFile;
 
-    public function __construct(OverruleBeGroupFromConfigurationFile $overruleBeGroupFromConfigurationFile)
+    public function __construct(OverruleOrCreateBeGroupFromConfigurationFile $overruleBeGroupFromConfigurationFile)
     {
         parent::__construct('ExportBeGroups');
         $this->overruleBeGroupFromConfigurationFile = $overruleBeGroupFromConfigurationFile;
@@ -22,7 +22,7 @@ final class OverruleBeGroupCommand extends Command
 
     protected function configure(): void
     {
-        $this->setDescription('Overrules a be_group based on stored yaml file. Be careful with this command!');
+        $this->setDescription('Overrules or creates a be_group based on stored yaml file. Be careful with this command!');
         $this->addArgument('identifier', InputArgument::REQUIRED, 'The group identifier');
     }
 

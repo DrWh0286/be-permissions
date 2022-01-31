@@ -4,13 +4,15 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\UseCase;
 
+use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
 use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
 use Pluswerk\BePermissions\Repository\BeGroupRepositoryInterface;
 use Pluswerk\BePermissions\Value\Identifier;
+use Pluswerk\BePermissions\Value\InvalidIdentifierException;
 use TYPO3\CMS\Core\Core\Environment;
 
-final class ExtendBeGroupByConfigurationFile
+final class OverruleOrCreateBeGroupFromConfigurationFile
 {
     private BeGroupRepositoryInterface $beGroupRepository;
     private BeGroupConfigurationRepositoryInterface $beGroupConfigurationRepository;
@@ -21,7 +23,11 @@ final class ExtendBeGroupByConfigurationFile
         $this->beGroupConfigurationRepository = $beGroupConfigurationRepository;
     }
 
-    public function extendGroup(string $identifier): void
+    /**
+     * @throws ConfigurationFileMissingException
+     * @throws InvalidIdentifierException
+     */
+    public function overruleGroup(string $identifier): void
     {
         $identifier = new Identifier($identifier);
         $configPath = Environment::getConfigPath();
@@ -30,7 +36,7 @@ final class ExtendBeGroupByConfigurationFile
         $beGroup = $this->beGroupRepository->findOneByIdentifier($identifier);
 
         if ($beGroup instanceof BeGroup) {
-            $updatedBeGroup = $beGroup->extendByConfiguration($beGroupConfiguration);
+            $updatedBeGroup = $beGroup->overruleByConfiguration($beGroupConfiguration);
 
             $this->beGroupRepository->update($updatedBeGroup);
         } else {
