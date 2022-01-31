@@ -13,6 +13,7 @@ use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository;
 use Pluswerk\BePermissions\Repository\BeGroupRepository;
 use Pluswerk\BePermissions\UseCase\ExtendBeGroupByConfigurationFile;
 use Pluswerk\BePermissions\Value\AllowedLanguages;
+use Pluswerk\BePermissions\Value\AvailableWidgets;
 use Pluswerk\BePermissions\Value\BeGroupFieldFactory;
 use Pluswerk\BePermissions\Value\CategoryPerms;
 use Pluswerk\BePermissions\Value\DbMountpoints;
@@ -20,6 +21,7 @@ use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\FilePermissions;
 use Pluswerk\BePermissions\Value\GroupMods;
 use Pluswerk\BePermissions\Value\Identifier;
+use Pluswerk\BePermissions\Value\MfaProviders;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
 use Pluswerk\BePermissions\Value\PageTypesSelect;
 use Pluswerk\BePermissions\Value\TablesModify;
@@ -122,6 +124,8 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
         $expectedCollection->add(TablesSelect::createFromYamlConfiguration([]));
         $expectedCollection->add(TablesModify::createFromYamlConfiguration([]));
         $expectedCollection->add(GroupMods::createFromYamlConfiguration([]));
+        $expectedCollection->add(AvailableWidgets::createFromYamlConfiguration([]));
+        $expectedCollection->add(MfaProviders::createFromYamlConfiguration([]));
         $expectedCollection->add(FilePermissions::createFromYamlConfiguration([]));
         $expectedCollection->add(CategoryPerms::createFromYamlConfiguration([]));
         $expectedBeGroup = new BeGroup(

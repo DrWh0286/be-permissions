@@ -12,6 +12,7 @@ use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository;
 use Pluswerk\BePermissions\Repository\BeGroupRepository;
 use Pluswerk\BePermissions\Value\AllowedLanguages;
+use Pluswerk\BePermissions\Value\AvailableWidgets;
 use Pluswerk\BePermissions\Value\BeGroupFieldFactory;
 use Pluswerk\BePermissions\Value\CategoryPerms;
 use Pluswerk\BePermissions\Value\DbMountpoints;
@@ -20,6 +21,7 @@ use Pluswerk\BePermissions\Value\FilePermissions;
 use Pluswerk\BePermissions\Value\GroupMods;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Value\LockToDomain;
+use Pluswerk\BePermissions\Value\MfaProviders;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
 use Pluswerk\BePermissions\Value\PageTypesSelect;
 use Pluswerk\BePermissions\Value\TablesModify;
@@ -119,6 +121,8 @@ final class OverruleBeGroupFromConfigurationFileTest extends FunctionalTestCase
         $collection->add(TablesSelect::createFromYamlConfiguration([]));
         $collection->add(TablesModify::createFromYamlConfiguration([]));
         $collection->add(GroupMods::createFromYamlConfiguration([]));
+        $collection->add(AvailableWidgets::createFromYamlConfiguration([]));
+        $collection->add(MfaProviders::createFromYamlConfiguration([]));
         $collection->add(FilePermissions::createFromYamlConfiguration([]));
         $collection->add(CategoryPerms::createFromYamlConfiguration([]));
 
