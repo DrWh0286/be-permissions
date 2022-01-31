@@ -135,4 +135,80 @@ final class ExtendBeGroupByConfigurationFileTest extends FunctionalTestCase
 
         $this->assertEquals($expectedBeGroup, $actualBeGroup);
     }
+
+    /**
+     * @test
+     */
+    public function if_a_group_does_not_exist_it_is_created(): void //phpcs:ignore
+    {
+        // Prepare file
+        $identifier = new Identifier('test-group');
+
+        $collection = new BeGroupFieldCollection();
+        $collection->add(Title::createFromYamlConfiguration('Some new group title'));
+        $collection->add(NonExcludeFields::createFromYamlConfiguration(
+            [
+                'pages' => [
+                    'title',
+                    'abstract'
+                ],
+                'tt_content' => [
+                    'some_additiona_field',
+                    'another_field',
+                    'hidden'
+                ]
+            ]
+        ));
+
+        $configuration = new BeGroupConfiguration($identifier, Environment::getConfigPath(), $collection);
+        $extConfig = new ExtensionConfiguration();
+        $factory = new BeGroupFieldFactory($extConfig);
+        $builder = new BeGroupFieldCollectionBuilder($factory);
+        $repository = new BeGroupConfigurationRepository($builder);
+        $repository->write($configuration);
+
+        /** @var ExtendBeGroupByConfigurationFile $useCase */
+        $useCase = GeneralUtility::makeInstance(ExtendBeGroupByConfigurationFile::class);
+
+        $useCase->extendGroup('test-group');
+
+        /** @var BeGroupRepository $repo */
+        $repo = GeneralUtility::makeInstance(BeGroupRepository::class);
+
+        $actualBeGroup = $repo->findOneByIdentifier(new Identifier('test-group'));
+
+        $expectedCollection = new BeGroupFieldCollection();
+
+        $expectedCollection->add(Title::createFromYamlConfiguration('Some new group title'));
+        $expectedCollection->add(NonExcludeFields::createFromYamlConfiguration(
+            [
+                'pages' => [
+                    'title',
+                    'abstract'
+                ],
+                'tt_content' => [
+                    'some_additiona_field',
+                    'another_field',
+                    'hidden'
+                ]
+            ]
+        ));
+        $expectedCollection->add(ExplicitAllowDeny::createFromYamlConfiguration([]));
+        $expectedCollection->add(AllowedLanguages::createFromYamlConfiguration([]));
+        $expectedCollection->add(DbMountpoints::createFromYamlConfiguration([]));
+        $expectedCollection->add(PageTypesSelect::createFromYamlConfiguration([]));
+        $expectedCollection->add(TablesSelect::createFromYamlConfiguration([]));
+        $expectedCollection->add(TablesModify::createFromYamlConfiguration([]));
+        $expectedCollection->add(GroupMods::createFromYamlConfiguration([]));
+        $expectedCollection->add(AvailableWidgets::createFromYamlConfiguration([]));
+        $expectedCollection->add(MfaProviders::createFromYamlConfiguration([]));
+        $expectedCollection->add(FilePermissions::createFromYamlConfiguration([]));
+        $expectedCollection->add(CategoryPerms::createFromYamlConfiguration([]));
+        $expectedBeGroup = new BeGroup(
+            $identifier,
+            $expectedCollection
+        );
+
+        $this->assertEquals($expectedBeGroup, $actualBeGroup);
+    }
 }

@@ -20,11 +20,10 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
         $this->beGroupFieldCollectionBuilder = $beGroupFieldCollectionBuilder;
     }
 
-    public function findOneByIdentifier(Identifier $identifier): BeGroup
+    public function findOneByIdentifier(Identifier $identifier): ?BeGroup
     {
         $connection = $this->getConnection();
 
-        /** @phpstan-ignore-next-line */
         $row = $connection->select(
             ['*'],
             'be_groups',
@@ -34,9 +33,13 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
             1
         )->fetchAssociative();
 
-        $collection = $this->beGroupFieldCollectionBuilder->buildFromDatabaseValues($row);
+        if (is_array($row) && !empty($row)) {
+            $collection = $this->beGroupFieldCollectionBuilder->buildFromDatabaseValues($row);
 
-        return new BeGroup($identifier, $collection);
+            return new BeGroup($identifier, $collection);
+        }
+
+        return null;
     }
 
     public function update(BeGroup $beGroup): void
@@ -47,6 +50,16 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
             'be_groups',
             $beGroup->databaseValues(),
             ['identifier' => (string)$beGroup->identifier()]
+        );
+    }
+
+    public function add(BeGroup $beGroup): void
+    {
+        $connection = $this->getConnection();
+
+        $connection->insert(
+            'be_groups',
+            $beGroup->databaseValues()
         );
     }
 

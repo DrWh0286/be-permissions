@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\UseCase;
 
 use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
+use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
 use Pluswerk\BePermissions\Repository\BeGroupRepositoryInterface;
 use Pluswerk\BePermissions\Value\Identifier;
@@ -34,8 +35,14 @@ final class OverruleBeGroupFromConfigurationFile
         $beGroupConfiguration = $this->beGroupConfigurationRepository->load($identifier, $configPath);
         $beGroup = $this->beGroupRepository->findOneByIdentifier($identifier);
 
-        $updatedBeGroup = $beGroup->overruleByConfiguration($beGroupConfiguration);
+        if ($beGroup instanceof BeGroup) {
+            $updatedBeGroup = $beGroup->overruleByConfiguration($beGroupConfiguration);
 
-        $this->beGroupRepository->update($updatedBeGroup);
+            $this->beGroupRepository->update($updatedBeGroup);
+        } else {
+            $beGroup = new BeGroup($identifier, $beGroupConfiguration->beGroupFieldCollection());
+
+            $this->beGroupRepository->add($beGroup);
+        }
     }
 }

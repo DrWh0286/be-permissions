@@ -9,7 +9,9 @@ use Pluswerk\BePermissions\Value\Identifier;
 
 interface BeGroupRepositoryInterface
 {
-    public function findOneByIdentifier(Identifier $identifier): BeGroup;
+    public function findOneByIdentifier(Identifier $identifier): ?BeGroup;
 
     public function update(BeGroup $beGroup): void;
+
+    public function add(BeGroup $beGroup): void;
 }
