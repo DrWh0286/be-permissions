@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Repository;
 
+use DirectoryIterator;
 use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilder;
 use Pluswerk\BePermissions\Collection\DuplicateBeGroupFieldException;
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
@@ -54,5 +55,23 @@ final class BeGroupConfigurationRepository implements BeGroupConfigurationReposi
         $collection = $this->beGroupFieldCollectionBuilder->buildFromConfigurationArray($configuration);
 
         return new BeGroupConfiguration($identifier, $configPath, $collection);
+    }
+
+    public function loadAll(string $configPath): array
+    {
+        $directoryIterator = new DirectoryIterator($configPath . '/be_groups/');
+
+        $beGroupConfigurations = [];
+
+        /** @var DirectoryIterator $directory */
+        foreach ($directoryIterator as $directory) {
+            try {
+                $beGroupConfigurations[] = $this->load(new Identifier($directory->getFilename()), $configPath);
+            } catch (ConfigurationFileMissingException $e) {
+                continue;
+            }
+        }
+
+        return $beGroupConfigurations;
     }
 }

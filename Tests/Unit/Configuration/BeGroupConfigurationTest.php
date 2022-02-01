@@ -8,6 +8,7 @@ use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
 use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Value\AllowedLanguages;
+use Pluswerk\BePermissions\Value\DeployProcessing;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
@@ -167,6 +168,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
         $expectedCollection->add($nonExcludeFields);
         $expectedCollection->add($explicitAllowdeny);
         $expectedCollection->add($allowedLanguages);
+        $expectedCollection->add(DeployProcessing::createWithDefault());
 
         $this->assertEquals($expectedCollection, $config->beGroupFieldCollection());
     }
@@ -199,8 +201,37 @@ final class BeGroupConfigurationTest extends UnitTestCase
                     ]
                 ]
             ],
-            'allowed_languages' => [0,3,5]
+            'allowed_languages' => [0,3,5],
+            'deploy_processing' => 'extend'
         ], $config->asArray());
+    }
+
+    /**
+     * @test
+     */
+    public function deploy_processing_instructions_can_be_fetched(): void // phpcs:ignore
+    {
+        $config = $this->getTestConfiguration();
+
+        $this->assertTrue($config->getDeploymentProcessing()->isExtend());
+    }
+
+    /**
+     * @test
+     */
+    public function default_deployment_processing_is_used_as_fallback(): void // phpcs:ignore
+    {
+        $identifier = new Identifier('from-be-group');
+
+        $collection = new BeGroupFieldCollection();
+
+        $config = new BeGroupConfiguration(
+            $identifier,
+            $this->basePath . '/config',
+            $collection
+        );
+
+        $this->assertTrue($config->getDeploymentProcessing()->isExtend());
     }
 
     private function getTestConfiguration(): BeGroupConfiguration
@@ -239,6 +270,7 @@ final class BeGroupConfigurationTest extends UnitTestCase
         $collection->add($nonExcludeFields);
         $collection->add($explicitAllowdeny);
         $collection->add($allowedLanguages);
+        $collection->add(DeployProcessing::createWithDefault());
         $config = new BeGroupConfiguration(
             $identifier,
             $configPath,

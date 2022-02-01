@@ -7,6 +7,7 @@ namespace Pluswerk\BePermissions\Configuration;
 use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
 use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
+use Pluswerk\BePermissions\Value\DeployProcessing;
 use Pluswerk\BePermissions\Value\Identifier;
 
 final class BeGroupConfiguration
@@ -15,6 +16,7 @@ final class BeGroupConfiguration
     private string $configPath;
     /** @var BeGroupFieldCollection<BeGroupFieldInterface> */
     private BeGroupFieldCollection $beGroupFieldCollection;
+    private DeployProcessing $deploymentProcessing;
 
     /**
      * @param Identifier $identifier
@@ -26,6 +28,13 @@ final class BeGroupConfiguration
         $this->identifier = $identifier;
         $this->configPath = $configPath;
         $this->beGroupFieldCollection = $beGroupFieldCollection;
+        $this->deploymentProcessing = DeployProcessing::createWithDefault();
+
+        foreach ($beGroupFieldCollection as $item) {
+            if ($item instanceof DeployProcessing) {
+                $this->deploymentProcessing = $item;
+            }
+        }
     }
 
     public static function createFromBeGroup(BeGroup $beGroup, string $configPath): BeGroupConfiguration
@@ -70,5 +79,10 @@ final class BeGroupConfiguration
         }
 
         return array_filter($array);
+    }
+
+    public function getDeploymentProcessing(): DeployProcessing
+    {
+        return $this->deploymentProcessing;
     }
 }
