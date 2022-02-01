@@ -280,7 +280,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
     /**
      * @test
      */
-    public function no_empty_arrays_are_written_to_configuration_file(): void //phpcs:ignore
+    public function also_empty_arrays_are_written_to_configuration_file(): void //phpcs:ignore
     {
         $configPath = $this->basePath . '/config';
         $identifier = new Identifier('from-be-group');
@@ -318,7 +318,9 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
                     'title',
                     'media'
                 ]
-            ]
+            ],
+            'explicit_allowdeny' => [],
+            'allowed_languages' => []
         ];
 
         $actualJsonString = file_get_contents($expectedFilename) ?: '';

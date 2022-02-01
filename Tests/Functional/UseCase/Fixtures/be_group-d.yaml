@@ -5,5 +5,16 @@ non_exclude_fields:
     - hidden
   tt_content:
     - header
+explicit_allowdeny: {  }
+allowed_languages: {  }
+db_mountpoints: {  }
+pagetypes_select: {  }
+tables_select: {  }
+tables_modify: {  }
+groupMods: {  }
+availableWidgets: {  }
+mfa_providers: {  }
+file_permissions: {  }
+category_perms: {  }
 bulk_export: true
 deploy_processing: extend
