@@ -10,7 +10,8 @@ call_user_func(function () {
             'label' => 'configuration identifier',
             'config' => [
                 'type' => 'input',
-                'eval' => 'unique'
+                'eval' => 'unique',
+                'readOnly' => true
             ]
         ]
     ];
