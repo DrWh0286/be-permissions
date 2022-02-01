@@ -17,6 +17,7 @@ use Pluswerk\BePermissions\Value\AvailableWidgets;
 use Pluswerk\BePermissions\Value\BeGroupFieldFactory;
 use Pluswerk\BePermissions\Value\CategoryPerms;
 use Pluswerk\BePermissions\Value\DbMountpoints;
+use Pluswerk\BePermissions\Value\DeployProcessing;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\FilePermissions;
 use Pluswerk\BePermissions\Value\GroupMods;
@@ -128,6 +129,7 @@ final class ExtendOrCreateBeGroupByConfigurationFileTest extends FunctionalTestC
         $expectedCollection->add(MfaProviders::createFromYamlConfiguration([]));
         $expectedCollection->add(FilePermissions::createFromYamlConfiguration([]));
         $expectedCollection->add(CategoryPerms::createFromYamlConfiguration([]));
+        $expectedCollection->add(DeployProcessing::createFromDBValue(''));
         $expectedBeGroup = new BeGroup(
             $identifier,
             $expectedCollection
@@ -204,6 +206,7 @@ final class ExtendOrCreateBeGroupByConfigurationFileTest extends FunctionalTestC
         $expectedCollection->add(MfaProviders::createFromYamlConfiguration([]));
         $expectedCollection->add(FilePermissions::createFromYamlConfiguration([]));
         $expectedCollection->add(CategoryPerms::createFromYamlConfiguration([]));
+        $expectedCollection->add(DeployProcessing::createFromDBValue(''));
         $expectedBeGroup = new BeGroup(
             $identifier,
             $expectedCollection

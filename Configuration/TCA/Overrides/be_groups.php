@@ -26,9 +26,18 @@ call_user_func(function () {
                     ]
                 ],
             ]
+        ],
+        'deploy_processing' => [
+            'label' => 'Deploy Processing',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => \Pluswerk\BePermissions\Value\DeployProcessing::tcaItems(),
+                'default' => (string)\Pluswerk\BePermissions\Value\DeployProcessing::createWithDefault()
+            ],
         ]
     ];
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_groups', $fields);
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_groups', 'identifier,bulk_export', '', 'after:title');
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_groups', 'identifier,bulk_export,deploy_processing', '', 'after:title');
 });
