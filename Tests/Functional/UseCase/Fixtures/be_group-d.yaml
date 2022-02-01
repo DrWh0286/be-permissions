@@ -5,4 +5,5 @@ non_exclude_fields:
     - hidden
   tt_content:
     - header
+bulk_export: true
 deploy_processing: extend

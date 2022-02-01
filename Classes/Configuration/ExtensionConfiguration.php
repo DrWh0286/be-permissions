@@ -6,6 +6,7 @@ namespace Pluswerk\BePermissions\Configuration;
 
 use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\AvailableWidgets;
+use Pluswerk\BePermissions\Value\BulkExport;
 use Pluswerk\BePermissions\Value\CategoryPerms;
 use Pluswerk\BePermissions\Value\DbMountpoints;
 use Pluswerk\BePermissions\Value\DeployProcessing;
@@ -46,7 +47,8 @@ final class ExtensionConfiguration implements SingletonInterface, ExtensionConfi
             'file_permissions' => FilePermissions::class,
             'availableWidgets' => AvailableWidgets::class,
             'mfa_providers' => MfaProviders::class,
-            'deploy_processing' => DeployProcessing::class
+            'deploy_processing' => DeployProcessing::class,
+            'bulk_export' => BulkExport::class
         ]
     ];
 

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Functional\UseCase;
+namespace Pluswerk\BePermissions\Tests\Functional\UseCase;
 
 use Pluswerk\BePermissions\UseCase\BulkExportBeGroupsToConfigurationFiles;
 use Pluswerk\BePermissions\UseCase\DeployBeGroups;
