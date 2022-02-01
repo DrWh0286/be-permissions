@@ -7,6 +7,12 @@ services:
   Pluswerk\BePermissions\:
       resource: '../Classes/*'
 
+  Pluswerk\BePermissions\Command\DeployCommand:
+    public: true
+    tags:
+      - name: 'console.command'
+        command: 'bepermission:deploy'
+        description: 'Extends/overrules all existing be_groups yaml configurations into database.'
   Pluswerk\BePermissions\Command\ExportBeGroupsCommand:
     public: true
     tags:
@@ -32,6 +38,8 @@ services:
         command: 'bepermission:overrule'
         description: 'Overrules a be_group based on stored yaml file. Be careful with this command!'
 
+  Pluswerk\BePermissions\UseCase\DeployBeGroups:
+    public: true
   Pluswerk\BePermissions\UseCase\BulkExportBeGroupsToConfigurationFiles:
     public: true
   Pluswerk\BePermissions\UseCase\ExportBeGroupToConfigurationFile:

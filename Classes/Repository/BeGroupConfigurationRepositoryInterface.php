@@ -16,4 +16,10 @@ interface BeGroupConfigurationRepositoryInterface
      * @throws ConfigurationFileMissingException
      */
     public function load(Identifier $identifier, string $configPath): BeGroupConfiguration;
+
+    /**
+     * @param string $configPath
+     * @return BeGroupConfiguration[]
+     */
+    public function loadAll(string $configPath): array;
 }

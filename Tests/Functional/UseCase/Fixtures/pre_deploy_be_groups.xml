@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dataset>
+    <be_groups>
+        <uid>1</uid>
+        <identifier>test-group-a</identifier>
+        <title>Some group title A</title>
+        <non_exclude_fields>pages:title,pages:hidden,tt_content:title</non_exclude_fields>
+        <bulk_export>1</bulk_export>
+        <deploy_processing>extend</deploy_processing>
+    </be_groups>
+    <be_groups>
+        <uid>2</uid>
+        <identifier>test-group-b</identifier>
+        <title>Some group title B</title>
+        <non_exclude_fields>pages:title,pages:hidden,tt_content:hidden</non_exclude_fields>
+        <bulk_export>1</bulk_export>
+        <deploy_processing>extend</deploy_processing>
+    </be_groups>
+    <be_groups>
+        <uid>3</uid>
+        <identifier>test-group-c</identifier>
+        <title>Some group title C</title>
+        <non_exclude_fields>pages:title,pages:hidden,tt_content:bodytext</non_exclude_fields>
+        <bulk_export>0</bulk_export>
+        <deploy_processing>extend</deploy_processing>
+    </be_groups>
+    <be_groups>
+        <uid>4</uid>
+        <identifier>test-group-d</identifier>
+        <title>Some group title D</title>
+        <non_exclude_fields>pages:title,pages:hidden,tt_content:hidden</non_exclude_fields>
+        <bulk_export>1</bulk_export>
+        <deploy_processing>overrule</deploy_processing>
+    </be_groups>
+    <be_groups>
+        <uid>5</uid>
+        <identifier>test-group-f</identifier>
+        <title>Some group title F</title>
+        <non_exclude_fields>pages:title,pages:hidden,tt_content:bodytext,tt_content:header</non_exclude_fields>
+        <bulk_export>1</bulk_export>
+        <deploy_processing>extend</deploy_processing>
+    </be_groups>
+</dataset>
