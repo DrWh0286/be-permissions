@@ -78,7 +78,7 @@ final class BeGroupConfiguration
             $array[$field->getFieldName()] = $field->yamlConfigurationValue();
         }
 
-        return array_filter($array);
+        return $array;
     }
 
     public function getDeploymentProcessing(): DeployProcessing
