@@ -14,4 +14,9 @@ interface BeGroupRepositoryInterface
     public function update(BeGroup $beGroup): void;
 
     public function add(BeGroup $beGroup): void;
+
+    /**
+     * @return BeGroup[]
+     */
+    public function findAllForBulkExport(): array;
 }

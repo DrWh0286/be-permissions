@@ -63,6 +63,30 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
         );
     }
 
+    public function findAllForBulkExport(): array
+    {
+        $connection = $this->getConnection();
+
+        $rows = $connection->select(
+            ['*'],
+            'be_groups',
+            ['bulk_export' => 1]
+        )->fetchAllAssociative();
+
+        $beGroups = [];
+
+        foreach ($rows as $row) {
+            if (is_array($row) && !empty($row) && isset($row['identifier']) && !empty($row['identifier'])) {
+                $collection = $this->beGroupFieldCollectionBuilder->buildFromDatabaseValues($row);
+                $identifier = new Identifier($row['identifier']);
+
+                $beGroups[] = new BeGroup($identifier, $collection);
+            }
+        }
+
+        return $beGroups;
+    }
+
     private function getConnection(): Connection
     {
         /** @phpstan-ignore-next-line */
