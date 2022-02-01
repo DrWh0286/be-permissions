@@ -1,0 +1,7 @@
+title: 'Some group title A'
+non_exclude_fields:
+  pages:
+    - title
+    - hidden
+  tt_content:
+    - hidden

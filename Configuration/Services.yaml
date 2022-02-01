@@ -13,6 +13,12 @@ services:
       - name: 'console.command'
         command: 'bepermission:exoport'
         description: 'Exports a be_group to yaml file.'
+  Pluswerk\BePermissions\Command\BulkExportBeGroupsCommand:
+    public: true
+    tags:
+      - name: 'console.command'
+        command: 'bepermission:bulk-export'
+        description: 'Exports all be_groups, which are enabled for bulk export to their yaml files.'
   Pluswerk\BePermissions\Command\ExtendBeGroupCommand:
     public: true
     tags:
@@ -26,6 +32,8 @@ services:
         command: 'bepermission:overrule'
         description: 'Overrules a be_group based on stored yaml file. Be careful with this command!'
 
+  Pluswerk\BePermissions\UseCase\BulkExportBeGroupsToConfigurationFiles:
+    public: true
   Pluswerk\BePermissions\UseCase\ExportBeGroupToConfigurationFile:
     public: true
   Pluswerk\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile:
