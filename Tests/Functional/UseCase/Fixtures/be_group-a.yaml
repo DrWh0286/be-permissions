@@ -5,3 +5,4 @@ non_exclude_fields:
     - hidden
   tt_content:
     - hidden
+deploy_processing: extend

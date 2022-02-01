@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\UseCase;
 
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
+use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
 use Pluswerk\BePermissions\Repository\BeGroupRepositoryInterface;
 use Pluswerk\BePermissions\Value\Identifier;
@@ -25,8 +26,11 @@ final class ExportBeGroupToConfigurationFile
     {
         $identifier = new Identifier($identifier);
         $group = $this->beGroupRepository->findOneByIdentifier($identifier);
-        $configPath = Environment::getConfigPath();
-        $configuration = BeGroupConfiguration::createFromBeGroup($group, $configPath);
-        $this->beGroupConfigurationRepository->write($configuration);
+
+        if ($group instanceof BeGroup) {
+            $configPath = Environment::getConfigPath();
+            $configuration = BeGroupConfiguration::createFromBeGroup($group, $configPath);
+            $this->beGroupConfigurationRepository->write($configuration);
+        }
     }
 }

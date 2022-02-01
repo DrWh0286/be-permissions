@@ -10,6 +10,7 @@ use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\AvailableWidgets;
 use Pluswerk\BePermissions\Value\CategoryPerms;
 use Pluswerk\BePermissions\Value\DbMountpoints;
+use Pluswerk\BePermissions\Value\DeployProcessing;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\FileMountpoints;
 use Pluswerk\BePermissions\Value\FilePermissions;
@@ -88,7 +89,8 @@ final class ExtensionConfigurationTest extends UnitTestCase
             'groupMods' => GroupMods::class,
             'file_permissions' => FilePermissions::class,
             'availableWidgets' => AvailableWidgets::class,
-            'mfa_providers' => MfaProviders::class
+            'mfa_providers' => MfaProviders::class,
+            'deploy_processing' => DeployProcessing::class
         ];
 
         $extensionConfiguration = new ExtensionConfiguration();

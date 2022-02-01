@@ -6,5 +6,4 @@ namespace Pluswerk\BePermissions\Value;
 
 final class InvalidIdentifierException extends \Exception
 {
-
 }

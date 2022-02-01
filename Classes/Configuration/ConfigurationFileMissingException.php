@@ -6,5 +6,4 @@ namespace Pluswerk\BePermissions\Configuration;
 
 final class ConfigurationFileMissingException extends \Exception
 {
-
 }
