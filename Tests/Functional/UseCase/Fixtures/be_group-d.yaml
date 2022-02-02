@@ -14,6 +14,7 @@ tables_modify: {  }
 groupMods: {  }
 availableWidgets: {  }
 mfa_providers: {  }
+file_mountpoints: {  }
 file_permissions: {  }
 category_perms: {  }
 bulk_export: true

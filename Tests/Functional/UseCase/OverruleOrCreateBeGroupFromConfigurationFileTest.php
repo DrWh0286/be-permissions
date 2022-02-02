@@ -19,6 +19,7 @@ use Pluswerk\BePermissions\Value\CategoryPerms;
 use Pluswerk\BePermissions\Value\DbMountpoints;
 use Pluswerk\BePermissions\Value\DeployProcessing;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
+use Pluswerk\BePermissions\Value\FileMountpoints;
 use Pluswerk\BePermissions\Value\FilePermissions;
 use Pluswerk\BePermissions\Value\GroupMods;
 use Pluswerk\BePermissions\Value\Identifier;
@@ -126,6 +127,7 @@ final class OverruleOrCreateBeGroupFromConfigurationFileTest extends FunctionalT
         $collection->add(GroupMods::createFromYamlConfiguration([]));
         $collection->add(AvailableWidgets::createFromYamlConfiguration([]));
         $collection->add(MfaProviders::createFromYamlConfiguration([]));
+        $collection->add(FileMountpoints::createFromYamlConfiguration([]));
         $collection->add(FilePermissions::createFromYamlConfiguration([]));
         $collection->add(CategoryPerms::createFromYamlConfiguration([]));
         $collection->add(BulkExport::createFromYamlConfiguration(true));
@@ -203,6 +205,7 @@ final class OverruleOrCreateBeGroupFromConfigurationFileTest extends FunctionalT
         $collection->add(GroupMods::createFromYamlConfiguration([]));
         $collection->add(AvailableWidgets::createFromYamlConfiguration([]));
         $collection->add(MfaProviders::createFromYamlConfiguration([]));
+        $collection->add(FileMountpoints::createFromYamlConfiguration([]));
         $collection->add(FilePermissions::createFromYamlConfiguration([]));
         $collection->add(CategoryPerms::createFromYamlConfiguration([]));
         $collection->add(BulkExport::createFromYamlConfiguration(true));
