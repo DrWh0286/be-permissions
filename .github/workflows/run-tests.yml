@@ -15,8 +15,9 @@ jobs:
       mysql:
         image: mysql:8.0
         env:
+          MYSQL_DATABASE: typo3
           MYSQL_HOST: 127.0.0.1
-          MYSQL_ROOT_PASSWORD: 'root'
+          MYSQL_ROOT_PASSWORD: root
           MYSQL_ALLOW_EMPTY_PASSWORD: false
           MYSQL_RANDOM_ROOT_PASSWORD: false
         ports:
