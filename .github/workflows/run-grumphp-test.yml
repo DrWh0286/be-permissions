@@ -1,0 +1,19 @@
+name: Run tests
+on: [push]
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        image:
+          - 'kanti/buildy:7.4'
+          - 'kanti/buildy:8.0'
+    container:
+      image: ${{ matrix.image }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - run: composer install --no-progress --no-scripts -n
+      - run: ./vendor/bin/grumphp run
+      - run: ./vendor/bin/phpunit
+      - run: ./vendor/bin/phpunit -c phpunit_integration.xml

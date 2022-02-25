@@ -29,9 +29,6 @@
     }
   },
   "scripts": {
-    "post-autoload-dump": [
-      "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
-    ],
     "grumphp-ddev:init": [
       ".Build/bin/grumphp git:init -c grumphp-ddev.yaml"
     ]
