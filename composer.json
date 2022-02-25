@@ -29,11 +29,11 @@
     }
   },
   "scripts": {
-    "post-autoload-dump": [
-      "TYPO3\\TestingFramework\\Composer\\ExtensionTestEnvironment::prepare"
-    ],
     "grumphp-ddev:init": [
       ".Build/bin/grumphp git:init -c grumphp-ddev.yaml"
+    ],
+    "link-extension": [
+      "cd .Build/public/typo3conf/ext && ln -s ../../../../ be_permissions"
     ]
   },
   "extra": {
@@ -45,7 +45,13 @@
   },
   "config": {
     "vendor-dir": ".Build/vendor",
-    "bin-dir": ".Build/bin"
+    "bin-dir": ".Build/bin",
+    "allow-plugins": {
+      "typo3/cms-composer-installers": true,
+      "typo3/class-alias-loader": true,
+      "phpro/grumphp": true,
+      "pluswerk/grumphp-config": true
+    }
   },
   "require-dev": {
     "typo3/testing-framework": "^6.9",
