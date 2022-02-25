@@ -13,7 +13,8 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - run: composer install --no-progress --no-scripts -n
+      - run: composer install
+      - run: ls -la
       - run: ./.Build/bin/grumphp run
       - run: ./.Build/bin/phpunit
       - run: ./.Build/bin/phpunit -c phpunit_integration.xml
