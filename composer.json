@@ -31,6 +31,9 @@
   "scripts": {
     "grumphp-ddev:init": [
       ".Build/bin/grumphp git:init -c grumphp-ddev.yaml"
+    ],
+    "link-extension": [
+      "cd .Build/public/typo3conf/ext && ln -s ../../../../ be_permissions"
     ]
   },
   "extra": {
