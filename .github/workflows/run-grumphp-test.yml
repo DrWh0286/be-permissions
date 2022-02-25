@@ -14,6 +14,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - run: composer install --no-progress --no-scripts -n
-      - run: ./vendor/bin/grumphp run
-      - run: ./vendor/bin/phpunit
-      - run: ./vendor/bin/phpunit -c phpunit_integration.xml
+      - run: ./.Build/bin/grumphp run
+      - run: ./.Build/bin/phpunit
+      - run: ./.Build/bin/phpunit -c phpunit_integration.xml
