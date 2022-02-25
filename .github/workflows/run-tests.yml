@@ -14,6 +14,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+      - run: apk --update add tar
       - uses: shogo82148/actions-setup-mysql@v1
         with:
           mysql-version: ${{ matrix.mysql }}
