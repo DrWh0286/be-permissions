@@ -1,9 +1,5 @@
 name: Run tests
 on: [push]
-env:
-  MYSQL_ROOT_PASSWORD: 'root'
-  MYSQL_ALLOW_EMPTY_PASSWORD: false
-  MYSQL_RANDOM_ROOT_PASSWORD: false
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -15,11 +11,21 @@ jobs:
         mysql: ['8.0']
     container:
       image: ${{ matrix.image }}
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_ROOT_PASSWORD: 'root'
+          MYSQL_ALLOW_EMPTY_PASSWORD: false
+          MYSQL_RANDOM_ROOT_PASSWORD: false
+        ports:
+          - 3306:3306
+        options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
       - run: apk --update add tar
-      - uses: docker://mysql:5.7
       - run: composer install
       - run: ls -la
       - run: ./.Build/bin/grumphp run
