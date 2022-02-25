@@ -15,10 +15,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
       - run: apk --update add tar
-      - uses: shogo82148/actions-setup-mysql@v1
-        with:
-          mysql-version: ${{ matrix.mysql }}
-          root-password: 'root'
+      - uses: docker://mysql:5.7
       - run: composer install
       - run: ls -la
       - run: ./.Build/bin/grumphp run
