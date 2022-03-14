@@ -181,13 +181,8 @@ final class BeGroupConfigurationTest extends UnitTestCase
         $config = $this->getTestConfiguration();
 
         $this->assertSame([
-            'title' => 'Group title',
-            'non_exclude_fields' => [
-                'pages' => [
-                    'title',
-                    'media'
-                ]
-            ],
+            'allowed_languages' => [0,3,5],
+            'deploy_processing' => 'extend',
             'explicit_allowdeny' => [
                 'tt_content' => [
                     'CType' => [
@@ -196,13 +191,18 @@ final class BeGroupConfigurationTest extends UnitTestCase
                         'textpic' => 'ALLOW'
                     ],
                     'list_type' => [
-                        'some_plugina' => 'ALLOW',
-                        'another_pluginb' => 'ALLOW'
+                        'another_pluginb' => 'ALLOW',
+                        'some_plugina' => 'ALLOW'
                     ]
                 ]
             ],
-            'allowed_languages' => [0,3,5],
-            'deploy_processing' => 'extend'
+            'non_exclude_fields' => [
+                'pages' => [
+                    'media',
+                    'title'
+                ]
+            ],
+            'title' => 'Group title'
         ], $config->asArray());
     }
 

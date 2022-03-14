@@ -18,12 +18,13 @@ final class TablesModifyTest extends UnitTestCase
      */
     public function can_be_created_from_database_value_and_returned_as_configuration_array(): void //phpcs:ignore
     {
-        $dbValue = 'pages,sys_category,sys_file,sys_file_metadata,sys_file_reference,tt_content,tx_news_domain_model_link,tx_news_domain_model_news,tx_basepackage_accordion_content';
+        $dbValue = 'sys_category,sys_file,sys_file_metadata,sys_file_reference,tt_content,tx_news_domain_model_link,tx_news_domain_model_news,pages,tx_basepackage_accordion_content';
 
         $tablesSelect = TablesModify::createFromDBValue($dbValue);
+        $expected = ['pages','sys_category','sys_file','sys_file_metadata','sys_file_reference','tt_content','tx_basepackage_accordion_content','tx_news_domain_model_link','tx_news_domain_model_news'];
 
         $this->assertSame(
-            ['pages','sys_category','sys_file','sys_file_metadata','sys_file_reference','tt_content','tx_news_domain_model_link','tx_news_domain_model_news','tx_basepackage_accordion_content'],
+            $expected,
             $tablesSelect->yamlConfigurationValue()
         );
     }
@@ -38,7 +39,7 @@ final class TablesModifyTest extends UnitTestCase
         $tablesSelect = TablesModify::createFromYamlConfiguration($confArray);
 
         $this->assertSame(
-            'pages,sys_category,sys_file,sys_file_metadata,sys_file_reference,tt_content,tx_news_domain_model_link,tx_news_domain_model_news,tx_basepackage_accordion_content',
+            'pages,sys_category,sys_file,sys_file_metadata,sys_file_reference,tt_content,tx_basepackage_accordion_content,tx_news_domain_model_link,tx_news_domain_model_news',
             (string)$tablesSelect
         );
     }

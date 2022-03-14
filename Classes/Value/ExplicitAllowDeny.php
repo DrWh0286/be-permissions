@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Value;
 
+use Pluswerk\BePermissions\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class ExplicitAllowDeny implements ArrayBasedFieldInterface
@@ -35,6 +36,7 @@ final class ExplicitAllowDeny implements ArrayBasedFieldInterface
     /** @param array<string, array> $explicitAllowDeny */
     private function __construct(array $explicitAllowDeny)
     {
+        ArrayUtility::recursiveKsort($explicitAllowDeny);
         $this->explicitAllowDeny = $explicitAllowDeny;
     }
 

@@ -78,6 +78,8 @@ final class BeGroupConfiguration
             $array[$field->getFieldName()] = $field->yamlConfigurationValue();
         }
 
+        ksort($array);
+
         return $array;
     }
 

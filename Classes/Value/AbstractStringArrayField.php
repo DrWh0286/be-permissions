@@ -22,7 +22,8 @@ abstract class AbstractStringArrayField implements ArrayBasedFieldInterface
      */
     public function __construct(array $values)
     {
-        $this->values = $values;
+        asort($values);
+        $this->values = array_values($values);
     }
 
     public function yamlConfigurationValue(): array

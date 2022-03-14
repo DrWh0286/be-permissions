@@ -1,21 +1,21 @@
-title: 'Some group title'
-non_exclude_fields:
-  pages:
-    - title
-    - hidden
-  tt_content:
-    - hidden
-explicit_allowdeny: {  }
 allowed_languages: {  }
-db_mountpoints: {  }
-pagetypes_select: {  }
-tables_select: {  }
-tables_modify: {  }
-groupMods: {  }
 availableWidgets: {  }
-mfa_providers: {  }
+bulk_export: false
+category_perms: {  }
+db_mountpoints: {  }
+deploy_processing: extend
+explicit_allowdeny: {  }
 file_mountpoints: {  }
 file_permissions: {  }
-category_perms: {  }
-bulk_export: false
-deploy_processing: extend
+groupMods: {  }
+mfa_providers: {  }
+non_exclude_fields:
+  pages:
+    - hidden
+    - title
+  tt_content:
+    - hidden
+pagetypes_select: {  }
+tables_modify: {  }
+tables_select: {  }
+title: 'Some group title'

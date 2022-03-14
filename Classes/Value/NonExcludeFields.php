@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Value;
 
+use Pluswerk\BePermissions\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class NonExcludeFields implements ArrayBasedFieldInterface
@@ -35,6 +36,12 @@ final class NonExcludeFields implements ArrayBasedFieldInterface
     /** @param array<string, array> $nonExcludeFields */
     private function __construct(array $nonExcludeFields)
     {
+        ArrayUtility::ksortNestedAsort($nonExcludeFields);
+
+        foreach ($nonExcludeFields as $excludeFields) {
+            asort($excludeFields);
+        }
+
         $this->nonExcludeFields = $nonExcludeFields;
     }
 

@@ -58,7 +58,7 @@ final class DeployBeGroupsTest extends FunctionalTestCase
             1
         )->fetchAssociative();
 
-        $this->assertSame('pages:title,pages:hidden,tt_content:title,tt_content:hidden', $deployedGroupA['non_exclude_fields']);
+        $this->assertSame('pages:hidden,pages:title,tt_content:hidden,tt_content:title', $deployedGroupA['non_exclude_fields']);
 
         /** @var string[] $deployedGroupB */
         $deployedGroupB = $connection->select(
@@ -70,7 +70,7 @@ final class DeployBeGroupsTest extends FunctionalTestCase
             1
         )->fetchAssociative();
 
-        $this->assertSame('pages:title,pages:hidden,tt_content:hidden,tt_content:title', $deployedGroupB['non_exclude_fields']);
+        $this->assertSame('pages:hidden,pages:title,tt_content:hidden,tt_content:title', $deployedGroupB['non_exclude_fields']);
 
         /** @var string[] $deployedGroupD */
         $deployedGroupD = $connection->select(
@@ -82,7 +82,7 @@ final class DeployBeGroupsTest extends FunctionalTestCase
             1
         )->fetchAssociative();
 
-        $this->assertSame('pages:title,pages:hidden,tt_content:title', $deployedGroupD['non_exclude_fields']);
+        $this->assertSame('pages:hidden,pages:title,tt_content:title', $deployedGroupD['non_exclude_fields']);
 
         /** @var string[] $deployedGroupF */
         $deployedGroupF = $connection->select(
@@ -106,7 +106,7 @@ final class DeployBeGroupsTest extends FunctionalTestCase
             1
         )->fetchAssociative();
 
-        $this->assertSame('pages:title,pages:hidden,tt_content:hidden', $deployedGroupE['non_exclude_fields']);
+        $this->assertSame('pages:hidden,pages:title,tt_content:hidden', $deployedGroupE['non_exclude_fields']);
     }
 
     private function getConnection(): Connection

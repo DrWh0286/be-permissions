@@ -82,13 +82,7 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $expectedFilename = $configPath . '/be_groups/' . $identifier . '/be_group.yaml';
         $this->assertFileExists($expectedFilename);
         $expectedValue = [
-            'title' => 'Group title',
-            'non_exclude_fields' => [
-                'pages' => [
-                    'title',
-                    'media'
-                ]
-            ],
+            'allowed_languages' => [0,3,5],
             'explicit_allowdeny' => [
                 'tt_content' => [
                     'CType' => [
@@ -98,7 +92,13 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
                     ]
                 ]
             ],
-            'allowed_languages' => [0,3,5]
+            'non_exclude_fields' => [
+                'pages' => [
+                    'media',
+                    'title'
+                ]
+            ],
+            'title' => 'Group title'
         ];
 
         $expectedJsonString = file_get_contents($expectedFilename) ?: '';
@@ -182,14 +182,6 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $repository->write($config);
 
         $expectedValue = [
-            'title' => 'some group title',
-            'non_exclude_fields' => [
-                'pages' => [
-                    'title',
-                    'media',
-                    'some_field'
-                ]
-            ],
             'explicit_allowdeny' => [
                 'tt_content' => [
                     'CType' => [
@@ -198,11 +190,19 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
                         'textpic' => 'ALLOW'
                     ],
                     'list_type' => [
-                        'some_plugina' => 'ALLOW',
-                        'another_pluginb' => 'ALLOW'
+                        'another_pluginb' => 'ALLOW',
+                        'some_plugina' => 'ALLOW'
                     ]
                 ]
-            ]
+            ],
+            'non_exclude_fields' => [
+                'pages' => [
+                    'media',
+                    'some_field',
+                    'title'
+                ]
+            ],
+            'title' => 'some group title',
         ];
 
         $filename = $configPath . '/be_groups/' . $identifier . '/be_group.yaml';
@@ -312,15 +312,15 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $expectedFilename = $configPath . '/be_groups/' . $identifier . '/be_group.yaml';
         $this->assertFileExists($expectedFilename);
         $expectedValue = [
-            'title' => 'Group title',
+            'allowed_languages' => [],
+            'explicit_allowdeny' => [],
             'non_exclude_fields' => [
                 'pages' => [
-                    'title',
-                    'media'
+                    'media',
+                    'title'
                 ]
             ],
-            'explicit_allowdeny' => [],
-            'allowed_languages' => []
+            'title' => 'Group title'
         ];
 
         $actualJsonString = file_get_contents($expectedFilename) ?: '';

@@ -26,7 +26,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
      */
     public function can_be_created_from_database_value_and_returned_as_configuration_array(): void //phpcs:ignore
     {
-        $dbValue = 'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:some_plugina:ALLOW,tt_content:list_type:another_pluginb:ALLOW';
+        $dbValue = 'tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:CType:header:ALLOW,tt_content:list_type:some_plugina:ALLOW,tt_content:list_type:another_pluginb:ALLOW';
 
         $explicitAllowDeny = ExplicitAllowDeny::createFromDBValue($dbValue);
 
@@ -39,8 +39,8 @@ final class ExplicitAllowDenyTest extends UnitTestCase
                         'textpic' => 'ALLOW'
                     ],
                     'list_type' => [
-                        'some_plugina' => 'ALLOW',
-                        'another_pluginb' => 'ALLOW'
+                        'another_pluginb' => 'ALLOW',
+                        'some_plugina' => 'ALLOW'
                     ]
                 ]
             ],
@@ -56,8 +56,8 @@ final class ExplicitAllowDenyTest extends UnitTestCase
         $configArray = [
             'tt_content' => [
                 'CType' => [
-                    'header' => 'ALLOW',
                     'text' => 'ALLOW',
+                    'header' => 'ALLOW',
                     'textpic' => 'ALLOW'
                 ],
                 'list_type' => [
@@ -70,7 +70,7 @@ final class ExplicitAllowDenyTest extends UnitTestCase
         $explicitAllowDeny = ExplicitAllowDeny::createFromYamlConfiguration($configArray);
 
         $this->assertSame(
-            'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:some_plugina:ALLOW,tt_content:list_type:another_pluginb:ALLOW',
+            'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:another_pluginb:ALLOW,tt_content:list_type:some_plugina:ALLOW',
             (string)$explicitAllowDeny
         );
     }
