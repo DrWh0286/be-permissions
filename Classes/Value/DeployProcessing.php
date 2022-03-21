@@ -6,8 +6,6 @@ namespace Pluswerk\BePermissions\Value;
 
 use InvalidArgumentException;
 
-use function _PHPStan_76800bfb5\RingCentral\Psr7\str;
-
 final class DeployProcessing extends AbstractStringField
 {
     private const EXTEND = 'extend';

@@ -21,6 +21,10 @@ final class DbMountpoints extends AbstractIntArrayField
 
     public function extend(BeGroupFieldInterface $extendDbMountpoints): DbMountpoints
     {
+        if (!$extendDbMountpoints instanceof DbMountpoints) {
+            throw new \RuntimeException(__CLASS__ . ' cann not be extended by ' . get_class($extendDbMountpoints));
+        }
+
         return new self($this->extendHelper($extendDbMountpoints));
     }
 

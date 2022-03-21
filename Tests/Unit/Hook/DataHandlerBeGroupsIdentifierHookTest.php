@@ -81,4 +81,63 @@ final class DataHandlerBeGroupsIdentifierHookTest extends UnitTestCase
 
         $this->assertNotEmpty($incomingFieldArray['identifier']);
     }
+
+    /**
+     * @test
+     */
+    public function if_title_is_not_set_in_incoming_field_array_identifier_is_not_updated(): void //phpcs:ignore
+    {
+        $incomingFieldArray = [
+            'identifier' => '',
+            'anotherField' => 123
+        ];
+        $table = 'be_groups';
+        $id = 'NEW' . md5('this is a new id');
+        $dataHandler = $this->createMock(DataHandler::class);
+
+        $hook = new DataHandlerBeGroupsIdentifierHook();
+
+        $hook->processDatamap_preProcessFieldArray($incomingFieldArray, $table, $id, $dataHandler);
+
+        $this->assertEmpty($incomingFieldArray['identifier']);
+    }
+
+    /**
+     * @test
+     */
+    public function if_identifier_is_not_set_in_incoming_field_array_identifier_is_not_updated(): void //phpcs:ignore
+    {
+        $incomingFieldArray = [
+            'title' => 'Some Title'
+        ];
+        $table = 'be_groups';
+        $id = 'NEW' . md5('this is a new id');
+        $dataHandler = $this->createMock(DataHandler::class);
+
+        $hook = new DataHandlerBeGroupsIdentifierHook();
+
+        $hook->processDatamap_preProcessFieldArray($incomingFieldArray, $table, $id, $dataHandler);
+
+        $this->assertNull($incomingFieldArray['identifier'] ?? null);
+    }
+
+    /**
+     * @test
+     */
+    public function if_identifier_is_already_set_it_is_not_updated(): void //phpcs:ignore
+    {
+        $incomingFieldArray = [
+            'identifier' => 'already_set_identifier',
+            'title' => 'Some title'
+        ];
+        $table = 'be_groups';
+        $id = 'NEW' . md5('this is a new id');
+        $dataHandler = $this->createMock(DataHandler::class);
+
+        $hook = new DataHandlerBeGroupsIdentifierHook();
+
+        $hook->processDatamap_preProcessFieldArray($incomingFieldArray, $table, $id, $dataHandler);
+
+        $this->assertSame('already_set_identifier', $incomingFieldArray['identifier']);
+    }
 }

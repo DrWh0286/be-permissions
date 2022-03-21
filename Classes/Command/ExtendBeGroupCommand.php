@@ -29,6 +29,11 @@ final class ExtendBeGroupCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $identifierString = $input->getArgument('identifier');
+
+        if (!is_string($identifierString)) {
+            throw new \RuntimeException('identifier argument mus be a string!');
+        }
+
         $this->extendBeGroupByConfigurationFile->extendGroup($identifierString);
 
         return Command::SUCCESS;

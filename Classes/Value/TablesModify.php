@@ -28,6 +28,10 @@ final class TablesModify extends AbstractStringArrayField
 
     public function extend(BeGroupFieldInterface $tablesModify): TablesModify
     {
+        if (!$tablesModify instanceof TablesModify) {
+            throw new \RuntimeException(__CLASS__ . ' cann not be extended by ' . get_class($tablesModify));
+        }
+
         return new self($this->extendHelper($tablesModify));
     }
 

@@ -26,6 +26,9 @@ abstract class AbstractIntArrayField implements ArrayBasedFieldInterface
         $this->fieldValues = array_values($fieldValues);
     }
 
+    /**
+     * @return array<int>
+     */
     public function yamlConfigurationValue(): array
     {
         return $this->fieldValues;
@@ -37,9 +40,9 @@ abstract class AbstractIntArrayField implements ArrayBasedFieldInterface
     }
 
     /** @return array<int> */
-    public function extendHelper(BeGroupFieldInterface $extendDbMountpoints): array
+    public function extendHelper(AbstractIntArrayField $abstractIntArrayField): array
     {
-        $array = array_unique(array_merge($this->fieldValues, $extendDbMountpoints->yamlConfigurationValue()));
+        $array = array_unique(array_merge($this->fieldValues, $abstractIntArrayField->yamlConfigurationValue()));
         asort($array);
 
         return array_values($array);
