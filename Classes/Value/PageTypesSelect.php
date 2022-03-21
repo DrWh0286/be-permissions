@@ -21,6 +21,10 @@ final class PageTypesSelect extends AbstractIntArrayField
 
     public function extend(BeGroupFieldInterface $beGroupField): PageTypesSelect
     {
+        if (!$beGroupField instanceof PageTypesSelect) {
+            throw new \RuntimeException(__CLASS__ . ' cann not be extended by ' . get_class($beGroupField));
+        }
+
         return new self($this->extendHelper($beGroupField));
     }
 

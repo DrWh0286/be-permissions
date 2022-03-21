@@ -29,6 +29,11 @@ final class ExportBeGroupsCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $identifierString = $input->getArgument('identifier');
+
+        if (!is_string($identifierString)) {
+            throw new \RuntimeException('identifier argument mus be a string!');
+        }
+
         $this->exportBeGroupToConfigurationFile->exportGroup($identifierString);
 
         return Command::SUCCESS;

@@ -25,6 +25,9 @@ abstract class AbstractStringArrayField implements ArrayBasedFieldInterface
         $this->values = $values;
     }
 
+    /**
+     * @return array<string>
+     */
     public function yamlConfigurationValue(): array
     {
         return $this->values;
@@ -36,7 +39,7 @@ abstract class AbstractStringArrayField implements ArrayBasedFieldInterface
     }
 
     /** @return array<string> */
-    protected function extendHelper(BeGroupFieldInterface $tablesSelect): array
+    protected function extendHelper(AbstractStringArrayField $tablesSelect): array
     {
         $tablesSelectArray = array_unique(array_merge($this->values, $tablesSelect->yamlConfigurationValue()));
         asort($tablesSelectArray);

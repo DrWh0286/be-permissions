@@ -8,7 +8,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class ExplicitAllowDeny implements ArrayBasedFieldInterface
 {
-    /** @var array<string, array> */
+    /** @var array<string, array<string, array<string, string>>> */
     private array $explicitAllowDeny;
     private string $fieldName = 'explicit_allowdeny';
 
@@ -26,19 +26,19 @@ final class ExplicitAllowDeny implements ArrayBasedFieldInterface
         return new self($explicitAllowDeny);
     }
 
-    /** @param array<string, array> $configValue */
+    /** @param array<string, array<string, array<string, string>>> $configValue */
     public static function createFromYamlConfiguration(array $configValue): ExplicitAllowDeny
     {
         return new self($configValue);
     }
 
-    /** @param array<string, array> $explicitAllowDeny */
+    /** @param array<string, array<string, array<string, string>>> $explicitAllowDeny */
     private function __construct(array $explicitAllowDeny)
     {
         $this->explicitAllowDeny = $explicitAllowDeny;
     }
 
-    /** @return array<string, array> */
+    /** @return array<string, array<string, array<string, string>>> */
     public function yamlConfigurationValue(): array
     {
         return $this->explicitAllowDeny;
@@ -64,7 +64,7 @@ final class ExplicitAllowDeny implements ArrayBasedFieldInterface
 
     public function extend(BeGroupFieldInterface $extendingExplicitAllowDeny): ExplicitAllowDeny
     {
-        $extendedArray = array_replace_recursive($this->explicitAllowDeny, $extendingExplicitAllowDeny->yamlConfigurationValue());
+        $extendedArray = array_replace_recursive($this->explicitAllowDeny, (array)$extendingExplicitAllowDeny->yamlConfigurationValue());
 
         return new ExplicitAllowDeny($extendedArray);
     }

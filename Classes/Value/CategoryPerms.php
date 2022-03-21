@@ -19,9 +19,13 @@ final class CategoryPerms extends AbstractIntArrayField
         return new self(self::createFromDBValueHelper($dbValue));
     }
 
-    public function extend(BeGroupFieldInterface $beGroupField): CategoryPerms
+    public function extend(BeGroupFieldInterface $categoryPerms): CategoryPerms
     {
-        return new self($this->extendHelper($beGroupField));
+        if (!$categoryPerms instanceof CategoryPerms) {
+            throw new \RuntimeException(__CLASS__ . ' cann not be extended by ' . get_class($categoryPerms));
+        }
+
+        return new self($this->extendHelper($categoryPerms));
     }
 
     public function getFieldName(): string

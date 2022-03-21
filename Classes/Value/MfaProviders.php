@@ -8,6 +8,10 @@ final class MfaProviders extends AbstractStringArrayField
 {
     private string $fieldName = 'mfa_providers';
 
+    /**
+     * @param array<string> $configValue
+     * @return MfaProviders
+     */
     public static function createFromYamlConfiguration(array $configValue): MfaProviders
     {
         return new self($configValue);
@@ -18,9 +22,13 @@ final class MfaProviders extends AbstractStringArrayField
         return new self(self::createFromDBValueHelper($dbValue));
     }
 
-    public function extend(BeGroupFieldInterface $availableWidgets): MfaProviders
+    public function extend(BeGroupFieldInterface $mfaProviders): MfaProviders
     {
-        return new self($this->extendHelper($availableWidgets));
+        if (!$mfaProviders instanceof MfaProviders) {
+            throw new \RuntimeException(__CLASS__ . ' cann not be extended by ' . get_class($mfaProviders));
+        }
+
+        return new self($this->extendHelper($mfaProviders));
     }
 
     public function getFieldName(): string

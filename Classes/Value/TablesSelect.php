@@ -24,6 +24,10 @@ final class TablesSelect extends AbstractStringArrayField
 
     public function extend(BeGroupFieldInterface $tablesSelect): TablesSelect
     {
+        if (!$tablesSelect instanceof TablesSelect) {
+            throw new \RuntimeException(__CLASS__ . ' cann not be extended by ' . get_class($tablesSelect));
+        }
+
         return new self($this->extendHelper($tablesSelect));
     }
 

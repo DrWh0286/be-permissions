@@ -24,6 +24,7 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
     {
         $connection = $this->getConnection();
 
+        /** @var array<string> $row */
         $row = $connection->select(
             ['*'],
             'be_groups',
@@ -75,6 +76,7 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
 
         $beGroups = [];
 
+        /** @var array<string> $row */
         foreach ($rows as $row) {
             if (is_array($row) && !empty($row) && isset($row['identifier']) && !empty($row['identifier'])) {
                 $collection = $this->beGroupFieldCollectionBuilder->buildFromDatabaseValues($row);
