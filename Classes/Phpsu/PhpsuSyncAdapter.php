@@ -35,7 +35,7 @@ final class PhpsuSyncAdapter implements PhpsuSyncAdapterInterface
             ->setCurrentHost('')
             ->setDryRun(false)
             ->setAll(false)
-            ->setTablesToSync('be_users')
+            ->setTablesToSync('be_groups')
             ->setNoFiles(true)
             ->setNoDatabases(false);
 
