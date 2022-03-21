@@ -25,6 +25,8 @@ final class LocalSyncAndExport
 
     public function syncAndExport(string $source, OutputInterface $output): void
     {
+        $this->phpsuSyncAdapter->checkPhpsuInstallation();
+
         $this->bulkExportBeGroupsToConfigurationFiles->exportGroups();
         $this->phpsuSyncAdapter->syncBeGroups($source, $output);
         $this->deployBeGroups->deployGroups();

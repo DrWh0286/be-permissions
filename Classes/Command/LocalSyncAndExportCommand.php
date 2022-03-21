@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Command;
 
+use Pluswerk\BePermissions\Phpsu\PhpsuSyncAdapter;
 use Pluswerk\BePermissions\UseCase\LocalSyncAndExport;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
@@ -28,6 +29,8 @@ final class LocalSyncAndExportCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+        PhpsuSyncAdapter::staticCheckPhpsuInstallation();
+
         $source = $input->getArgument('source');
 
         if (!is_string($source)) {

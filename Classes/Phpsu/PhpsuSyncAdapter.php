@@ -15,9 +15,7 @@ final class PhpsuSyncAdapter implements PhpsuSyncAdapterInterface
 {
     public function syncBeGroups(string $source, OutputInterface $output): void
     {
-        if (!class_exists(Controller::class) || !class_exists(ConfigurationLoader::class)) {
-            throw new \RuntimeException('To run this command the package phpsu/phpsu needs to be installed!');
-        }
+        self::checkPhpsuInstallation();
 
         /** @var ConfigurationLoader $configurationLoader */
         $configurationLoader = GeneralUtility::makeInstance(ConfigurationLoader::class);
@@ -42,5 +40,22 @@ final class PhpsuSyncAdapter implements PhpsuSyncAdapterInterface
         $controller->checkSshConnection($output, $configuration, $options);
 
         $controller->sync($output, $configuration, $options);
+    }
+
+    public function checkPhpsuInstallation(): void
+    {
+        self::theRealPhpsuInstallationCheck();
+    }
+
+    public static function staticCheckPhpsuInstallation(): void
+    {
+        self::theRealPhpsuInstallationCheck();
+    }
+
+    private static function theRealPhpsuInstallationCheck(): void
+    {
+        if (!class_exists(Controller::class) || !class_exists(ConfigurationLoader::class)) {
+            throw new \RuntimeException('To run this command the package phpsu/phpsu needs to be installed!');
+        }
     }
 }
