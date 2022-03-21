@@ -32,6 +32,10 @@ final class AllowedLanguages extends AbstractIntArrayField
      */
     public function extend(BeGroupFieldInterface $extendAllowedLanguages): AllowedLanguages
     {
+        if (!$extendAllowedLanguages instanceof AllowedLanguages) {
+            throw new \RuntimeException(__CLASS__ . ' cann not be extended by ' . get_class($extendAllowedLanguages));
+        }
+
         return new self($this->extendHelper($extendAllowedLanguages));
     }
 

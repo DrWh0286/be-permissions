@@ -29,6 +29,11 @@ final class OverruleBeGroupCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $identifierString = $input->getArgument('identifier');
+
+        if (!is_string($identifierString)) {
+            throw new \RuntimeException('identifier argument mus be a string!');
+        }
+
         $this->overruleBeGroupFromConfigurationFile->overruleGroup($identifierString);
 
         return Command::SUCCESS;

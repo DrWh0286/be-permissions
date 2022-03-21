@@ -41,6 +41,12 @@
       "extension-key": "be_permissions",
       "cms-package-dir": "{$vendor-dir}/typo3/cms",
       "web-dir": ".Build/public"
+    },
+    "pluswerk/grumphp-config": {
+      "auto-setting": false
+    },
+    "grumphp": {
+      "config-default-path": "grumphp.yml"
     }
   },
   "config": {

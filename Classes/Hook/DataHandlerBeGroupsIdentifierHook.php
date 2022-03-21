@@ -18,7 +18,7 @@ final class DataHandlerBeGroupsIdentifierHook
      */
     public function processDatamap_preProcessFieldArray(array &$incomingFieldArray, string $table, string $id, DataHandler $dataHandler): void //phpcs:ignore
     {
-        if ($table === 'be_groups') {
+        if ($this->identifierNeedsUpdate($table, $incomingFieldArray)) {
             $title = $incomingFieldArray['title'];
 
             if (is_string($title) && !empty($title)) {
@@ -33,5 +33,19 @@ final class DataHandlerBeGroupsIdentifierHook
                 $incomingFieldArray['identifier'] = md5((string)time());
             }
         }
+    }
+
+    /**
+     * @param string $table
+     * @param array<mixed> $incomingFieldArray
+     * @return bool
+     */
+    private function identifierNeedsUpdate(string $table, array $incomingFieldArray): bool
+    {
+        return ($table === 'be_groups'
+            && isset($incomingFieldArray['title'])
+            && isset($incomingFieldArray['identifier'])
+            && empty($incomingFieldArray['identifier'])
+        );
     }
 }

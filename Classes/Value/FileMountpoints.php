@@ -19,9 +19,13 @@ final class FileMountpoints extends AbstractIntArrayField
         return new self(self::createFromDBValueHelper($dbValue));
     }
 
-    public function extend(BeGroupFieldInterface $beGroupField): FileMountpoints
+    public function extend(BeGroupFieldInterface $fileMountpoints): FileMountpoints
     {
-        return new self($this->extendHelper($beGroupField));
+        if (!$fileMountpoints instanceof FileMountpoints) {
+            throw new \RuntimeException(__CLASS__ . ' cann not be extended by ' . get_class($fileMountpoints));
+        }
+
+        return new self($this->extendHelper($fileMountpoints));
     }
 
     public function getFieldName(): string

@@ -24,6 +24,10 @@ final class FilePermissions extends AbstractStringArrayField
 
     public function extend(BeGroupFieldInterface $filePermissions): FilePermissions
     {
+        if (!$filePermissions instanceof FilePermissions) {
+            throw new \RuntimeException(__CLASS__ . ' cann not be extended by ' . get_class($filePermissions));
+        }
+
         return new self($this->extendHelper($filePermissions));
     }
 

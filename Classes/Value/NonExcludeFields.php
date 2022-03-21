@@ -9,7 +9,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class NonExcludeFields implements ArrayBasedFieldInterface
 {
-    /** @var array<string, array> */
+    /** @var array<string, array<string>> */
     private array $nonExcludeFields;
     private string $fieldName = 'non_exclude_fields';
 
@@ -27,13 +27,13 @@ final class NonExcludeFields implements ArrayBasedFieldInterface
         return new self($nonExcludeFieldsArray);
     }
 
-    /** @param array<string, array> $configValue */
+    /** @param array<string, array<string>> $configValue */
     public static function createFromYamlConfiguration(array $configValue): NonExcludeFields
     {
         return new self($configValue);
     }
 
-    /** @param array<string, array> $nonExcludeFields */
+    /** @param array<string, array<string>> $nonExcludeFields */
     private function __construct(array $nonExcludeFields)
     {
         ArrayUtility::ksortNestedAsort($nonExcludeFields);
@@ -45,7 +45,7 @@ final class NonExcludeFields implements ArrayBasedFieldInterface
         $this->nonExcludeFields = $nonExcludeFields;
     }
 
-    /** @return array<string, array> */
+    /** @return array<string, array<string>> */
     public function yamlConfigurationValue(): array
     {
         return $this->nonExcludeFields;
@@ -66,7 +66,7 @@ final class NonExcludeFields implements ArrayBasedFieldInterface
 
     public function extend(BeGroupFieldInterface $extendingNonExcludeFields): NonExcludeFields
     {
-        $extendedArray = array_merge_recursive($this->nonExcludeFields, $extendingNonExcludeFields->yamlConfigurationValue());
+        $extendedArray = array_merge_recursive($this->nonExcludeFields, (array)$extendingNonExcludeFields->yamlConfigurationValue());
 
         foreach ($extendedArray as $table => $fields) {
             $extendedArray[$table] = array_values(array_unique($fields));

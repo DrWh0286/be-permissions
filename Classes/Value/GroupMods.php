@@ -24,6 +24,10 @@ final class GroupMods extends AbstractStringArrayField
 
     public function extend(BeGroupFieldInterface $groupMods): GroupMods
     {
+        if (!$groupMods instanceof GroupMods) {
+            throw new \RuntimeException(__CLASS__ . ' cann not be extended by ' . get_class($groupMods));
+        }
+
         return new self($this->extendHelper($groupMods));
     }
 

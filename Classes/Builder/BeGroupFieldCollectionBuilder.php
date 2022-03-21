@@ -42,7 +42,7 @@ final class BeGroupFieldCollectionBuilder
     }
 
     /**
-     * @param array<string, array> $configurationArray
+     * @param array<string, array<int|string, array<int, string>|string>> $configurationArray
      * @return BeGroupFieldCollection
      * @throws DuplicateBeGroupFieldException
      */

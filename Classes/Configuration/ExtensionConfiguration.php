@@ -27,8 +27,8 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration as T3ExtensionConfigurat
 
 final class ExtensionConfiguration implements SingletonInterface, ExtensionConfigurationInterface
 {
-    /** @var array<array, string>|null */
-    private ?array $config = null;
+    /** @var array|string[][] */
+    private array $config = [];
 
     /** @var array|string[][] */
     private array $baseConfig = [
@@ -67,17 +67,18 @@ final class ExtensionConfiguration implements SingletonInterface, ExtensionConfi
     }
 
     /**
-     * @return array<array, string>
+     * @return array|string[][]
      * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
      * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
      */
     private function getConfig(): array
     {
-        if ($this->config === null) {
+        if (empty($this->config)) {
             /** @var T3ExtensionConfiguration $config */
             $config = GeneralUtility::makeInstance(T3ExtensionConfiguration::class);
-            $tmpConfig = $config->get('be_permissions');
-            /** @var array<array, string> $resultingConfig */
+            /** @var array|string[][] $tmpConfig */
+            $tmpConfig = (array)$config->get('be_permissions');
+            /** @var array|string[][] $resultingConfig */
             $resultingConfig = array_replace_recursive($this->baseConfig, $tmpConfig);
             $this->config = $resultingConfig;
         }
