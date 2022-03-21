@@ -7,6 +7,12 @@ services:
   Pluswerk\BePermissions\:
       resource: '../Classes/*'
 
+  Pluswerk\BePermissions\Command\LocalSyncAndExportCommand:
+    public: true
+    tags:
+      - name: 'console.command'
+        command: 'bepermission:localsyncandexport'
+        description: 'Bulk exports local groups, sync be_groups table from given source (default staging), extends local be_groups and export the result again.'
   Pluswerk\BePermissions\Command\DeployCommand:
     public: true
     tags:
