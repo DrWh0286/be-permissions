@@ -24,7 +24,7 @@ final class TablesSelectTest extends UnitTestCase
         $tablesSelect = TablesSelect::createFromDBValue($dbValue);
 
         $this->assertSame(
-            ['pages','sys_category','sys_file','sys_file_metadata','sys_file_reference','tt_content','tx_news_domain_model_link','tx_news_domain_model_news','tx_basepackage_accordion_content'],
+            ['pages','sys_category','sys_file','sys_file_metadata','sys_file_reference','tt_content','tx_basepackage_accordion_content','tx_news_domain_model_link','tx_news_domain_model_news'],
             $tablesSelect->yamlConfigurationValue()
         );
     }
@@ -39,7 +39,7 @@ final class TablesSelectTest extends UnitTestCase
         $tablesSelect = TablesSelect::createFromYamlConfiguration($confArray);
 
         $this->assertSame(
-            'pages,sys_category,sys_file,sys_file_metadata,sys_file_reference,tt_content,tx_news_domain_model_link,tx_news_domain_model_news,tx_basepackage_accordion_content',
+            'pages,sys_category,sys_file,sys_file_metadata,sys_file_reference,tt_content,tx_basepackage_accordion_content,tx_news_domain_model_link,tx_news_domain_model_news',
             (string)$tablesSelect
         );
     }

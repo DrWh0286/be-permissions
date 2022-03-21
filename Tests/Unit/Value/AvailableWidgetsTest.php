@@ -23,7 +23,7 @@ final class AvailableWidgetsTest extends UnitTestCase
         $availableWidgets = AvailableWidgets::createFromDBValue($dbValue);
 
         $this->assertSame(
-            ['t3news', 'sysLogErrors'],
+            ['sysLogErrors', 't3news'],
             $availableWidgets->yamlConfigurationValue()
         );
     }
@@ -38,7 +38,7 @@ final class AvailableWidgetsTest extends UnitTestCase
         $availableWidgets = AvailableWidgets::createFromYamlConfiguration($confArray);
 
         $this->assertSame(
-            't3news,sysLogErrors',
+            'sysLogErrors,t3news',
             (string)$availableWidgets
         );
     }

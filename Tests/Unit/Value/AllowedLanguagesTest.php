@@ -18,7 +18,7 @@ final class AllowedLanguagesTest extends UnitTestCase
      */
     public function can_be_created_from_database_value_and_returned_as_configuration_array(): void //phpcs:ignore
     {
-        $dbValue = '0,3,5';
+        $dbValue = '0,5,3';
 
         $allowedLanguages = AllowedLanguages::createFromDBValue($dbValue);
 

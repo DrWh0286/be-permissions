@@ -26,14 +26,14 @@ final class NonExcludeFieldsTest extends UnitTestCase
      */
     public function can_be_created_from_database_value_and_returned_as_array(): void //phpcs:ignore
     {
-        $dbValue = 'pages:media,pages:hidden,tt_content:pages,tt_content:date';
+        $dbValue = 'tt_content:pages,tt_content:date,pages:media,pages:hidden';
 
         $nonExcludeFields = NonExcludeFields::createFromDBValue($dbValue);
 
         $this->assertSame(
             [
-                'pages' => ['media', 'hidden'],
-                'tt_content' => ['pages', 'date']
+                'pages' => ['hidden', 'media'],
+                'tt_content' => ['date', 'pages']
             ],
             $nonExcludeFields->yamlConfigurationValue()
         );
@@ -46,13 +46,13 @@ final class NonExcludeFieldsTest extends UnitTestCase
     {
         $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
-                'pages' => ['media', 'hidden'],
-                'tt_content' => ['pages', 'date']
+                'tt_content' => ['pages', 'date'],
+                'pages' => ['media', 'hidden']
             ]
         );
 
         $this->assertSame(
-            'pages:media,pages:hidden,tt_content:pages,tt_content:date',
+            'pages:hidden,pages:media,tt_content:date,tt_content:pages',
             (string)$nonExcludeFields
         );
     }
@@ -78,8 +78,8 @@ final class NonExcludeFieldsTest extends UnitTestCase
 
         $expectedNonExcludeFields = NonExcludeFields::createFromYamlConfiguration(
             [
-                'pages' => ['media', 'hidden', 'title'],
-                'tt_content' => ['pages', 'date', 'another_field']
+                'pages' => ['hidden', 'media', 'title'],
+                'tt_content' => ['another_field', 'date', 'pages']
             ]
         );
 

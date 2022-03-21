@@ -34,14 +34,14 @@ final class BeGroupFieldCollectionBuilderTest extends UnitTestCase
         ];
 
         $nonExcludeFields = NonExcludeFields::createFromDBValue('pages:media,pages:hidden,tt_content:pages,tt_content:date');
-        $tablesSelect = TablesSelect::createFromDBValue('pages,tt_content,tx_news_domain_model_link,tx_news_domain_model_news');
+        $tablesSelect = TablesSelect::createFromDBValue('tt_content,tx_news_domain_model_link,pages,tx_news_domain_model_news');
         $expectedCollection = new BeGroupFieldCollection();
         $expectedCollection->add($nonExcludeFields);
         $expectedCollection->add($tablesSelect);
 
         $fieldFactory->expects($this->exactly(2))
             ->method('buildFromFieldNameAndDatabaseValue')
-            ->withConsecutive([$nonExcludeFields->getFieldName(), (string)$nonExcludeFields], [$tablesSelect->getFieldName(), (string)$tablesSelect])
+            ->withConsecutive([$nonExcludeFields->getFieldName(), 'pages:media,pages:hidden,tt_content:pages,tt_content:date'], [$tablesSelect->getFieldName(), (string)$tablesSelect])
             ->willReturnOnConsecutiveCalls($nonExcludeFields, $tablesSelect);
 
         $collection = $builder->buildFromDatabaseValues($dbValues);
