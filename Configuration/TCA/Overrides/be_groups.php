@@ -27,6 +27,19 @@ call_user_func(function () {
                 ],
             ]
         ],
+        'export_with_save' => [
+            'label' => 'export with save',
+            'config' => [
+                'type' => 'check',
+                'renderType' => 'checkboxToggle',
+                'items' => [
+                    [
+                        0 => '',
+                        1 => '',
+                    ]
+                ],
+            ]
+        ],
         'deploy_processing' => [
             'label' => 'Deploy Processing',
             'config' => [
@@ -39,5 +52,5 @@ call_user_func(function () {
     ];
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_groups', $fields);
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_groups', 'identifier,bulk_export,deploy_processing', '', 'after:title');
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_groups', 'identifier,export_with_save,bulk_export,deploy_processing', '', 'after:title');
 });

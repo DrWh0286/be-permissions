@@ -20,6 +20,7 @@ use Pluswerk\BePermissions\Value\CategoryPerms;
 use Pluswerk\BePermissions\Value\DbMountpoints;
 use Pluswerk\BePermissions\Value\DeployProcessing;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
+use Pluswerk\BePermissions\Value\ExportWithSave;
 use Pluswerk\BePermissions\Value\FileMountpoints;
 use Pluswerk\BePermissions\Value\FilePermissions;
 use Pluswerk\BePermissions\Value\GroupMods;
@@ -135,6 +136,7 @@ final class ExtendOrCreateBeGroupByConfigurationFileTest extends FunctionalTestC
         $expectedCollection->add(CategoryPerms::createFromYamlConfiguration([]));
         $expectedCollection->add(BulkExport::createFromYamlConfiguration(true));
         $expectedCollection->add(DeployProcessing::createFromDBValue(''));
+        $expectedCollection->add(ExportWithSave::createFromDBValue(''));
         $expectedBeGroup = new BeGroup(
             $identifier,
             $expectedCollection
@@ -215,6 +217,7 @@ final class ExtendOrCreateBeGroupByConfigurationFileTest extends FunctionalTestC
         $expectedCollection->add(CategoryPerms::createFromYamlConfiguration([]));
         $expectedCollection->add(BulkExport::createFromYamlConfiguration(true));
         $expectedCollection->add(DeployProcessing::createFromDBValue(''));
+        $expectedCollection->add(ExportWithSave::createFromDBValue(''));
         $expectedBeGroup = new BeGroup(
             $identifier,
             $expectedCollection

@@ -13,6 +13,7 @@ use Pluswerk\BePermissions\Value\CategoryPerms;
 use Pluswerk\BePermissions\Value\DbMountpoints;
 use Pluswerk\BePermissions\Value\DeployProcessing;
 use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
+use Pluswerk\BePermissions\Value\ExportWithSave;
 use Pluswerk\BePermissions\Value\FileMountpoints;
 use Pluswerk\BePermissions\Value\FilePermissions;
 use Pluswerk\BePermissions\Value\GroupMods;
@@ -92,7 +93,8 @@ final class ExtensionConfigurationTest extends UnitTestCase
             'availableWidgets' => AvailableWidgets::class,
             'mfa_providers' => MfaProviders::class,
             'deploy_processing' => DeployProcessing::class,
-            'bulk_export' => BulkExport::class
+            'bulk_export' => BulkExport::class,
+            'export_with_save' => ExportWithSave::class
         ];
 
         $extensionConfiguration = new ExtensionConfiguration();
