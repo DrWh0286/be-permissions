@@ -7,8 +7,6 @@ namespace Pluswerk\BePermissions\Tests\Unit\Hook;
 use Pluswerk\BePermissions\Value\Identifier;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 use Pluswerk\BePermissions\Hook\DataHandlerBeGroupsIdentifierHook;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**

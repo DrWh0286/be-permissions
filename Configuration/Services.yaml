@@ -4,6 +4,11 @@ services:
     autoconfigure: true
     public: false
 
+  cache.api_routes:
+    class: TYPO3\CMS\Core\Cache\Frontend\FrontendInterface
+    factory: ['@TYPO3\CMS\Core\Cache\CacheManager', 'getCache']
+    arguments: ['bepermissions_apiroutes']
+
   Pluswerk\BePermissions\:
       resource: '../Classes/*'
 
@@ -55,5 +60,11 @@ services:
   Pluswerk\BePermissions\UseCase\ExtendOrCreateBeGroupByConfigurationFile:
     public: true
   Pluswerk\BePermissions\Repository\BeGroupRepository:
+    public: true
+  Pluswerk\BePermissions\Middleware\BePermissionsApiMiddleware:
+    public: true
+    arguments:
+      $cache: '@cache.api_routes'
+  Pluswerk\BePermissions\Api\Controller\BeGroupsController:
     public: true
 

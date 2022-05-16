@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Repository;
 
 use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilder;
+use Pluswerk\BePermissions\Collection\BeGroupCollection;
 use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Value\Identifier;
 use TYPO3\CMS\Core\Database\Connection;
@@ -64,7 +65,7 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
         );
     }
 
-    public function findAllForBulkExport(): array
+    public function findAllForBulkExport(): BeGroupCollection
     {
         $connection = $this->getConnection();
 
@@ -74,7 +75,7 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
             ['bulk_export' => 1]
         )->fetchAllAssociative();
 
-        $beGroups = [];
+        $beGroups = new BeGroupCollection();
 
         /** @var array<string> $row */
         foreach ($rows as $row) {
@@ -82,16 +83,74 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
                 $collection = $this->beGroupFieldCollectionBuilder->buildFromDatabaseValues($row);
                 $identifier = new Identifier($row['identifier']);
 
-                $beGroups[] = new BeGroup($identifier, $collection);
+                $beGroups->add(new BeGroup($identifier, $collection));
             }
         }
 
         return $beGroups;
     }
 
+    public function addOrUpdateBeGroups(BeGroupCollection $beGroups): void
+    {
+        /** @var BeGroup $beGroup */
+        foreach ($beGroups as $beGroup) {
+            if ($this->isGroupPresent($beGroup)) {
+                $this->update($beGroup);
+            } else {
+                $this->add($beGroup);
+            }
+        }
+    }
+
+    /**
+     * @todo Add test!
+     */
+    public function findOneByUid(int $uid): ?BeGroup
+    {
+        $connection = $this->getConnection();
+        /** @var array<string> $row */
+        $row = $connection->select(
+            ['*'],
+            'be_groups',
+            ['uid' => $uid],
+            [],
+            [],
+            1
+        )->fetchAssociative();
+
+        if (is_array($row) && !empty($row) && isset($row['identifier']) && !empty($row['identifier'])) {
+            $collection = $this->beGroupFieldCollectionBuilder->buildFromDatabaseValues($row);
+            $identifier = new Identifier($row['identifier']);
+            return new BeGroup($identifier, $collection);
+        }
+
+        return null;
+    }
+
     private function getConnection(): Connection
     {
         /** @phpstan-ignore-next-line */
         return GeneralUtility::makeInstance(ConnectionPool::class)->getConnectionForTable('be_groups');
+    }
+
+    private function isGroupPresent(BeGroup $beGroup): bool
+    {
+        $connection = $this->getConnection();
+
+        /** @var array<string> $row */
+        $row = $connection->select(
+            ['*'],
+            'be_groups',
+            ['identifier' => (string)$beGroup->identifier()],
+            [],
+            [],
+            1
+        )->fetchAssociative();
+
+        if (is_array($row) && !empty($row) && $row['identifier'] === (string)$beGroup->identifier()) {
+            return true;
+        }
+
+        return false;
     }
 }

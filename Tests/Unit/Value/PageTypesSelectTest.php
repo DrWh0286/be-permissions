@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Tests\Unit\Value;
 
 use Pluswerk\BePermissions\Value\AbstractIntArrayField;
-use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use Pluswerk\BePermissions\Value\PageTypesSelect;
 

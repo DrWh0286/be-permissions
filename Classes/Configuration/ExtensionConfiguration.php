@@ -14,7 +14,6 @@ use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\FileMountpoints;
 use Pluswerk\BePermissions\Value\FilePermissions;
 use Pluswerk\BePermissions\Value\GroupMods;
-use Pluswerk\BePermissions\Value\LockToDomain;
 use Pluswerk\BePermissions\Value\MfaProviders;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
 use Pluswerk\BePermissions\Value\PageTypesSelect;
@@ -64,6 +63,26 @@ final class ExtensionConfiguration implements SingletonInterface, ExtensionConfi
         }
 
         return $config['valueObjectMapping'][$fieldName];
+    }
+
+    public function getProductionHost(): string
+    {
+        $config = $this->getConfig();
+
+        $host = (isset($config['productionHost']) && is_string($config['productionHost'])) ? $config['productionHost'] : '';
+
+        if (!is_string($host)) {
+            throw new \RuntimeException('productionHost must be a string!');
+        }
+
+        return $host;
+    }
+
+    public function getApiToken(): string
+    {
+        $config = $this->getConfig();
+
+        return (isset($config['apiToken']) && is_string($config['apiToken'])) ? $config['apiToken'] : '';
     }
 
     /**

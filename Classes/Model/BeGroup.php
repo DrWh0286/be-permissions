@@ -4,19 +4,37 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Model;
 
+use JsonSerializable;
+use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilderInterface;
 use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
-use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
-use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
 use Pluswerk\BePermissions\Value\Identifier;
-use Pluswerk\BePermissions\Value\NonExcludeFields;
 
-final class BeGroup
+final class BeGroup implements JsonSerializable
 {
     private Identifier $identifier;
     /** @var BeGroupFieldCollection<BeGroupFieldInterface> */
     private BeGroupFieldCollection $beGroupFieldCollection;
+
+    public static function createFromJson(string $json, BeGroupFieldCollectionBuilderInterface $builder): BeGroup
+    {
+        $array = (array)json_decode($json, true);
+        $identifierString = (isset($array['identifier']) && is_string($array['identifier']))
+            ? $array['identifier']
+            : '';
+
+        $identifier = new Identifier($identifierString);
+        unset($array['identifier']);
+
+        $beGroupFieldCollection = (isset($array['beGroupFieldCollection']) && is_array($array['beGroupFieldCollection']))
+            ? $array['beGroupFieldCollection']
+            : [];
+
+        $collection = $builder->buildFromConfigurationArray($beGroupFieldCollection);
+
+        return new BeGroup($identifier, $collection);
+    }
 
     /**
      * @param Identifier $identifier
@@ -72,5 +90,20 @@ final class BeGroup
             $this->identifier,
             $collection
         );
+    }
+
+    /**
+     * @return array<string, array<string, mixed>|string>
+     */
+    public function jsonSerialize(): array
+    {
+        $jsonArray = ['identifier' => (string)$this->identifier];
+
+        /** @var BeGroupFieldInterface $field */
+        foreach ($this->beGroupFieldCollection as $field) {
+            $jsonArray['beGroupFieldCollection'][$field->getFieldName()] = $field->yamlConfigurationValue();
+        }
+
+        return $jsonArray;
     }
 }

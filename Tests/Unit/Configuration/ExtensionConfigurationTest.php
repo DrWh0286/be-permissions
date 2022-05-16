@@ -101,4 +101,44 @@ final class ExtensionConfigurationTest extends UnitTestCase
             $this->assertSame($mappingEntry, $extensionConfiguration->getClassNameByFieldName($fieldName));
         }
     }
+
+    /**
+     * @test
+     */
+    public function configuration_fetches_production_host_from_extensions_configuration(): void //phpcs:ignore
+    {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_permissions'] = [
+            'productionHost' => 'https://production.host'
+        ];
+
+        $extensionConfiguration = new ExtensionConfiguration();
+
+        $this->assertSame('https://production.host', $extensionConfiguration->getProductionHost());
+    }
+
+    /**
+     * @test
+     */
+    public function default_api_token_is_empty_string(): void //phpcs:ignore
+    {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_permissions'] = [];
+
+        $extensionConfiguration = new ExtensionConfiguration();
+
+        $this->assertSame('', $extensionConfiguration->getApiToken());
+    }
+
+    /**
+     * @test
+     */
+    public function configured_api_token_is_returned(): void //phpcs:ignore
+    {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_permissions'] = [
+            'apiToken' => 'thisisadummyapitokenfortesting'
+        ];
+
+        $extensionConfiguration = new ExtensionConfiguration();
+
+        $this->assertSame('thisisadummyapitokenfortesting', $extensionConfiguration->getApiToken());
+    }
 }

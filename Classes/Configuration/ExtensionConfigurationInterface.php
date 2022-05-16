@@ -10,4 +10,6 @@ interface ExtensionConfigurationInterface
      * @throws NoValueObjectConfiguredException
      */
     public function getClassNameByFieldName(string $fieldName): string;
+    public function getProductionHost(): string;
+    public function getApiToken(): string;
 }

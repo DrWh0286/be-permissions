@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Unit\Model;
 
+use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilderInterface;
 use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
 use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
 use Pluswerk\BePermissions\Value\AllowedLanguages;
@@ -245,6 +246,79 @@ final class BeGroupTest extends UnitTestCase
         $expectedBeGroup = new BeGroup($group->identifier(), $collection);
 
         $this->assertEquals($expectedBeGroup, $extendedBeGroup);
+    }
+
+    /**
+     * @test
+     */
+    public function be_group_is_json_serializable(): void //phpcs:ignore
+    {
+        $group = $this->createTestGroup();
+
+        $this->assertSame(json_encode([
+            'identifier' => 'some-identifier',
+            'beGroupFieldCollection' => [
+                'title' => '[PERM] Basic permissions',
+                'non_exclude_fields' => [
+                    'pages' => ['hidden', 'media'],
+                    'tt_content' => ['date', 'pages']
+                ],
+                'explicit_allowdeny' => [
+                    'tt_content' => [
+                        'CType' => [
+                            'header' => 'ALLOW',
+                            'text' => 'ALLOW',
+                            'textpic' => 'ALLOW'
+                        ],
+                        'list_type' => [
+                            'another_pluginb' => 'ALLOW',
+                            'some_plugina' => 'ALLOW'
+                        ]
+                    ]
+                ],
+                'allowed_languages' => [0,3,5]
+            ]
+        ]), json_encode($group));
+    }
+
+    /**
+     * @test
+     */
+    public function can_be_created_from_json(): void //phpcs:ignore
+    {
+        $jsonString = json_encode([
+            'identifier' => 'some-identifier',
+            'beGroupFieldCollection' => [
+                'title' => '[PERM] Basic permissions',
+                'non_exclude_fields' => [
+                    'pages' => ['hidden', 'media'],
+                    'tt_content' => ['date', 'pages']
+                ],
+                'explicit_allowdeny' => [
+                    'tt_content' => [
+                        'CType' => [
+                            'header' => 'ALLOW',
+                            'text' => 'ALLOW',
+                            'textpic' => 'ALLOW'
+                        ],
+                        'list_type' => [
+                            'another_pluginb' => 'ALLOW',
+                            'some_plugina' => 'ALLOW'
+                        ]
+                    ]
+                ],
+                'allowed_languages' => [0,3,5]
+            ]
+        ]);
+
+        $expectedBeGroup = $this->createTestGroup();
+
+        $builder = $this->createMock(BeGroupFieldCollectionBuilderInterface::class);
+        $collection = $expectedBeGroup->beGroupFieldCollection();
+        $builder->expects($this->once())->method('buildFromConfigurationArray')->willReturn($collection);
+        $beGroup = BeGroup::createFromJson((string)$jsonString, $builder);
+
+        $this->assertEquals($expectedBeGroup, $beGroup);
     }
 
     private function createTestGroup(): BeGroup
