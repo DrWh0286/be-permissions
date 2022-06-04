@@ -18,7 +18,7 @@ final class SynchronizeBeGroupsFromProduction
         $this->beGroupRepository = $beGroupRepository;
     }
 
-    public function syncAndExport(): void
+    public function syncBeGroups(): void
     {
         $beGroupsFromProd = $this->api->fetchAllSynchronizedBeGroups();
         $this->beGroupRepository->addOrUpdateBeGroups($beGroupsFromProd);
