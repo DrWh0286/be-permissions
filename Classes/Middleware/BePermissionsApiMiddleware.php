@@ -48,7 +48,7 @@ final class BePermissionsApiMiddleware implements MiddlewareInterface
             try {
                 $this->authenticationService->authenticate($request);
             } catch (AuthenticationFailedException $exception) {
-                return new Response('php://temp', 401);
+                return new JsonResponse(['success' => false, 'error' => 'Authentication failure!'], 401);
             }
 
             $cacheIdentifier = 'person_api_routes';
@@ -74,7 +74,7 @@ final class BePermissionsApiMiddleware implements MiddlewareInterface
 
             // @todo: Think of better handling here (Exception/Error Response)!
             if (!($routes instanceof RouteCollection)) {
-                return $handler->handle($request);
+                return new JsonResponse(['success' => false, 'error' => 'No routes found!'], 500);
             }
 
             $symfonyRequest = Request::create((string)$request->getUri());
@@ -88,7 +88,7 @@ final class BePermissionsApiMiddleware implements MiddlewareInterface
             $symfonyRequest->attributes->add($urlMatcher->match($symfonyRequest->getPathInfo()));
             $controller = $controllerResolver->getController($symfonyRequest);
 
-            $response = new JsonResponse([]);
+            $response = new JsonResponse(['success' => false, 'error' => 'No controller action found for url ' . $request->getUri()], 500);
 
             // @todo: Think of better handling here (Exception/Error Response)!
             if ($controller !== false) {
