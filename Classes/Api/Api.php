@@ -51,4 +51,30 @@ final class Api implements ApiInterface
 
         return $groups;
     }
+
+    public function fetchBeGroupsByIdentifier(Identifier $identifier): ?BeGroup
+    {
+        $host = $this->extensionConfiguration->getProductionHost();
+        $uri = (new Uri($host))
+            ->withHost($host)
+            ->withScheme('https')
+            ->withPath('/be-permissions-api/v1.0/begroup/' . $identifier);
+
+        // @todo: Try catch & response code 200?
+        $response = $this->requestFactory->request((string)$uri);
+        $content = $response->getBody()->getContents();
+
+        $jsonBeGroup = json_decode($content, true);
+
+        if (is_array($jsonBeGroup)) {
+            $identifier = new Identifier($jsonBeGroup['identifier']);
+            unset($jsonBeGroup['identifier']);
+
+            $collection = $this->builder->buildFromConfigurationArray($jsonBeGroup['beGroupFieldCollection']);
+
+            return new BeGroup($identifier, $collection);
+        }
+
+        return null;
+    }
 }

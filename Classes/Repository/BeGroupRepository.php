@@ -94,11 +94,16 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
     {
         /** @var BeGroup $beGroup */
         foreach ($beGroups as $beGroup) {
-            if ($this->isGroupPresent($beGroup)) {
-                $this->update($beGroup);
-            } else {
-                $this->add($beGroup);
-            }
+            $this->addOrUpdateBeGroup($beGroup);
+        }
+    }
+
+    public function addOrUpdateBeGroup(BeGroup $beGroup): void
+    {
+        if ($this->isGroupPresent($beGroup)) {
+            $this->update($beGroup);
+        } else {
+            $this->add($beGroup);
         }
     }
 
