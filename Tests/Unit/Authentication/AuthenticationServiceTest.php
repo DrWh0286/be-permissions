@@ -18,8 +18,11 @@ final class AuthenticationServiceTest extends UnitTestCase
     /**
      * @test
      * @dataProvider mismatchingApiTokenProvider
+     * @param string[] $sentApiToken
+     * @param string $configuredApiToken
+     * @throws AuthenticationFailedException
      */
-    public function authentication_fails_in_case_of_mismatching_api_token(string $sentApiToken, string $configuredApiToken): void //phpcs:ignore
+    public function authentication_fails_in_case_of_mismatching_api_token(array $sentApiToken, string $configuredApiToken): void //phpcs:ignore
     {
         $configuration = $this->createMock(ExtensionConfigurationInterface::class);
 
@@ -37,18 +40,18 @@ final class AuthenticationServiceTest extends UnitTestCase
     }
 
     /**
-     * @return string[][]
+     * @return array<string, array<string,array<int, string>|string>>
      */
     public function mismatchingApiTokenProvider(): array
     {
         return [
             'simple mismatch' => [
-                'configuredApiToken' => 'coniguredapitroken123',
-                'sentApiToken' => '972ht908whf029f509h98hjfhidsfzfzctdopkeß0904367tf'
+                'sentApiToken' => ['972ht908whf029f509h98hjfhidsfzfzctdopkeß0904367tf'],
+                'configuredApiToken' => 'coniguredapitroken123'
             ],
             'token is matching, but to short (< 10 characters)' => [
-                'configuredApiToken' => 'veryshort',
-                'apiToken' => 'veryshort'
+                'sentapiToken' => ['veryshort'],
+                'configuredApiToken' => 'veryshort'
             ]
         ];
     }

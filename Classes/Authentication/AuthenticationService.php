@@ -24,7 +24,7 @@ final class AuthenticationService implements AuthenticationServiceInterface
         $sentApiToken = $request->getHeader('apiToken');
         $expectedApiToken = $this->extensionConfiguration->getApiToken();
 
-        if ($sentApiToken == $expectedApiToken && strlen($expectedApiToken) >= 10) {
+        if (implode('', $sentApiToken) == $expectedApiToken && strlen($expectedApiToken) >= 10) {
             return;
         }
 
