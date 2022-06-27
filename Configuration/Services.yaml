@@ -12,6 +12,12 @@ services:
   Pluswerk\BePermissions\:
       resource: '../Classes/*'
 
+  Pluswerk\BePermissions\Command\MergeProdBeGroupsCommand:
+    public: true
+    tags:
+      - name: 'console.command'
+        command: 'bepermission:mergeprodandexport'
+        description: 'Merges be_groups records from production system wth your local records and exports the result.'
   Pluswerk\BePermissions\Command\SyncProdBeGroupsCommand:
     public: true
     tags:
