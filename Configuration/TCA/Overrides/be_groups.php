@@ -9,9 +9,8 @@ call_user_func(function () {
         'identifier' => [
             'label' => 'configuration identifier',
             'config' => [
-                'type' => 'input',
-                'eval' => 'unique',
-                'readOnly' => true
+                'type' => 'user',
+                'renderType' => 'identifierField'
             ]
         ],
         'bulk_export' => [
