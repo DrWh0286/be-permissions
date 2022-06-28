@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Api;
 
+use GuzzleHttp\RequestOptions;
 use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilderInterface;
 use Pluswerk\BePermissions\Collection\BeGroupCollection;
 use Pluswerk\BePermissions\Configuration\ExtensionConfigurationInterface;
@@ -31,7 +32,11 @@ final class Api implements ApiInterface
         $uri = (new Uri($host))->withHost($host)->withScheme('https')->withPath('/be-permissions-api/v1.0/begroups');
 
         // @todo: Try catch & response code 200?
-        $response = $this->requestFactory->request((string)$uri);
+        $response = $this->requestFactory->request(
+            (string)$uri,
+            'GET',
+            [RequestOptions::HEADERS => ['apiToken' => $this->extensionConfiguration->getApiToken()]]
+        );
         $content = $response->getBody()->getContents();
 
         $jsonAnswer = json_decode($content, true);
@@ -61,7 +66,11 @@ final class Api implements ApiInterface
             ->withPath('/be-permissions-api/v1.0/begroup/' . $identifier);
 
         // @todo: Try catch & response code 200?
-        $response = $this->requestFactory->request((string)$uri);
+        $response = $this->requestFactory->request(
+            (string)$uri,
+            'GET',
+            [RequestOptions::HEADERS => ['apiToken' => $this->extensionConfiguration->getApiToken()]]
+        );
         $content = $response->getBody()->getContents();
 
         $jsonBeGroup = json_decode($content, true);
