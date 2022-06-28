@@ -8,6 +8,7 @@ use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
 use Pluswerk\BePermissions\Repository\BeGroupRepositoryInterface;
 use Pluswerk\BePermissions\Value\Identifier;
+use Pluswerk\BePermissions\Value\Source;
 use TYPO3\CMS\Core\Core\Environment;
 
 final class MergeWithProductionAndExport
@@ -34,13 +35,13 @@ final class MergeWithProductionAndExport
 
     // Not a good way - in case of overrule a synch would be useless. We need a more detailed strategy here...
     // Maybe ignore overrule here and use only extend mode?
-    public function mergeAndExportGroups(): void
+    public function mergeAndExportGroups(Source $source): void
     {
         // Export local groups
         $this->bulkExportBeGroupsToConfigurationFiles->exportGroups();
 
         // synchronize production groups
-        $this->synchronizeBeGroupsFromProduction->syncBeGroups();
+        $this->synchronizeBeGroupsFromProduction->syncBeGroups($source);
 
         $configPath = Environment::getConfigPath();
         $configurations = $this->beGroupConfigurationRepository->loadAll($configPath);
@@ -62,11 +63,11 @@ final class MergeWithProductionAndExport
         $this->bulkExportBeGroupsToConfigurationFiles->exportGroups();
     }
 
-    public function mergeAndExportGroup(Identifier $identifier): void
+    public function mergeAndExportGroup(Source $source, Identifier $identifier): void
     {
         $this->exportBeGroupToConfigurationFile->exportGroup((string)$identifier);
 
-        $this->synchronizeBeGroupsFromProduction->syncBeGroup($identifier);
+        $this->synchronizeBeGroupsFromProduction->syncBeGroup($source, $identifier);
 
         $configPath = Environment::getConfigPath();
         $configuration = $this->beGroupConfigurationRepository->load($identifier, $configPath);

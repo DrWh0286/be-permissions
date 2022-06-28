@@ -10,6 +10,7 @@ use Pluswerk\BePermissions\Collection\BeGroupCollection;
 use Pluswerk\BePermissions\Configuration\ExtensionConfigurationInterface;
 use Pluswerk\BePermissions\Model\BeGroup;
 use Pluswerk\BePermissions\Value\Identifier;
+use Pluswerk\BePermissions\Value\Source;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Http\Uri;
 
@@ -26,9 +27,9 @@ final class Api implements ApiInterface
         $this->builder = $builder;
     }
 
-    public function fetchAllSynchronizedBeGroups(): BeGroupCollection
+    public function fetchAllSynchronizedBeGroups(Source $source): BeGroupCollection
     {
-        $host = $this->extensionConfiguration->getProductionHost();
+        $host = $this->extensionConfiguration->getHostBySource($source);
         $uri = (new Uri($host))->withHost($host)->withScheme('https')->withPath('/be-permissions-api/v1.0/begroups');
 
         // @todo: Try catch & response code 200?
@@ -57,9 +58,9 @@ final class Api implements ApiInterface
         return $groups;
     }
 
-    public function fetchBeGroupsByIdentifier(Identifier $identifier): ?BeGroup
+    public function fetchBeGroupsByIdentifier(Source $source, Identifier $identifier): ?BeGroup
     {
-        $host = $this->extensionConfiguration->getProductionHost();
+        $host = $this->extensionConfiguration->getHostBySource($source);
         $uri = (new Uri($host))
             ->withHost($host)
             ->withScheme('https')

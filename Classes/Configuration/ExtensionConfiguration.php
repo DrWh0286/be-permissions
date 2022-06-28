@@ -17,6 +17,7 @@ use Pluswerk\BePermissions\Value\GroupMods;
 use Pluswerk\BePermissions\Value\MfaProviders;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
 use Pluswerk\BePermissions\Value\PageTypesSelect;
+use Pluswerk\BePermissions\Value\Source;
 use Pluswerk\BePermissions\Value\TablesModify;
 use Pluswerk\BePermissions\Value\TablesSelect;
 use Pluswerk\BePermissions\Value\Title;
@@ -26,7 +27,7 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration as T3ExtensionConfigurat
 
 final class ExtensionConfiguration implements SingletonInterface, ExtensionConfigurationInterface
 {
-    /** @var array|string[][] */
+    /** @var array|string[][][] */
     private array $config = [];
 
     /** @var array|string[][] */
@@ -62,20 +63,12 @@ final class ExtensionConfiguration implements SingletonInterface, ExtensionConfi
             throw new NoValueObjectConfiguredException('For field ' . $fieldName . ' no value object is configured.');
         }
 
-        return $config['valueObjectMapping'][$fieldName];
+        return is_string($config['valueObjectMapping'][$fieldName]) ? $config['valueObjectMapping'][$fieldName] : '';
     }
 
     public function getProductionHost(): string
     {
-        $config = $this->getConfig();
-
-        $host = (isset($config['productionHost']) && is_string($config['productionHost'])) ? $config['productionHost'] : '';
-
-        if (!is_string($host)) {
-            throw new \RuntimeException('productionHost must be a string!');
-        }
-
-        return $host;
+        return $this->getHostBySource(new Source('production'));
     }
 
     public function getApiToken(): string
@@ -85,8 +78,23 @@ final class ExtensionConfiguration implements SingletonInterface, ExtensionConfi
         return (isset($config['apiToken']) && is_string($config['apiToken'])) ? $config['apiToken'] : '';
     }
 
+    public function getHostBySource(Source $source): string
+    {
+        $config = $this->getConfig();
+
+        $host = (isset($config['environments'][(string)$source]['host']) && is_string($config['environments'][(string)$source]['host']))
+            ? $config['environments'][(string)$source]['host']
+            : '';
+
+        if (!is_string($host)) {
+            throw new \RuntimeException($source . ' host must be a string!');
+        }
+
+        return $host;
+    }
+
     /**
-     * @return array|string[][]
+     * @return array|string[][][]
      * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException
      * @throws \TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationPathDoesNotExistException
      */
@@ -95,9 +103,9 @@ final class ExtensionConfiguration implements SingletonInterface, ExtensionConfi
         if (empty($this->config)) {
             /** @var T3ExtensionConfiguration $config */
             $config = GeneralUtility::makeInstance(T3ExtensionConfiguration::class);
-            /** @var array|string[][] $tmpConfig */
+            /** @var array|string[][][] $tmpConfig */
             $tmpConfig = (array)$config->get('be_permissions');
-            /** @var array|string[][] $resultingConfig */
+            /** @var array|string[][][] $resultingConfig */
             $resultingConfig = array_replace_recursive($this->baseConfig, $tmpConfig);
             $this->config = $resultingConfig;
         }
