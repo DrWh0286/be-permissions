@@ -29,7 +29,7 @@ final class MergeProdBeGroupsCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
-        if ($input->hasArgument('identifier')) {
+        if ($input->hasArgument('identifier') && $input->getArgument('identifier') !== null) {
             $idString = $input->getArgument('identifier');
 
             if (is_string($idString)) {
