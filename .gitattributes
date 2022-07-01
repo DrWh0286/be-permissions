@@ -1,0 +1,16 @@
+/.Build/ export-ignore
+/.ddev/ export-ignore
+/.github/ export-ignore
+/conf/ export-ignore
+/git-hooks/ export-ignore
+/Tests/ export-ignore
+/.env export-ignore
+/.gitattributes export-ignore
+/.gitignore export-ignore
+/composer.lock export-ignore
+/create_ter_release.sh export-ignore
+/grumphp.yaml export-ignore
+/grumphp-ddev.yaml export-ignore
+/phpunit.xml export-ignore
+/phpunit_integration.xml export-ignore
+/phpunit_functional.xml export-ignore
