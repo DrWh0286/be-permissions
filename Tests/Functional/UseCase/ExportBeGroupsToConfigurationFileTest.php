@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Functional\UseCase;
 
+use Pluswerk\BePermissions\Value\Identifier;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
@@ -34,7 +35,7 @@ final class ExportBeGroupsToConfigurationFileTest extends FunctionalTestCase
         /** @var ExportBeGroupsToConfigurationFile $useCase */
         $useCase = GeneralUtility::makeInstance(ExportBeGroupsToConfigurationFile::class);
 
-        $useCase->exportGroup('test-group');
+        $useCase->exportGroup(new Identifier('test-group'));
 
         $configPath = Environment::getConfigPath();
 

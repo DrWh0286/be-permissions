@@ -51,7 +51,7 @@ services:
 
   Pluswerk\BePermissions\UseCase\DeployBeGroups:
     public: true
-  Pluswerk\BePermissions\UseCase\ExportBeGroupToConfigurationFile:
+  Pluswerk\BePermissions\UseCase\ExportBeGroupsToConfigurationFile:
     public: true
   Pluswerk\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile:
     public: true

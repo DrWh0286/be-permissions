@@ -22,9 +22,8 @@ final class ExportBeGroupsToConfigurationFile
         $this->beGroupConfigurationRepository = $beGroupConfigurationRepository;
     }
 
-    public function exportGroup(string $identifier): void
+    public function exportGroup(Identifier $identifier): void
     {
-        $identifier = new Identifier($identifier);
         $group = $this->beGroupRepository->findOneByIdentifier($identifier);
 
         if ($group instanceof BeGroup) {

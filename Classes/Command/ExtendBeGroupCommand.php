@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Command;
 
 use Pluswerk\BePermissions\UseCase\ExtendOrCreateBeGroupByConfigurationFile;
+use Pluswerk\BePermissions\Value\Identifier;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,7 +35,7 @@ final class ExtendBeGroupCommand extends Command
             throw new \RuntimeException('identifier argument mus be a string!');
         }
 
-        $this->extendBeGroupByConfigurationFile->extendGroup($identifierString);
+        $this->extendBeGroupByConfigurationFile->extendGroup(new Identifier($identifierString));
 
         return Command::SUCCESS;
     }

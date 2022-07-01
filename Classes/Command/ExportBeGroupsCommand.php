@@ -33,7 +33,7 @@ final class ExportBeGroupsCommand extends Command
             $idString = $input->getArgument('identifier');
 
             if (is_string($idString)) {
-                $this->exportBeGroupToConfigurationFile->exportGroup($idString);
+                $this->exportBeGroupToConfigurationFile->exportGroup(new Identifier($idString));
             } else {
                 $output->writeln('Identifier is not a string!');
                 return Command::FAILURE;

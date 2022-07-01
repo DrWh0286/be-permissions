@@ -97,7 +97,7 @@ final class ExtendOrCreateBeGroupByConfigurationFileTest extends FunctionalTestC
         /** @var ExtendOrCreateBeGroupByConfigurationFile $useCase */
         $useCase = GeneralUtility::makeInstance(ExtendOrCreateBeGroupByConfigurationFile::class);
 
-        $useCase->extendGroup('test-group');
+        $useCase->extendGroup(new Identifier('test-group'));
 
         /** @var BeGroupRepository $repo */
         $repo = GeneralUtility::makeInstance(BeGroupRepository::class);
@@ -178,7 +178,7 @@ final class ExtendOrCreateBeGroupByConfigurationFileTest extends FunctionalTestC
         /** @var ExtendOrCreateBeGroupByConfigurationFile $useCase */
         $useCase = GeneralUtility::makeInstance(ExtendOrCreateBeGroupByConfigurationFile::class);
 
-        $useCase->extendGroup('test-group');
+        $useCase->extendGroup(new Identifier('test-group'));
 
         /** @var BeGroupRepository $repo */
         $repo = GeneralUtility::makeInstance(BeGroupRepository::class);

@@ -61,7 +61,7 @@ final class MergeWithProductionAndExport
 
     public function mergeAndExportGroup(Identifier $identifier): void
     {
-        $this->exportBeGroupToConfigurationFile->exportGroup((string)$identifier);
+        $this->exportBeGroupToConfigurationFile->exportGroup($identifier);
 
         $this->synchronizeBeGroupsFromProduction->syncBeGroup($identifier);
 
@@ -79,6 +79,6 @@ final class MergeWithProductionAndExport
             $this->beGroupRepository->add($beGroup);
         }
 
-        $this->exportBeGroupToConfigurationFile->exportGroup((string)$identifier);
+        $this->exportBeGroupToConfigurationFile->exportGroup($identifier);
     }
 }

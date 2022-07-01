@@ -21,9 +21,8 @@ final class ExtendOrCreateBeGroupByConfigurationFile
         $this->beGroupConfigurationRepository = $beGroupConfigurationRepository;
     }
 
-    public function extendGroup(string $identifier): void
+    public function extendGroup(Identifier $identifier): void
     {
-        $identifier = new Identifier($identifier);
         $configPath = Environment::getConfigPath();
 
         $beGroupConfiguration = $this->beGroupConfigurationRepository->load($identifier, $configPath);

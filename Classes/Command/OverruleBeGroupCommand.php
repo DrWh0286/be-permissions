@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Command;
 
 use Pluswerk\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile;
+use Pluswerk\BePermissions\Value\Identifier;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -34,7 +35,7 @@ final class OverruleBeGroupCommand extends Command
             throw new \RuntimeException('identifier argument mus be a string!');
         }
 
-        $this->overruleBeGroupFromConfigurationFile->overruleGroup($identifierString);
+        $this->overruleBeGroupFromConfigurationFile->overruleGroup(new Identifier($identifierString));
 
         return Command::SUCCESS;
     }

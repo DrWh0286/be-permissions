@@ -96,7 +96,7 @@ final class OverruleOrCreateBeGroupFromConfigurationFileTest extends FunctionalT
         /** @var OverruleOrCreateBeGroupFromConfigurationFile $useCase */
         $useCase = GeneralUtility::makeInstance(OverruleOrCreateBeGroupFromConfigurationFile::class);
 
-        $useCase->overruleGroup('test-group');
+        $useCase->overruleGroup(new Identifier('test-group'));
 
         /** @var BeGroupRepository $repo */
         $repo = GeneralUtility::makeInstance(BeGroupRepository::class);
@@ -174,7 +174,7 @@ final class OverruleOrCreateBeGroupFromConfigurationFileTest extends FunctionalT
         /** @var OverruleOrCreateBeGroupFromConfigurationFile $useCase */
         $useCase = GeneralUtility::makeInstance(OverruleOrCreateBeGroupFromConfigurationFile::class);
 
-        $useCase->overruleGroup('test-group');
+        $useCase->overruleGroup(new Identifier('test-group'));
 
         /** @var BeGroupRepository $repo */
         $repo = GeneralUtility::makeInstance(BeGroupRepository::class);
