@@ -10,11 +10,11 @@ $EM_CONF[$_EXTKEY] = [
             'typo3' => '11.5.0-11.5.999'
         ],
     ],
-    'state' => 'beta',
+    'state' => 'stable',
     'clearCacheOnLoad' => 1,
     'author' => 'Sebastian Hofer',
     'author_email' => 'sebastian.hofer@s-hofer.de',
-    'version' => '0.6.2',
+    'version' => 'v0.6.3',
     'autoload' => [
         'psr-4' => [
             'SebastianHofer\\BePermissions\\' => 'Classes/',
