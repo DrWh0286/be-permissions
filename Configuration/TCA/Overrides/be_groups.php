@@ -13,8 +13,8 @@ call_user_func(function () {
                 'renderType' => 'identifierField'
             ]
         ],
-        'bulk_export' => [
-            'label' => 'enable for bulk export',
+        'code_managed_group' => [
+            'label' => 'Code Managed Group',
             'config' => [
                 'type' => 'check',
                 'renderType' => 'checkboxToggle',
@@ -38,5 +38,5 @@ call_user_func(function () {
     ];
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_groups', $fields);
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_groups', 'identifier,bulk_export,deploy_processing', '', 'after:title');
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_groups', 'identifier,code_managed_group,deploy_processing', '', 'after:title');
 });

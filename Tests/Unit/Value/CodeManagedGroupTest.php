@@ -6,12 +6,12 @@ namespace Pluswerk\BePermissions\Tests\Unit\Value;
 
 use Pluswerk\BePermissions\Value\AbstractBooleanField;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-use Pluswerk\BePermissions\Value\BulkExport;
+use Pluswerk\BePermissions\Value\CodeManagedGroup;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\BulkExport
+ * @covers \Pluswerk\BePermissions\Value\CodeManagedGroup
  */
-final class BulkExportTest extends UnitTestCase
+final class CodeManagedGroupTest extends UnitTestCase
 {
     /**
      * @test
@@ -20,7 +20,7 @@ final class BulkExportTest extends UnitTestCase
     {
         $dbValue = '1';
 
-        $bulkExport = BulkExport::createFromDBValue($dbValue);
+        $bulkExport = CodeManagedGroup::createFromDBValue($dbValue);
 
         $this->assertTrue($bulkExport->yamlConfigurationValue());
     }
@@ -32,7 +32,7 @@ final class BulkExportTest extends UnitTestCase
     {
         $yamlValue = true;
 
-        $bulkExport = BulkExport::createFromYamlConfiguration($yamlValue);
+        $bulkExport = CodeManagedGroup::createFromYamlConfiguration($yamlValue);
 
         $this->assertEquals('1', (string)$bulkExport);
     }
@@ -42,7 +42,7 @@ final class BulkExportTest extends UnitTestCase
      */
     public function with_empty_database_field_the_value_is_false(): void // phpcs:ignore
     {
-        $bulkExport = BulkExport::createFromDBValue('');
+        $bulkExport = CodeManagedGroup::createFromDBValue('');
 
         $this->assertFalse($bulkExport->yamlConfigurationValue());
     }
@@ -52,9 +52,9 @@ final class BulkExportTest extends UnitTestCase
      */
     public function field_name_is_bulk_export(): void // phpcs:ignore
     {
-        $bulkExport = BulkExport::createFromDBValue('');
+        $bulkExport = CodeManagedGroup::createFromDBValue('');
 
-        $this->assertSame('bulk_export', $bulkExport->getFieldName());
+        $this->assertSame('code_managed_group', $bulkExport->getFieldName());
     }
 
     /**
@@ -62,7 +62,7 @@ final class BulkExportTest extends UnitTestCase
      */
     public function implements_AbstractBooleanField(): void // phpcs:ignore
     {
-        $bulkExport = BulkExport::createFromDBValue('');
+        $bulkExport = CodeManagedGroup::createFromDBValue('');
 
         $this->assertInstanceOf(AbstractBooleanField::class, $bulkExport);
     }
@@ -74,8 +74,8 @@ final class BulkExportTest extends UnitTestCase
     {
         $yamlValue = true;
 
-        $bulkExport = BulkExport::createFromYamlConfiguration($yamlValue);
-        $extendBulkExport = BulkExport::createFromYamlConfiguration(false);
+        $bulkExport = CodeManagedGroup::createFromYamlConfiguration($yamlValue);
+        $extendBulkExport = CodeManagedGroup::createFromYamlConfiguration(false);
 
         $resultBulkExport = $bulkExport->extend($extendBulkExport);
 

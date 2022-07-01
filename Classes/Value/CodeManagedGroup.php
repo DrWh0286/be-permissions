@@ -4,20 +4,20 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Value;
 
-final class BulkExport extends AbstractBooleanField
+final class CodeManagedGroup extends AbstractBooleanField
 {
-    private string $fieldName = 'bulk_export';
+    private string $fieldName = 'code_managed_group';
 
-    public static function createFromDBValue(string $dbValue): BulkExport
+    public static function createFromDBValue(string $dbValue): CodeManagedGroup
     {
         $createValue = (bool)((int)$dbValue);
 
         return new self($createValue);
     }
 
-    public function extend(BeGroupFieldInterface $beGroupField): BulkExport
+    public function extend(BeGroupFieldInterface $beGroupField): CodeManagedGroup
     {
-        if (!$beGroupField instanceof BulkExport) {
+        if (!$beGroupField instanceof CodeManagedGroup) {
             throw new \RuntimeException('Wrong be_groups field is given. ' . get_class($beGroupField) . ' given instead of expected ' . get_class($this));
         }
 
@@ -29,7 +29,7 @@ final class BulkExport extends AbstractBooleanField
         return $this->fieldName;
     }
 
-    public static function createFromYamlConfiguration(bool $configValue): BulkExport
+    public static function createFromYamlConfiguration(bool $configValue): CodeManagedGroup
     {
         return new self($configValue);
     }

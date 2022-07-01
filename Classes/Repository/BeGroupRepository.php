@@ -72,7 +72,7 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
         $rows = $connection->select(
             ['*'],
             'be_groups',
-            ['bulk_export' => 1]
+            ['code_managed_group' => 1]
         )->fetchAllAssociative();
 
         $beGroups = new BeGroupCollection();

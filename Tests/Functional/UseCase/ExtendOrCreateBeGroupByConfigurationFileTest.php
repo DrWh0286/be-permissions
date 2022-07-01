@@ -15,7 +15,7 @@ use Pluswerk\BePermissions\UseCase\ExtendOrCreateBeGroupByConfigurationFile;
 use Pluswerk\BePermissions\Value\AllowedLanguages;
 use Pluswerk\BePermissions\Value\AvailableWidgets;
 use Pluswerk\BePermissions\Value\BeGroupFieldFactory;
-use Pluswerk\BePermissions\Value\BulkExport;
+use Pluswerk\BePermissions\Value\CodeManagedGroup;
 use Pluswerk\BePermissions\Value\CategoryPerms;
 use Pluswerk\BePermissions\Value\DbMountpoints;
 use Pluswerk\BePermissions\Value\DeployProcessing;
@@ -85,7 +85,7 @@ final class ExtendOrCreateBeGroupByConfigurationFileTest extends FunctionalTestC
                 ]
             ]
         ));
-        $collection->add(BulkExport::createFromYamlConfiguration(true));
+        $collection->add(CodeManagedGroup::createFromYamlConfiguration(true));
 
         $configuration = new BeGroupConfiguration($identifier, Environment::getConfigPath(), $collection);
         $extConfig = new ExtensionConfiguration();
@@ -133,7 +133,7 @@ final class ExtendOrCreateBeGroupByConfigurationFileTest extends FunctionalTestC
         $expectedCollection->add(FileMountpoints::createFromYamlConfiguration([]));
         $expectedCollection->add(FilePermissions::createFromYamlConfiguration([]));
         $expectedCollection->add(CategoryPerms::createFromYamlConfiguration([]));
-        $expectedCollection->add(BulkExport::createFromYamlConfiguration(true));
+        $expectedCollection->add(CodeManagedGroup::createFromYamlConfiguration(true));
         $expectedCollection->add(DeployProcessing::createFromDBValue(''));
         $expectedBeGroup = new BeGroup(
             $identifier,
@@ -166,7 +166,7 @@ final class ExtendOrCreateBeGroupByConfigurationFileTest extends FunctionalTestC
                 ]
             ]
         ));
-        $collection->add(BulkExport::createFromYamlConfiguration(true));
+        $collection->add(CodeManagedGroup::createFromYamlConfiguration(true));
 
         $configuration = new BeGroupConfiguration($identifier, Environment::getConfigPath(), $collection);
         $extConfig = new ExtensionConfiguration();
@@ -213,7 +213,7 @@ final class ExtendOrCreateBeGroupByConfigurationFileTest extends FunctionalTestC
         $expectedCollection->add(FileMountpoints::createFromYamlConfiguration([]));
         $expectedCollection->add(FilePermissions::createFromYamlConfiguration([]));
         $expectedCollection->add(CategoryPerms::createFromYamlConfiguration([]));
-        $expectedCollection->add(BulkExport::createFromYamlConfiguration(true));
+        $expectedCollection->add(CodeManagedGroup::createFromYamlConfiguration(true));
         $expectedCollection->add(DeployProcessing::createFromDBValue(''));
         $expectedBeGroup = new BeGroup(
             $identifier,
