@@ -20,6 +20,7 @@ use Pluswerk\BePermissions\Value\PageTypesSelect;
 use Pluswerk\BePermissions\Value\TablesModify;
 use Pluswerk\BePermissions\Value\TablesSelect;
 use Pluswerk\BePermissions\Value\Title;
+use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration as T3ExtensionConfiguration;
@@ -65,24 +66,34 @@ final class ExtensionConfiguration implements SingletonInterface, ExtensionConfi
         return $config['valueObjectMapping'][$fieldName];
     }
 
-    public function getProductionHost(): string
-    {
-        $config = $this->getConfig();
-
-        $host = (isset($config['productionHost']) && is_string($config['productionHost'])) ? $config['productionHost'] : '';
-
-        if (!is_string($host)) {
-            throw new \RuntimeException('productionHost must be a string!');
-        }
-
-        return $host;
-    }
-
     public function getApiToken(): string
     {
         $config = $this->getConfig();
 
         return (isset($config['apiToken']) && is_string($config['apiToken'])) ? $config['apiToken'] : '';
+    }
+
+
+    public function getApiUri(): Uri
+    {
+        $config = $this->getConfig();
+
+        $host = (isset($config['productionHost']) && is_string($config['productionHost'])) ? $config['productionHost'] : '';
+
+        $uri = new Uri($host);
+
+        if (
+            isset($config['basicAuthUser'])
+            && !empty($config['basicAuthUser'])
+            && is_string($config['basicAuthUser'])
+            && isset($config['basicAuthPassword'])
+            && !empty($config['basicAuthPassword'])
+            && is_string($config['basicAuthPassword'])
+        ) {
+            $uri = $uri->withUserInfo($config['basicAuthUser'], $config['basicAuthPassword']);
+        }
+
+        return $uri;
     }
 
     /**

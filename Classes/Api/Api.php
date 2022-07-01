@@ -28,8 +28,8 @@ final class Api implements ApiInterface
 
     public function fetchAllSynchronizedBeGroups(): BeGroupCollection
     {
-        $host = $this->extensionConfiguration->getProductionHost();
-        $uri = (new Uri($host))->withHost($host)->withScheme('https')->withPath('/be-permissions-api/v1.0/begroups');
+        $uri = $this->extensionConfiguration->getApiUri();
+        $uri = $uri->withPath('/be-permissions-api/v1.0/begroups');
 
         // @todo: Try catch & response code 200?
         $response = $this->requestFactory->request(
@@ -59,11 +59,8 @@ final class Api implements ApiInterface
 
     public function fetchBeGroupsByIdentifier(Identifier $identifier): ?BeGroup
     {
-        $host = $this->extensionConfiguration->getProductionHost();
-        $uri = (new Uri($host))
-            ->withHost($host)
-            ->withScheme('https')
-            ->withPath('/be-permissions-api/v1.0/begroup/' . $identifier);
+        $uri = $this->extensionConfiguration->getApiUri();
+        $uri = $uri->withPath('/be-permissions-api/v1.0/begroup/' . $identifier);
 
         // @todo: Try catch & response code 200?
         $response = $this->requestFactory->request(

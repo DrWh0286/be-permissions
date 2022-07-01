@@ -17,6 +17,7 @@ use Pluswerk\BePermissions\Value\Title;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use TYPO3\CMS\Core\Http\RequestFactory;
+use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 use Pluswerk\BePermissions\Api\Api;
 
@@ -40,7 +41,7 @@ final class ApiTest extends UnitTestCase
 
         $api = new Api($requestFactory, $extensionConfiguration, $builder);
 
-        $extensionConfiguration->expects($this->once())->method('getProductionHost')->willReturn('prod.host');
+        $extensionConfiguration->expects($this->once())->method('getApiUri')->willReturn(new Uri('https://prod.host/'));
         $requestFactory->expects($this->once())
             ->method('request')
             ->with('https://prod.host/be-permissions-api/v1.0/begroups')
