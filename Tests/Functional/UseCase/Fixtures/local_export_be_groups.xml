@@ -5,7 +5,7 @@
         <identifier>test-group-a</identifier>
         <title>Some group title A</title>
         <non_exclude_fields>pages:title,pages:hidden,tt_content:hidden</non_exclude_fields>
-        <bulk_export>1</bulk_export>
+        <code_managed_group>1</code_managed_group>
         <deploy_processing>extend</deploy_processing>
     </be_groups>
     <be_groups>
@@ -13,7 +13,7 @@
         <identifier>test-group-b</identifier>
         <title>Some group title B</title>
         <non_exclude_fields>pages:title,pages:hidden,tt_content:title</non_exclude_fields>
-        <bulk_export>1</bulk_export>
+        <code_managed_group>1</code_managed_group>
         <deploy_processing>extend</deploy_processing>
     </be_groups>
     <be_groups>
@@ -21,7 +21,7 @@
         <identifier>test-group-c</identifier>
         <title>Some group title C</title>
         <non_exclude_fields>pages:title,pages:hidden,tt_content:bodytext</non_exclude_fields>
-        <bulk_export>0</bulk_export>
+        <code_managed_group>0</code_managed_group>
         <deploy_processing>extend</deploy_processing>
     </be_groups>
     <be_groups>
@@ -29,7 +29,7 @@
         <identifier>test-group-d</identifier>
         <title>Some group title D</title>
         <non_exclude_fields>pages:title,pages:hidden,tt_content:title</non_exclude_fields>
-        <bulk_export>1</bulk_export>
+        <code_managed_group>1</code_managed_group>
         <deploy_processing>overrule</deploy_processing>
     </be_groups>
     <be_groups>
@@ -37,7 +37,7 @@
         <identifier>test-group-e</identifier>
         <title>Some group title E</title>
         <non_exclude_fields>pages:title,pages:hidden,tt_content:hidden</non_exclude_fields>
-        <bulk_export>1</bulk_export>
+        <code_managed_group>1</code_managed_group>
         <deploy_processing>extend</deploy_processing>
     </be_groups>
 </dataset>

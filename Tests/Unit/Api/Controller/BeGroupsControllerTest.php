@@ -31,7 +31,7 @@ final class BeGroupsControllerTest extends UnitTestCase
 
         $beGroups = $this->getBeGroups();
 
-        $beGroupRepo->expects($this->once())->method('findAllForBulkExport')->willReturn($beGroups);
+        $beGroupRepo->expects($this->once())->method('findAllCodeManaged')->willReturn($beGroups);
 
         $response = $controller->allSyncBeGroupsAction();
 

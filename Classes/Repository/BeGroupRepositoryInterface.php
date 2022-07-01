@@ -18,7 +18,7 @@ interface BeGroupRepositoryInterface
 
     public function add(BeGroup $beGroup): void;
 
-    public function findAllForBulkExport(): BeGroupCollection;
+    public function findAllCodeManaged(): BeGroupCollection;
 
     public function addOrUpdateBeGroups(BeGroupCollection $beGroups): void;
 

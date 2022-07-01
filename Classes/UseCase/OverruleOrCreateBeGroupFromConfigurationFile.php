@@ -25,11 +25,9 @@ final class OverruleOrCreateBeGroupFromConfigurationFile
 
     /**
      * @throws ConfigurationFileMissingException
-     * @throws InvalidIdentifierException
      */
-    public function overruleGroup(string $identifier): void
+    public function overruleGroup(Identifier $identifier): void
     {
-        $identifier = new Identifier($identifier);
         $configPath = Environment::getConfigPath();
 
         $beGroupConfiguration = $this->beGroupConfigurationRepository->load($identifier, $configPath);

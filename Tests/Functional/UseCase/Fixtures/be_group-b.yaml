@@ -1,7 +1,7 @@
 allowed_languages: {  }
 availableWidgets: {  }
-bulk_export: true
 category_perms: {  }
+code_managed_group: true
 db_mountpoints: {  }
 deploy_processing: extend
 explicit_allowdeny: {  }

@@ -26,7 +26,7 @@ final class BeGroupsController
      */
     public function allSyncBeGroupsAction(): JsonResponse
     {
-        $beGroups = $this->beGroupRepository->findAllForBulkExport();
+        $beGroups = $this->beGroupRepository->findAllCodeManaged();
         return new JsonResponse($beGroups->jsonSerialize());
     }
 
