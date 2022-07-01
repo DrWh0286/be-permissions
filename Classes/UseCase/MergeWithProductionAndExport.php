@@ -12,20 +12,17 @@ use TYPO3\CMS\Core\Core\Environment;
 
 final class MergeWithProductionAndExport
 {
-    private BulkExportBeGroupsToConfigurationFiles $bulkExportBeGroupsToConfigurationFiles;
     private SynchronizeBeGroupsFromProduction $synchronizeBeGroupsFromProduction;
     private BeGroupRepositoryInterface $beGroupRepository;
     private BeGroupConfigurationRepositoryInterface $beGroupConfigurationRepository;
-    private ExportBeGroupToConfigurationFile $exportBeGroupToConfigurationFile;
+    private ExportBeGroupsToConfigurationFile $exportBeGroupToConfigurationFile;
 
     public function __construct(
-        BulkExportBeGroupsToConfigurationFiles $bulkExportBeGroupsToConfigurationFiles,
         SynchronizeBeGroupsFromProduction $synchronizeBeGroupsFromProduction,
         BeGroupRepositoryInterface $beGroupRepository,
         BeGroupConfigurationRepositoryInterface $beGroupConfigurationRepository,
-        ExportBeGroupToConfigurationFile $exportBeGroupToConfigurationFile
+        ExportBeGroupsToConfigurationFile $exportBeGroupToConfigurationFile
     ) {
-        $this->bulkExportBeGroupsToConfigurationFiles = $bulkExportBeGroupsToConfigurationFiles;
         $this->synchronizeBeGroupsFromProduction = $synchronizeBeGroupsFromProduction;
         $this->beGroupRepository = $beGroupRepository;
         $this->beGroupConfigurationRepository = $beGroupConfigurationRepository;
@@ -37,7 +34,7 @@ final class MergeWithProductionAndExport
     public function mergeAndExportGroups(): void
     {
         // Export local groups
-        $this->bulkExportBeGroupsToConfigurationFiles->exportGroups();
+        $this->exportBeGroupToConfigurationFile->exportGroups();
 
         // synchronize production groups
         $this->synchronizeBeGroupsFromProduction->syncBeGroups();
@@ -59,7 +56,7 @@ final class MergeWithProductionAndExport
         }
 
         // Export local groups again
-        $this->bulkExportBeGroupsToConfigurationFiles->exportGroups();
+        $this->exportBeGroupToConfigurationFile->exportGroups();
     }
 
     public function mergeAndExportGroup(Identifier $identifier): void

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Pluswerk\BePermissions\Tests\Functional\UseCase;
 
-use Pluswerk\BePermissions\UseCase\BulkExportBeGroupsToConfigurationFiles;
 use Pluswerk\BePermissions\UseCase\DeployBeGroups;
+use Pluswerk\BePermissions\UseCase\ExportBeGroupsToConfigurationFile;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -36,9 +36,9 @@ final class DeployBeGroupsTest extends FunctionalTestCase
 
         $this->importDataSet(__DIR__ . '/Fixtures/local_export_be_groups.xml');
 
-        /** @var BulkExportBeGroupsToConfigurationFiles $bulkExport */
-        $bulkExport = GeneralUtility::makeInstance(BulkExportBeGroupsToConfigurationFiles::class);
-        $bulkExport->exportGroups();
+        /** @var ExportBeGroupsToConfigurationFile $exportBeGroupsToConfigurationFiles */
+        $exportBeGroupsToConfigurationFiles = GeneralUtility::makeInstance(ExportBeGroupsToConfigurationFile::class);
+        $exportBeGroupsToConfigurationFiles->exportGroups();
 
         $connection->truncate('be_groups');
         $this->importDataSet(__DIR__ . '/Fixtures/pre_deploy_be_groups.xml');

@@ -65,7 +65,7 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
         );
     }
 
-    public function findAllForBulkExport(): BeGroupCollection
+    public function findAllCodeManaged(): BeGroupCollection
     {
         $connection = $this->getConnection();
 

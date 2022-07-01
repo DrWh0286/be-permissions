@@ -20,9 +20,9 @@ final class CodeManagedGroupTest extends UnitTestCase
     {
         $dbValue = '1';
 
-        $bulkExport = CodeManagedGroup::createFromDBValue($dbValue);
+        $codeManagedGroup = CodeManagedGroup::createFromDBValue($dbValue);
 
-        $this->assertTrue($bulkExport->yamlConfigurationValue());
+        $this->assertTrue($codeManagedGroup->yamlConfigurationValue());
     }
 
     /**
@@ -32,9 +32,9 @@ final class CodeManagedGroupTest extends UnitTestCase
     {
         $yamlValue = true;
 
-        $bulkExport = CodeManagedGroup::createFromYamlConfiguration($yamlValue);
+        $codeManagedGroup = CodeManagedGroup::createFromYamlConfiguration($yamlValue);
 
-        $this->assertEquals('1', (string)$bulkExport);
+        $this->assertEquals('1', (string)$codeManagedGroup);
     }
 
     /**
@@ -42,9 +42,9 @@ final class CodeManagedGroupTest extends UnitTestCase
      */
     public function with_empty_database_field_the_value_is_false(): void // phpcs:ignore
     {
-        $bulkExport = CodeManagedGroup::createFromDBValue('');
+        $codeManagedGroup = CodeManagedGroup::createFromDBValue('');
 
-        $this->assertFalse($bulkExport->yamlConfigurationValue());
+        $this->assertFalse($codeManagedGroup->yamlConfigurationValue());
     }
 
     /**
@@ -52,9 +52,9 @@ final class CodeManagedGroupTest extends UnitTestCase
      */
     public function field_name_is_bulk_export(): void // phpcs:ignore
     {
-        $bulkExport = CodeManagedGroup::createFromDBValue('');
+        $codeManagedGroup = CodeManagedGroup::createFromDBValue('');
 
-        $this->assertSame('code_managed_group', $bulkExport->getFieldName());
+        $this->assertSame('code_managed_group', $codeManagedGroup->getFieldName());
     }
 
     /**
@@ -62,9 +62,9 @@ final class CodeManagedGroupTest extends UnitTestCase
      */
     public function implements_AbstractBooleanField(): void // phpcs:ignore
     {
-        $bulkExport = CodeManagedGroup::createFromDBValue('');
+        $codeManagedGroup = CodeManagedGroup::createFromDBValue('');
 
-        $this->assertInstanceOf(AbstractBooleanField::class, $bulkExport);
+        $this->assertInstanceOf(AbstractBooleanField::class, $codeManagedGroup);
     }
 
     /**
@@ -74,13 +74,13 @@ final class CodeManagedGroupTest extends UnitTestCase
     {
         $yamlValue = true;
 
-        $bulkExport = CodeManagedGroup::createFromYamlConfiguration($yamlValue);
-        $extendBulkExport = CodeManagedGroup::createFromYamlConfiguration(false);
+        $codeManagedGroup = CodeManagedGroup::createFromYamlConfiguration($yamlValue);
+        $extendCodeManagedGroup = CodeManagedGroup::createFromYamlConfiguration(false);
 
-        $resultBulkExport = $bulkExport->extend($extendBulkExport);
+        $resultBulkExport = $codeManagedGroup->extend($extendCodeManagedGroup);
 
         $this->assertFalse($resultBulkExport->yamlConfigurationValue());
-        $this->assertNotSame($bulkExport, $resultBulkExport);
-        $this->assertNotSame($extendBulkExport, $resultBulkExport);
+        $this->assertNotSame($codeManagedGroup, $resultBulkExport);
+        $this->assertNotSame($extendCodeManagedGroup, $resultBulkExport);
     }
 }
