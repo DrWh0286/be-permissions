@@ -4,9 +4,9 @@ parameters:
   convention.jsonlint_ignore_pattern: []
   convention.xmllint_ignore_pattern: []
   convention.yamllint_ignore_pattern: []
-  convention.phpcslint_ignore_pattern: []
   convention.xlifflint_ignore_pattern: ["#typo3conf/l10n/(.*)#"]
   convention.phpstan_level: max
+  convention.phpcslint_ignore_pattern: ["ext_emconf.php"]
 grumphp:
   stop_on_failure: false
   hide_circumvention_tip: true
