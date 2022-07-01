@@ -2,20 +2,20 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
 use InvalidArgumentException;
-use Pluswerk\BePermissions\Configuration\ExtensionConfigurationInterface;
-use Pluswerk\BePermissions\Configuration\NoValueObjectConfiguredException;
-use Pluswerk\BePermissions\Value\ArrayBasedFieldInterface;
-use Pluswerk\BePermissions\Value\StringBasedFieldInterface;
-use Pluswerk\BePermissions\Value\TablesSelect;
-use Pluswerk\BePermissions\Value\Title;
+use SebastianHofer\BePermissions\Configuration\ExtensionConfigurationInterface;
+use SebastianHofer\BePermissions\Configuration\NoValueObjectConfiguredException;
+use SebastianHofer\BePermissions\Value\ArrayBasedFieldInterface;
+use SebastianHofer\BePermissions\Value\StringBasedFieldInterface;
+use SebastianHofer\BePermissions\Value\TablesSelect;
+use SebastianHofer\BePermissions\Value\Title;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-use Pluswerk\BePermissions\Value\BeGroupFieldFactory;
+use SebastianHofer\BePermissions\Value\BeGroupFieldFactory;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\BeGroupFieldFactory
+ * @covers \SebastianHofer\BePermissions\Value\BeGroupFieldFactory
  */
 final class BeGroupFieldFactoryTest extends UnitTestCase
 {

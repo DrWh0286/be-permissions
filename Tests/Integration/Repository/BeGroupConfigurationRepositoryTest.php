@@ -2,33 +2,33 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Integration\Repository;
+namespace SebastianHofer\BePermissions\Tests\Integration\Repository;
 
-use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilder;
-use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
-use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
-use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
-use Pluswerk\BePermissions\Configuration\ExtensionConfiguration;
-use Pluswerk\BePermissions\Model\BeGroup;
-use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository;
-use Pluswerk\BePermissions\Value\AllowedLanguages;
-use Pluswerk\BePermissions\Value\BeGroupFieldFactory;
-use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
-use Pluswerk\BePermissions\Value\Identifier;
-use Pluswerk\BePermissions\Value\NonExcludeFields;
-use Pluswerk\BePermissions\Value\Title;
+use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilder;
+use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
+use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
+use SebastianHofer\BePermissions\Configuration\ConfigurationFileMissingException;
+use SebastianHofer\BePermissions\Configuration\ExtensionConfiguration;
+use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Repository\BeGroupConfigurationRepository;
+use SebastianHofer\BePermissions\Value\AllowedLanguages;
+use SebastianHofer\BePermissions\Value\BeGroupFieldFactory;
+use SebastianHofer\BePermissions\Value\ExplicitAllowDeny;
+use SebastianHofer\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Value\NonExcludeFields;
+use SebastianHofer\BePermissions\Value\Title;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository
- * @uses \Pluswerk\BePermissions\Configuration\BeGroupConfiguration
- * @uses \Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException
- * @uses \Pluswerk\BePermissions\Model\BeGroup
- * @uses \Pluswerk\BePermissions\Value\AllowedLanguages
- * @uses \Pluswerk\BePermissions\Value\ExplicitAllowDeny
- * @uses \Pluswerk\BePermissions\Value\Identifier
- * @uses \Pluswerk\BePermissions\Value\NonExcludeFields
+ * @covers \SebastianHofer\BePermissions\Repository\BeGroupConfigurationRepository
+ * @uses \SebastianHofer\BePermissions\Configuration\BeGroupConfiguration
+ * @uses \SebastianHofer\BePermissions\Configuration\ConfigurationFileMissingException
+ * @uses \SebastianHofer\BePermissions\Model\BeGroup
+ * @uses \SebastianHofer\BePermissions\Value\AllowedLanguages
+ * @uses \SebastianHofer\BePermissions\Value\ExplicitAllowDeny
+ * @uses \SebastianHofer\BePermissions\Value\Identifier
+ * @uses \SebastianHofer\BePermissions\Value\NonExcludeFields
  * @uses \Symfony\Component\Yaml\Yaml
  */
 final class BeGroupConfigurationRepositoryTest extends UnitTestCase

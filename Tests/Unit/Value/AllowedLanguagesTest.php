@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
-use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
+use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-use Pluswerk\BePermissions\Value\AllowedLanguages;
+use SebastianHofer\BePermissions\Value\AllowedLanguages;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\AllowedLanguages
+ * @covers \SebastianHofer\BePermissions\Value\AllowedLanguages
  */
 final class AllowedLanguagesTest extends UnitTestCase
 {

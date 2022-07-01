@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Authentication;
+namespace SebastianHofer\BePermissions\Tests\Unit\Authentication;
 
-use Pluswerk\BePermissions\Authentication\AuthenticationFailedException;
-use Pluswerk\BePermissions\Authentication\AuthenticationService;
-use Pluswerk\BePermissions\Configuration\ExtensionConfigurationInterface;
+use SebastianHofer\BePermissions\Authentication\AuthenticationFailedException;
+use SebastianHofer\BePermissions\Authentication\AuthenticationService;
+use SebastianHofer\BePermissions\Configuration\ExtensionConfigurationInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Authentication\AuthenticationService
+ * @covers \SebastianHofer\BePermissions\Authentication\AuthenticationService
  */
 final class AuthenticationServiceTest extends UnitTestCase
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Configuration;
+namespace SebastianHofer\BePermissions\Configuration;
 
 final class ConfigurationFileMissingException extends \Exception
 {

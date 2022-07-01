@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Repository;
+namespace SebastianHofer\BePermissions\Repository;
 
-use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilder;
-use Pluswerk\BePermissions\Collection\BeGroupCollection;
-use Pluswerk\BePermissions\Model\BeGroup;
-use Pluswerk\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Collection\BeGroupCollection;
+use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilder;
+use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Value\Identifier;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

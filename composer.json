@@ -1,5 +1,5 @@
 {
-  "name": "pluswerk/be-permissions",
+  "name": "sebatianhofer/be-permissions",
   "description": "Makes Backend permissions shippable",
   "type": "typo3-cms-extension",
   "license": [
@@ -8,7 +8,7 @@
   "authors": [
     {
       "name": "Sebastian Hofer",
-      "email": "sebastian.hofer@pluswerk.ag"
+      "email": "sebastian.hofer@s-hofer.de"
     }
   ],
   "repositories": [
@@ -28,12 +28,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Pluswerk\\BePermissions\\": "Classes"
+      "SebastianHofer\\BePermissions\\": "Classes"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Pluswerk\\BePermissions\\Tests\\": "Tests"
+      "SebastianHofer\\BePermissions\\Tests\\": "Tests"
     }
   },
   "scripts": {
@@ -71,8 +71,5 @@
     "typo3/testing-framework": "^6.9",
     "pluswerk/grumphp-config": "^5.0",
     "helhum/typo3-console": "^6.6 || ^7.0"
-  },
-  "suggest": {
-    "phpsu/phpsu": "Makes the command local sync and export working."
   }
 }

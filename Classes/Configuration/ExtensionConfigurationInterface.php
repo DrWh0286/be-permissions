@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Configuration;
+namespace SebastianHofer\BePermissions\Configuration;
 
 use TYPO3\CMS\Core\Http\Uri;
 

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
-use Pluswerk\BePermissions\Value\AbstractStringArrayField;
-use Pluswerk\BePermissions\Value\FilePermissions;
+use SebastianHofer\BePermissions\Value\AbstractStringArrayField;
+use SebastianHofer\BePermissions\Value\FilePermissions;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\FilePermissions
+ * @covers \SebastianHofer\BePermissions\Value\FilePermissions
  */
 final class FilePermissionsTest extends UnitTestCase
 {

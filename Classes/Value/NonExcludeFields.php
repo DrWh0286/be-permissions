@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Value;
+namespace SebastianHofer\BePermissions\Value;
 
-use Pluswerk\BePermissions\Utility\ArrayUtility;
+use SebastianHofer\BePermissions\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class NonExcludeFields implements ArrayBasedFieldInterface

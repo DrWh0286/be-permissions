@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
-use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
+use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
+use SebastianHofer\BePermissions\Value\ExplicitAllowDeny;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\ExplicitAllowDeny
+ * @covers \SebastianHofer\BePermissions\Value\ExplicitAllowDeny
  */
 final class ExplicitAllowDenyTest extends UnitTestCase
 {

@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Functional\UseCase;
+namespace SebastianHofer\BePermissions\Tests\Functional\UseCase;
 
-use Pluswerk\BePermissions\UseCase\DeployBeGroups;
-use Pluswerk\BePermissions\UseCase\ExportBeGroupsToConfigurationFile;
+use SebastianHofer\BePermissions\UseCase\DeployBeGroups;
+use SebastianHofer\BePermissions\UseCase\ExportBeGroupsToConfigurationFile;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\UseCase\DeployBeGroups
+ * @covers \SebastianHofer\BePermissions\UseCase\DeployBeGroups
  */
 final class DeployBeGroupsTest extends FunctionalTestCase
 {

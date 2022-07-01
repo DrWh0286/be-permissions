@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Authentication;
+namespace SebastianHofer\BePermissions\Authentication;
 
-use Pluswerk\BePermissions\Configuration\ExtensionConfigurationInterface;
+use SebastianHofer\BePermissions\Configuration\ExtensionConfigurationInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 final class AuthenticationService implements AuthenticationServiceInterface

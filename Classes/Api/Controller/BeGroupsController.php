@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Api\Controller;
+namespace SebastianHofer\BePermissions\Api\Controller;
 
-use Pluswerk\BePermissions\Model\BeGroup;
-use Pluswerk\BePermissions\Repository\BeGroupRepositoryInterface;
-use Pluswerk\BePermissions\Value\Identifier;
-use Pluswerk\BePermissions\Value\InvalidIdentifierException;
+use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Repository\BeGroupRepositoryInterface;
+use SebastianHofer\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Value\InvalidIdentifierException;
 use Symfony\Component\Routing\Annotation\Route;
 use TYPO3\CMS\Core\Http\JsonResponse;
 

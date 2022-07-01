@@ -9,60 +9,60 @@ services:
     factory: ['@TYPO3\CMS\Core\Cache\CacheManager', 'getCache']
     arguments: ['bepermissions_apiroutes']
 
-  Pluswerk\BePermissions\:
+  SebastianHofer\BePermissions\:
       resource: '../Classes/*'
 
-  Pluswerk\BePermissions\Command\MergeProdBeGroupsCommand:
+  SebastianHofer\BePermissions\Command\MergeProdBeGroupsCommand:
     public: true
     tags:
       - name: 'console.command'
         command: 'bepermission:mergeprodandexport'
         description: 'Merges be_groups records from production system wth your local records and exports the result.'
-  Pluswerk\BePermissions\Command\SyncProdBeGroupsCommand:
+  SebastianHofer\BePermissions\Command\SyncProdBeGroupsCommand:
     public: true
     tags:
       - name: 'console.command'
         command: 'bepermission:syncprodbegroups'
         description: 'Synchronize be_groups from production.'
-  Pluswerk\BePermissions\Command\DeployCommand:
+  SebastianHofer\BePermissions\Command\DeployCommand:
     public: true
     tags:
       - name: 'console.command'
         command: 'bepermission:deploy'
         description: 'Extends/overrules all existing be_groups yaml configurations into database.'
-  Pluswerk\BePermissions\Command\ExportBeGroupsCommand:
+  SebastianHofer\BePermissions\Command\ExportBeGroupsCommand:
     public: true
     tags:
       - name: 'console.command'
         command: 'bepermission:exoport'
         description: 'Exports all be_groups, which are code managed to their yaml files. If an identifier is given only this be_group is exported to yaml file.'
-  Pluswerk\BePermissions\Command\ExtendBeGroupCommand:
+  SebastianHofer\BePermissions\Command\ExtendBeGroupCommand:
     public: true
     tags:
       - name: 'console.command'
         command: 'bepermission:extend'
         description: 'Extends a be_group based on stored yaml file.'
-  Pluswerk\BePermissions\Command\OverruleBeGroupCommand:
+  SebastianHofer\BePermissions\Command\OverruleBeGroupCommand:
     public: true
     tags:
       - name: 'console.command'
         command: 'bepermission:overrule'
         description: 'Overrules a be_group based on stored yaml file. Be careful with this command!'
 
-  Pluswerk\BePermissions\UseCase\DeployBeGroups:
+  SebastianHofer\BePermissions\UseCase\DeployBeGroups:
     public: true
-  Pluswerk\BePermissions\UseCase\ExportBeGroupsToConfigurationFile:
+  SebastianHofer\BePermissions\UseCase\ExportBeGroupsToConfigurationFile:
     public: true
-  Pluswerk\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile:
+  SebastianHofer\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile:
     public: true
-  Pluswerk\BePermissions\UseCase\ExtendOrCreateBeGroupByConfigurationFile:
+  SebastianHofer\BePermissions\UseCase\ExtendOrCreateBeGroupByConfigurationFile:
     public: true
-  Pluswerk\BePermissions\Repository\BeGroupRepository:
+  SebastianHofer\BePermissions\Repository\BeGroupRepository:
     public: true
-  Pluswerk\BePermissions\Middleware\BePermissionsApiMiddleware:
+  SebastianHofer\BePermissions\Middleware\BePermissionsApiMiddleware:
     public: true
     arguments:
       $cache: '@cache.api_routes'
-  Pluswerk\BePermissions\Api\Controller\BeGroupsController:
+  SebastianHofer\BePermissions\Api\Controller\BeGroupsController:
     public: true
 

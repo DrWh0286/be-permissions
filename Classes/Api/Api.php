@@ -2,16 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Api;
+namespace SebastianHofer\BePermissions\Api;
 
 use GuzzleHttp\RequestOptions;
-use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilderInterface;
-use Pluswerk\BePermissions\Collection\BeGroupCollection;
-use Pluswerk\BePermissions\Configuration\ExtensionConfigurationInterface;
-use Pluswerk\BePermissions\Model\BeGroup;
-use Pluswerk\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilderInterface;
+use SebastianHofer\BePermissions\Collection\BeGroupCollection;
+use SebastianHofer\BePermissions\Configuration\ExtensionConfigurationInterface;
+use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Value\Identifier;
 use TYPO3\CMS\Core\Http\RequestFactory;
-use TYPO3\CMS\Core\Http\Uri;
 
 final class Api implements ApiInterface
 {

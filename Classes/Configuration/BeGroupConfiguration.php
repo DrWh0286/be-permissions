@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Configuration;
+namespace SebastianHofer\BePermissions\Configuration;
 
-use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
-use Pluswerk\BePermissions\Model\BeGroup;
-use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
-use Pluswerk\BePermissions\Value\DeployProcessing;
-use Pluswerk\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
+use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
+use SebastianHofer\BePermissions\Value\DeployProcessing;
+use SebastianHofer\BePermissions\Value\Identifier;
 
 final class BeGroupConfiguration
 {

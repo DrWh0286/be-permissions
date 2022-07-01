@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Collection;
+namespace SebastianHofer\BePermissions\Collection;
 
 use Exception;
 

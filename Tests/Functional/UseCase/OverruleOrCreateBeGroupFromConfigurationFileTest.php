@@ -2,48 +2,48 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Functional\UseCase;
+namespace SebastianHofer\BePermissions\Tests\Functional\UseCase;
 
-use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilder;
-use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
-use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
-use Pluswerk\BePermissions\Configuration\ExtensionConfiguration;
-use Pluswerk\BePermissions\Model\BeGroup;
-use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository;
-use Pluswerk\BePermissions\Repository\BeGroupRepository;
-use Pluswerk\BePermissions\Value\AllowedLanguages;
-use Pluswerk\BePermissions\Value\AvailableWidgets;
-use Pluswerk\BePermissions\Value\BeGroupFieldFactory;
-use Pluswerk\BePermissions\Value\CodeManagedGroup;
-use Pluswerk\BePermissions\Value\CategoryPerms;
-use Pluswerk\BePermissions\Value\DbMountpoints;
-use Pluswerk\BePermissions\Value\DeployProcessing;
-use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
-use Pluswerk\BePermissions\Value\FileMountpoints;
-use Pluswerk\BePermissions\Value\FilePermissions;
-use Pluswerk\BePermissions\Value\GroupMods;
-use Pluswerk\BePermissions\Value\Identifier;
-use Pluswerk\BePermissions\Value\MfaProviders;
-use Pluswerk\BePermissions\Value\NonExcludeFields;
-use Pluswerk\BePermissions\Value\PageTypesSelect;
-use Pluswerk\BePermissions\Value\TablesModify;
-use Pluswerk\BePermissions\Value\TablesSelect;
-use Pluswerk\BePermissions\Value\Title;
+use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilder;
+use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
+use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
+use SebastianHofer\BePermissions\Configuration\ExtensionConfiguration;
+use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Repository\BeGroupConfigurationRepository;
+use SebastianHofer\BePermissions\Repository\BeGroupRepository;
+use SebastianHofer\BePermissions\Value\AllowedLanguages;
+use SebastianHofer\BePermissions\Value\AvailableWidgets;
+use SebastianHofer\BePermissions\Value\BeGroupFieldFactory;
+use SebastianHofer\BePermissions\Value\CodeManagedGroup;
+use SebastianHofer\BePermissions\Value\CategoryPerms;
+use SebastianHofer\BePermissions\Value\DbMountpoints;
+use SebastianHofer\BePermissions\Value\DeployProcessing;
+use SebastianHofer\BePermissions\Value\ExplicitAllowDeny;
+use SebastianHofer\BePermissions\Value\FileMountpoints;
+use SebastianHofer\BePermissions\Value\FilePermissions;
+use SebastianHofer\BePermissions\Value\GroupMods;
+use SebastianHofer\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Value\MfaProviders;
+use SebastianHofer\BePermissions\Value\NonExcludeFields;
+use SebastianHofer\BePermissions\Value\PageTypesSelect;
+use SebastianHofer\BePermissions\Value\TablesModify;
+use SebastianHofer\BePermissions\Value\TablesSelect;
+use SebastianHofer\BePermissions\Value\Title;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
-use Pluswerk\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile;
+use SebastianHofer\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile;
 
 /**
- * @covers \Pluswerk\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile
- * @uses \Pluswerk\BePermissions\Configuration\BeGroupConfiguration
- * @uses \Pluswerk\BePermissions\Model\BeGroup
- * @uses \Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository
- * @uses \Pluswerk\BePermissions\Repository\BeGroupRepository
- * @uses \Pluswerk\BePermissions\Value\AllowedLanguages
- * @uses \Pluswerk\BePermissions\Value\ExplicitAllowDeny
- * @uses \Pluswerk\BePermissions\Value\Identifier
- * @uses \Pluswerk\BePermissions\Value\NonExcludeFields
+ * @covers \SebastianHofer\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile
+ * @uses \SebastianHofer\BePermissions\Configuration\BeGroupConfiguration
+ * @uses \SebastianHofer\BePermissions\Model\BeGroup
+ * @uses \SebastianHofer\BePermissions\Repository\BeGroupConfigurationRepository
+ * @uses \SebastianHofer\BePermissions\Repository\BeGroupRepository
+ * @uses \SebastianHofer\BePermissions\Value\AllowedLanguages
+ * @uses \SebastianHofer\BePermissions\Value\ExplicitAllowDeny
+ * @uses \SebastianHofer\BePermissions\Value\Identifier
+ * @uses \SebastianHofer\BePermissions\Value\NonExcludeFields
  * @uses \TYPO3\CMS\Core\Core\Environment
  * @uses \TYPO3\CMS\Core\Utility\GeneralUtility
  */

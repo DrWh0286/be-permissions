@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Value;
+namespace SebastianHofer\BePermissions\Value;
 
 final class MfaProviders extends AbstractStringArrayField
 {

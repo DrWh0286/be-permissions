@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
-use Pluswerk\BePermissions\Value\AbstractStringArrayField;
+use SebastianHofer\BePermissions\Value\AbstractStringArrayField;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-use Pluswerk\BePermissions\Value\TablesSelect;
+use SebastianHofer\BePermissions\Value\TablesSelect;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\TablesSelect
+ * @covers \SebastianHofer\BePermissions\Value\TablesSelect
  */
 final class TablesSelectTest extends UnitTestCase
 {

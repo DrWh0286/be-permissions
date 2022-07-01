@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Hook;
+namespace SebastianHofer\BePermissions\Hook;
 
-use Pluswerk\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Value\InvalidIdentifierException;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 
 final class DataHandlerBeGroupsIdentifierHook

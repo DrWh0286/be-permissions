@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Builder;
+namespace SebastianHofer\BePermissions\Builder;
 
-use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
-use Pluswerk\BePermissions\Collection\DuplicateBeGroupFieldException;
+use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
+use SebastianHofer\BePermissions\Collection\DuplicateBeGroupFieldException;
 
 interface BeGroupFieldCollectionBuilderInterface
 {

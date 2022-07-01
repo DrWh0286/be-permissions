@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Functional\UseCase;
+namespace SebastianHofer\BePermissions\Tests\Functional\UseCase;
 
-use Pluswerk\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Value\Identifier;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
-use Pluswerk\BePermissions\UseCase\ExportBeGroupsToConfigurationFile;
+use SebastianHofer\BePermissions\UseCase\ExportBeGroupsToConfigurationFile;
 
 /**
- * @covers \Pluswerk\BePermissions\UseCase\ExportBeGroupsToConfigurationFile
+ * @covers \SebastianHofer\BePermissions\UseCase\ExportBeGroupsToConfigurationFile
  * @uses \TYPO3\CMS\Core\Core\Environment
  * @uses \TYPO3\CMS\Core\Utility\GeneralUtility
- * @uses \Pluswerk\BePermissions\Configuration\BeGroupConfiguration
- * @uses \Pluswerk\BePermissions\Repository\BeGroupConfigurationRepository
- * @uses \Pluswerk\BePermissions\Repository\BeGroupRepository
- * @uses \Pluswerk\BePermissions\Value\Identifier
+ * @uses \SebastianHofer\BePermissions\Configuration\BeGroupConfiguration
+ * @uses \SebastianHofer\BePermissions\Repository\BeGroupConfigurationRepository
+ * @uses \SebastianHofer\BePermissions\Repository\BeGroupRepository
+ * @uses \SebastianHofer\BePermissions\Value\Identifier
  */
 final class ExportBeGroupsToConfigurationFileTest extends FunctionalTestCase
 {

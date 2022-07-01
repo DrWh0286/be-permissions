@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
-use Pluswerk\BePermissions\Value\AbstractStringArrayField;
-use Pluswerk\BePermissions\Value\GroupMods;
+use SebastianHofer\BePermissions\Value\AbstractStringArrayField;
+use SebastianHofer\BePermissions\Value\GroupMods;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\GroupMods
+ * @covers \SebastianHofer\BePermissions\Value\GroupMods
  */
 final class GroupModsTest extends UnitTestCase
 {

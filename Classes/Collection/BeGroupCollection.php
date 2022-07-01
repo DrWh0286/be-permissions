@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Collection;
+namespace SebastianHofer\BePermissions\Collection;
 
 use Iterator;
 use IteratorAggregate;
 use JsonSerializable;
-use Pluswerk\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Model\BeGroup;
 
 /**
  * @implements IteratorAggregate<int, BeGroup>

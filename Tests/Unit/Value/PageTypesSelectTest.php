@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
-use Pluswerk\BePermissions\Value\AbstractIntArrayField;
+use SebastianHofer\BePermissions\Value\AbstractIntArrayField;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-use Pluswerk\BePermissions\Value\PageTypesSelect;
+use SebastianHofer\BePermissions\Value\PageTypesSelect;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\PageTypesSelect
+ * @covers \SebastianHofer\BePermissions\Value\PageTypesSelect
  */
 final class PageTypesSelectTest extends UnitTestCase
 {

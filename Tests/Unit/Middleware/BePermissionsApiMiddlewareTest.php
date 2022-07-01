@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Middleware;
+namespace SebastianHofer\BePermissions\Tests\Unit\Middleware;
 
-use Pluswerk\BePermissions\Authentication\AuthenticationFailedException;
-use Pluswerk\BePermissions\Authentication\AuthenticationServiceInterface;
-use Pluswerk\BePermissions\Middleware\BePermissionsApiMiddleware;
+use SebastianHofer\BePermissions\Authentication\AuthenticationFailedException;
+use SebastianHofer\BePermissions\Authentication\AuthenticationServiceInterface;
+use SebastianHofer\BePermissions\Middleware\BePermissionsApiMiddleware;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -15,7 +15,7 @@ use TYPO3\CMS\Core\Cache\Frontend\FrontendInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Middleware\BePermissionsApiMiddleware
+ * @covers \SebastianHofer\BePermissions\Middleware\BePermissionsApiMiddleware
  */
 final class BePermissionsApiMiddlewareTest extends UnitTestCase
 {

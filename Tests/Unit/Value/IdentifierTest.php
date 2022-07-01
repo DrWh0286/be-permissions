@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
-use Pluswerk\BePermissions\Value\InvalidIdentifierException;
-use Pluswerk\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Value\InvalidIdentifierException;
+use SebastianHofer\BePermissions\Value\Identifier;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\Identifier
+ * @covers \SebastianHofer\BePermissions\Value\Identifier
  */
 final class IdentifierTest extends UnitTestCase
 {

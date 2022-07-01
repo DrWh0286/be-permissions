@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Middleware;
+namespace SebastianHofer\BePermissions\Middleware;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Pluswerk\BePermissions\Authentication\AuthenticationFailedException;
-use Pluswerk\BePermissions\Authentication\AuthenticationServiceInterface;
+use SebastianHofer\BePermissions\Authentication\AuthenticationFailedException;
+use SebastianHofer\BePermissions\Authentication\AuthenticationServiceInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
