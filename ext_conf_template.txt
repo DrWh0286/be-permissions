@@ -1,0 +1,15 @@
+# Disable Features
+###########################
+# customcategory=general=General
+# customcategory=connection=Connection
+
+# cat=general; type=string; label=API token
+apiToken = secureapiToken
+
+# cat=general; type=string; label=Basic Auth User
+basicAuthUser =
+# cat=general; type=string; label=Basic Auth Password
+basicAuthPassword =
+
+# cat=connection/prod/host; type=string; label=Production Host
+productionHost = https://www.some-host.tld/

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Hook;
 
 use Pluswerk\BePermissions\Value\Identifier;
-use Pluswerk\BePermissions\Value\InvalidIdentifierException;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
 
 final class DataHandlerBeGroupsIdentifierHook

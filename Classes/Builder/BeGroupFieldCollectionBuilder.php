@@ -9,7 +9,7 @@ use Pluswerk\BePermissions\Collection\DuplicateBeGroupFieldException;
 use Pluswerk\BePermissions\Value\BeGroupFieldFactoryInterface;
 use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
 
-final class BeGroupFieldCollectionBuilder
+final class BeGroupFieldCollectionBuilder implements BeGroupFieldCollectionBuilderInterface
 {
     private BeGroupFieldFactoryInterface $beGroupFieldFactory;
 

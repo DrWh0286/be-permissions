@@ -5,13 +5,17 @@ declare(strict_types=1);
 namespace Pluswerk\BePermissions\Form\Element;
 
 use TYPO3\CMS\Backend\Form\Behavior\OnFieldChangeTrait;
+use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Page\JavaScriptModuleInstruction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 
-final class IdentifierField extends \TYPO3\CMS\Backend\Form\Element\AbstractFormElement
+/**
+ * @todo: Make it possible to regenerate identifier - like slug.
+ */
+final class IdentifierField extends AbstractFormElement
 {
     use OnFieldChangeTrait;
 

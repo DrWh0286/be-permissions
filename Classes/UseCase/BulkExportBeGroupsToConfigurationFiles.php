@@ -26,6 +26,7 @@ final class BulkExportBeGroupsToConfigurationFiles
         $beGroups = $this->beGroupRepository->findAllForBulkExport();
         $configPath = Environment::getConfigPath();
 
+        /** @var BeGroup $beGroup */
         foreach ($beGroups as $beGroup) {
             $configuration = BeGroupConfiguration::createFromBeGroup($beGroup, $configPath);
             $this->beGroupConfigurationRepository->write($configuration);

@@ -22,6 +22,7 @@ use Pluswerk\BePermissions\Value\PageTypesSelect;
 use Pluswerk\BePermissions\Value\TablesModify;
 use Pluswerk\BePermissions\Value\TablesSelect;
 use Pluswerk\BePermissions\Value\Title;
+use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -100,5 +101,71 @@ final class ExtensionConfigurationTest extends UnitTestCase
         foreach ($valueObjectMapping as $fieldName => $mappingEntry) {
             $this->assertSame($mappingEntry, $extensionConfiguration->getClassNameByFieldName($fieldName));
         }
+    }
+
+    /**
+     * @test
+     */
+    public function default_api_token_is_empty_string(): void //phpcs:ignore
+    {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_permissions'] = [];
+
+        $extensionConfiguration = new ExtensionConfiguration();
+
+        $this->assertSame('', $extensionConfiguration->getApiToken());
+    }
+
+    /**
+     * @test
+     */
+    public function configured_api_token_is_returned(): void //phpcs:ignore
+    {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_permissions'] = [
+            'apiToken' => 'thisisadummyapitokenfortesting'
+        ];
+
+        $extensionConfiguration = new ExtensionConfiguration();
+
+        $this->assertSame('thisisadummyapitokenfortesting', $extensionConfiguration->getApiToken());
+    }
+
+    /**
+     * @test
+     * @dataProvider apiUriProvider
+     *
+     * @param string[][] $extConf
+     */
+    public function api_base_uri_is_returned(array $extConf, Uri $expectedUri): void //phpcs:ignore
+    {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['be_permissions'] = $extConf;
+
+        $extensionConfiguration = new ExtensionConfiguration();
+
+        $this->assertEquals($expectedUri, $extensionConfiguration->getApiUri());
+    }
+
+    /**
+     * @return array<string, array<string, array<string, string>|Uri>>
+     */
+    public function apiUriProvider(): array
+    {
+        return [
+            'api uri without basic auth' => [
+                'extConf' => [
+                    'productionHost' => 'https://production.host',
+                    'basicAuthUser' => '',
+                    'basicAuthPassword' => ''
+                ],
+                'expectedUri' => new Uri('https://production.host')
+            ],
+            'api uri with basic auth' => [
+                'extConf' => [
+                    'productionHost' => 'https://production.host',
+                    'basicAuthUser' => 'user',
+                    'basicAuthPassword' => 'password'
+                ],
+                'expectedUri' => new Uri('https://user:password@production.host')
+            ]
+        ];
     }
 }

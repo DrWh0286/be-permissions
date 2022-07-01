@@ -23,7 +23,6 @@ use Pluswerk\BePermissions\Value\FileMountpoints;
 use Pluswerk\BePermissions\Value\FilePermissions;
 use Pluswerk\BePermissions\Value\GroupMods;
 use Pluswerk\BePermissions\Value\Identifier;
-use Pluswerk\BePermissions\Value\LockToDomain;
 use Pluswerk\BePermissions\Value\MfaProviders;
 use Pluswerk\BePermissions\Value\NonExcludeFields;
 use Pluswerk\BePermissions\Value\PageTypesSelect;
