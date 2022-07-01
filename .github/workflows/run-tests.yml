@@ -8,6 +8,7 @@ jobs:
         image:
           - 'kanti/buildy:7.4'
           - 'kanti/buildy:8.0'
+          - 'kanti/buildy:8.1'
         mysql: ['8.0']
     container:
       image: ${{ matrix.image }}
