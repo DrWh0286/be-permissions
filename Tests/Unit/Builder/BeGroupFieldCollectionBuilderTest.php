@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Builder;
+namespace SebastianHofer\BePermissions\Tests\Unit\Builder;
 
-use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
-use Pluswerk\BePermissions\Value\BeGroupFieldFactoryInterface;
-use Pluswerk\BePermissions\Value\NonExcludeFields;
-use Pluswerk\BePermissions\Value\TablesSelect;
+use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
+use SebastianHofer\BePermissions\Value\BeGroupFieldFactoryInterface;
+use SebastianHofer\BePermissions\Value\NonExcludeFields;
+use SebastianHofer\BePermissions\Value\TablesSelect;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilder;
+use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilder;
 
 /**
- * @covers \Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilder
+ * @covers \SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilder
  */
 final class BeGroupFieldCollectionBuilderTest extends UnitTestCase
 {

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Utility;
+namespace SebastianHofer\BePermissions\Utility;
 
 final class ArrayUtility
 {

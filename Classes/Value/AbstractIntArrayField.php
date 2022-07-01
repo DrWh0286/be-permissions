@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Value;
+namespace SebastianHofer\BePermissions\Value;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 

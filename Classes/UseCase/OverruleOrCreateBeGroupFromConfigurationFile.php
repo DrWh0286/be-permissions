@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\UseCase;
+namespace SebastianHofer\BePermissions\UseCase;
 
-use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
-use Pluswerk\BePermissions\Model\BeGroup;
-use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
-use Pluswerk\BePermissions\Repository\BeGroupRepositoryInterface;
-use Pluswerk\BePermissions\Value\Identifier;
-use Pluswerk\BePermissions\Value\InvalidIdentifierException;
+use SebastianHofer\BePermissions\Configuration\ConfigurationFileMissingException;
+use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
+use SebastianHofer\BePermissions\Repository\BeGroupRepositoryInterface;
+use SebastianHofer\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Value\InvalidIdentifierException;
 use TYPO3\CMS\Core\Core\Environment;
 
 final class OverruleOrCreateBeGroupFromConfigurationFile

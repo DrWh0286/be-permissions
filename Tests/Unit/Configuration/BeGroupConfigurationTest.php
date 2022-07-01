@@ -2,26 +2,26 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Configuration;
+namespace SebastianHofer\BePermissions\Tests\Unit\Configuration;
 
-use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
-use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
-use Pluswerk\BePermissions\Model\BeGroup;
-use Pluswerk\BePermissions\Value\AllowedLanguages;
-use Pluswerk\BePermissions\Value\DeployProcessing;
-use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
-use Pluswerk\BePermissions\Value\Identifier;
-use Pluswerk\BePermissions\Value\NonExcludeFields;
-use Pluswerk\BePermissions\Value\Title;
+use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
+use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
+use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Value\AllowedLanguages;
+use SebastianHofer\BePermissions\Value\DeployProcessing;
+use SebastianHofer\BePermissions\Value\ExplicitAllowDeny;
+use SebastianHofer\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Value\NonExcludeFields;
+use SebastianHofer\BePermissions\Value\Title;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Configuration\BeGroupConfiguration
- * @uses \Pluswerk\BePermissions\Model\BeGroup
- * @uses \Pluswerk\BePermissions\Value\AllowedLanguages
- * @uses \Pluswerk\BePermissions\Value\ExplicitAllowDeny
- * @uses \Pluswerk\BePermissions\Value\Identifier
- * @uses \Pluswerk\BePermissions\Value\NonExcludeFields
+ * @covers \SebastianHofer\BePermissions\Configuration\BeGroupConfiguration
+ * @uses \SebastianHofer\BePermissions\Model\BeGroup
+ * @uses \SebastianHofer\BePermissions\Value\AllowedLanguages
+ * @uses \SebastianHofer\BePermissions\Value\ExplicitAllowDeny
+ * @uses \SebastianHofer\BePermissions\Value\Identifier
+ * @uses \SebastianHofer\BePermissions\Value\NonExcludeFields
  */
 final class BeGroupConfigurationTest extends UnitTestCase
 {

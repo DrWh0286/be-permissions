@@ -2,24 +2,24 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Configuration;
+namespace SebastianHofer\BePermissions\Configuration;
 
-use Pluswerk\BePermissions\Value\AllowedLanguages;
-use Pluswerk\BePermissions\Value\AvailableWidgets;
-use Pluswerk\BePermissions\Value\CodeManagedGroup;
-use Pluswerk\BePermissions\Value\CategoryPerms;
-use Pluswerk\BePermissions\Value\DbMountpoints;
-use Pluswerk\BePermissions\Value\DeployProcessing;
-use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
-use Pluswerk\BePermissions\Value\FileMountpoints;
-use Pluswerk\BePermissions\Value\FilePermissions;
-use Pluswerk\BePermissions\Value\GroupMods;
-use Pluswerk\BePermissions\Value\MfaProviders;
-use Pluswerk\BePermissions\Value\NonExcludeFields;
-use Pluswerk\BePermissions\Value\PageTypesSelect;
-use Pluswerk\BePermissions\Value\TablesModify;
-use Pluswerk\BePermissions\Value\TablesSelect;
-use Pluswerk\BePermissions\Value\Title;
+use SebastianHofer\BePermissions\Value\AllowedLanguages;
+use SebastianHofer\BePermissions\Value\AvailableWidgets;
+use SebastianHofer\BePermissions\Value\CodeManagedGroup;
+use SebastianHofer\BePermissions\Value\CategoryPerms;
+use SebastianHofer\BePermissions\Value\DbMountpoints;
+use SebastianHofer\BePermissions\Value\DeployProcessing;
+use SebastianHofer\BePermissions\Value\ExplicitAllowDeny;
+use SebastianHofer\BePermissions\Value\FileMountpoints;
+use SebastianHofer\BePermissions\Value\FilePermissions;
+use SebastianHofer\BePermissions\Value\GroupMods;
+use SebastianHofer\BePermissions\Value\MfaProviders;
+use SebastianHofer\BePermissions\Value\NonExcludeFields;
+use SebastianHofer\BePermissions\Value\PageTypesSelect;
+use SebastianHofer\BePermissions\Value\TablesModify;
+use SebastianHofer\BePermissions\Value\TablesSelect;
+use SebastianHofer\BePermissions\Value\Title;
 use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

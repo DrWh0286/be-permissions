@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Collection;
+namespace SebastianHofer\BePermissions\Tests\Unit\Collection;
 
 use PHPUnit\Framework\MockObject\MockObject;
-use Pluswerk\BePermissions\Collection\DuplicateBeGroupFieldException;
-use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
-use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
+use SebastianHofer\BePermissions\Collection\DuplicateBeGroupFieldException;
+use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
+use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Collection\BeGroupFieldCollection
+ * @covers \SebastianHofer\BePermissions\Collection\BeGroupFieldCollection
  */
 final class BeGroupFieldCollectionTest extends UnitTestCase
 {

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
-use Pluswerk\BePermissions\Value\AbstractIntArrayField;
-use Pluswerk\BePermissions\Value\FileMountpoints;
+use SebastianHofer\BePermissions\Value\AbstractIntArrayField;
+use SebastianHofer\BePermissions\Value\FileMountpoints;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\FileMountpoints
+ * @covers \SebastianHofer\BePermissions\Value\FileMountpoints
  */
 final class FileMountpointsTest extends UnitTestCase
 {

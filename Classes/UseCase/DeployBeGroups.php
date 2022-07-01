@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\UseCase;
+namespace SebastianHofer\BePermissions\UseCase;
 
-use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
-use Pluswerk\BePermissions\Model\BeGroup;
-use Pluswerk\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
-use Pluswerk\BePermissions\Repository\BeGroupRepositoryInterface;
+use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
+use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
+use SebastianHofer\BePermissions\Repository\BeGroupRepositoryInterface;
 use TYPO3\CMS\Core\Core\Environment;
 
 final class DeployBeGroups

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Form\Element;
+namespace SebastianHofer\BePermissions\Form\Element;
 
 use TYPO3\CMS\Backend\Form\Behavior\OnFieldChangeTrait;
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;

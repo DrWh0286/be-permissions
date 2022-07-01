@@ -2,27 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Api;
+namespace SebastianHofer\BePermissions\Tests\Unit\Api;
 
-use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilderInterface;
-use Pluswerk\BePermissions\Collection\BeGroupCollection;
-use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
-use Pluswerk\BePermissions\Configuration\ExtensionConfigurationInterface;
-use Pluswerk\BePermissions\Model\BeGroup;
-use Pluswerk\BePermissions\Value\AllowedLanguages;
-use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
-use Pluswerk\BePermissions\Value\Identifier;
-use Pluswerk\BePermissions\Value\NonExcludeFields;
-use Pluswerk\BePermissions\Value\Title;
+use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilderInterface;
+use SebastianHofer\BePermissions\Collection\BeGroupCollection;
+use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
+use SebastianHofer\BePermissions\Configuration\ExtensionConfigurationInterface;
+use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Value\AllowedLanguages;
+use SebastianHofer\BePermissions\Value\ExplicitAllowDeny;
+use SebastianHofer\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Value\NonExcludeFields;
+use SebastianHofer\BePermissions\Value\Title;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamInterface;
 use TYPO3\CMS\Core\Http\RequestFactory;
 use TYPO3\CMS\Core\Http\Uri;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-use Pluswerk\BePermissions\Api\Api;
+use SebastianHofer\BePermissions\Api\Api;
 
 /**
- * @covers \Pluswerk\BePermissions\Api\Api
+ * @covers \SebastianHofer\BePermissions\Api\Api
  */
 final class ApiTest extends UnitTestCase
 {

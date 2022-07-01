@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
 use InvalidArgumentException;
-use Pluswerk\BePermissions\Value\AbstractStringField;
-use Pluswerk\BePermissions\Value\DeployProcessing;
+use SebastianHofer\BePermissions\Value\AbstractStringField;
+use SebastianHofer\BePermissions\Value\DeployProcessing;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\DeployProcessing
+ * @covers \SebastianHofer\BePermissions\Value\DeployProcessing
  */
 final class DeployProcessingTest extends UnitTestCase
 {

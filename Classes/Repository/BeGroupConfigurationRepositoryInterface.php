@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Repository;
+namespace SebastianHofer\BePermissions\Repository;
 
-use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
-use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
-use Pluswerk\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
+use SebastianHofer\BePermissions\Configuration\ConfigurationFileMissingException;
+use SebastianHofer\BePermissions\Value\Identifier;
 
 interface BeGroupConfigurationRepositoryInterface
 {

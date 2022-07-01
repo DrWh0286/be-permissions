@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Hook;
+namespace SebastianHofer\BePermissions\Tests\Unit\Hook;
 
-use Pluswerk\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Value\Identifier;
 use TYPO3\CMS\Core\DataHandling\DataHandler;
-use Pluswerk\BePermissions\Hook\DataHandlerBeGroupsIdentifierHook;
+use SebastianHofer\BePermissions\Hook\DataHandlerBeGroupsIdentifierHook;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Hook\DataHandlerBeGroupsIdentifierHook
+ * @covers \SebastianHofer\BePermissions\Hook\DataHandlerBeGroupsIdentifierHook
  */
 final class DataHandlerBeGroupsIdentifierHookTest extends UnitTestCase
 {

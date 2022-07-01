@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Command;
+namespace SebastianHofer\BePermissions\Command;
 
-use Pluswerk\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile;
-use Pluswerk\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile;
+use SebastianHofer\BePermissions\Value\Identifier;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;

@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Api\Controller;
+namespace SebastianHofer\BePermissions\Tests\Unit\Api\Controller;
 
-use Pluswerk\BePermissions\Collection\BeGroupCollection;
-use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
-use Pluswerk\BePermissions\Model\BeGroup;
-use Pluswerk\BePermissions\Repository\BeGroupRepositoryInterface;
-use Pluswerk\BePermissions\Value\AllowedLanguages;
-use Pluswerk\BePermissions\Value\ExplicitAllowDeny;
-use Pluswerk\BePermissions\Value\Identifier;
-use Pluswerk\BePermissions\Value\NonExcludeFields;
-use Pluswerk\BePermissions\Value\Title;
+use SebastianHofer\BePermissions\Collection\BeGroupCollection;
+use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
+use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Repository\BeGroupRepositoryInterface;
+use SebastianHofer\BePermissions\Value\AllowedLanguages;
+use SebastianHofer\BePermissions\Value\ExplicitAllowDeny;
+use SebastianHofer\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Value\NonExcludeFields;
+use SebastianHofer\BePermissions\Value\Title;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-use Pluswerk\BePermissions\Api\Controller\BeGroupsController;
+use SebastianHofer\BePermissions\Api\Controller\BeGroupsController;
 
 /**
- * @covers \Pluswerk\BePermissions\Api\Controller\BeGroupsController
+ * @covers \SebastianHofer\BePermissions\Api\Controller\BeGroupsController
  */
 final class BeGroupsControllerTest extends UnitTestCase
 {

@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
-use Pluswerk\BePermissions\Value\AbstractStringField;
-use Pluswerk\BePermissions\Value\Title;
+use SebastianHofer\BePermissions\Value\AbstractStringField;
+use SebastianHofer\BePermissions\Value\Title;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\Title
+ * @covers \SebastianHofer\BePermissions\Value\Title
  */
 final class TitleTest extends UnitTestCase
 {

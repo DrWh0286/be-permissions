@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
-use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
+use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-use Pluswerk\BePermissions\Value\DbMountpoints;
+use SebastianHofer\BePermissions\Value\DbMountpoints;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\DbMountpoints
+ * @covers \SebastianHofer\BePermissions\Value\DbMountpoints
  */
 final class DbMountpointsTest extends UnitTestCase
 {

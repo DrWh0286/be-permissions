@@ -1,5 +1,5 @@
 {
-  "name": "pluswerk/be-permissions",
+  "name": "sebatianhofer/be-permissions",
   "description": "Makes Backend permissions shippable",
   "type": "typo3-cms-extension",
   "license": [
@@ -8,7 +8,7 @@
   "authors": [
     {
       "name": "Sebastian Hofer",
-      "email": "sebastian.hofer@pluswerk.ag"
+      "email": "sebastian.hofer@s-hofer.de"
     }
   ],
   "repositories": [
@@ -28,12 +28,12 @@
   },
   "autoload": {
     "psr-4": {
-      "Pluswerk\\BePermissions\\": "Classes"
+      "SebastianHofer\\BePermissions\\": "Classes"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "Pluswerk\\BePermissions\\Tests\\": "Tests"
+      "SebastianHofer\\BePermissions\\Tests\\": "Tests"
     }
   },
   "scripts": {

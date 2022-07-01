@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Collection;
+namespace SebastianHofer\BePermissions\Collection;
 
 use Iterator;
 use IteratorAggregate;
-use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
+use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
 
 /**
  * @implements IteratorAggregate<BeGroupFieldInterface>

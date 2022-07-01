@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\UseCase;
+namespace SebastianHofer\BePermissions\UseCase;
 
-use Pluswerk\BePermissions\Api\Api;
-use Pluswerk\BePermissions\Model\BeGroup;
-use Pluswerk\BePermissions\Repository\BeGroupRepositoryInterface;
-use Pluswerk\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Api\Api;
+use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Repository\BeGroupRepositoryInterface;
+use SebastianHofer\BePermissions\Value\Identifier;
 
 final class SynchronizeBeGroupsFromProduction
 {

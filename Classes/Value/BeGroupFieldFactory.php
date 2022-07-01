@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Value;
+namespace SebastianHofer\BePermissions\Value;
 
-use Pluswerk\BePermissions\Configuration\ExtensionConfigurationInterface;
-use Pluswerk\BePermissions\Configuration\NoValueObjectConfiguredException;
+use SebastianHofer\BePermissions\Configuration\ExtensionConfigurationInterface;
+use SebastianHofer\BePermissions\Configuration\NoValueObjectConfiguredException;
 
 final class BeGroupFieldFactory implements BeGroupFieldFactoryInterface
 {

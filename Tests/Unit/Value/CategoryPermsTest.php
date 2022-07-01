@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
-use Pluswerk\BePermissions\Value\AbstractIntArrayField;
-use Pluswerk\BePermissions\Value\CategoryPerms;
+use SebastianHofer\BePermissions\Value\AbstractIntArrayField;
+use SebastianHofer\BePermissions\Value\CategoryPerms;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\CategoryPerms
+ * @covers \SebastianHofer\BePermissions\Value\CategoryPerms
  */
 final class CategoryPermsTest extends UnitTestCase
 {

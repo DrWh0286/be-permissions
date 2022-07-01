@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
-use Pluswerk\BePermissions\Value\AbstractStringArrayField;
-use Pluswerk\BePermissions\Value\AvailableWidgets;
+use SebastianHofer\BePermissions\Value\AbstractStringArrayField;
+use SebastianHofer\BePermissions\Value\AvailableWidgets;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\AvailableWidgets
+ * @covers \SebastianHofer\BePermissions\Value\AvailableWidgets
  */
 final class AvailableWidgetsTest extends UnitTestCase
 {

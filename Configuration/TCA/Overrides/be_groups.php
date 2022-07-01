@@ -31,8 +31,8 @@ call_user_func(function () {
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'items' => \Pluswerk\BePermissions\Value\DeployProcessing::tcaItems(),
-                'default' => (string)\Pluswerk\BePermissions\Value\DeployProcessing::createWithDefault()
+                'items' => \SebastianHofer\BePermissions\Value\DeployProcessing::tcaItems(),
+                'default' => (string)\SebastianHofer\BePermissions\Value\DeployProcessing::createWithDefault()
             ],
         ]
     ];

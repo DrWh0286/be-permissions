@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Tests\Unit\Value;
+namespace SebastianHofer\BePermissions\Tests\Unit\Value;
 
-use Pluswerk\BePermissions\Value\AbstractBooleanField;
+use SebastianHofer\BePermissions\Value\AbstractBooleanField;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
-use Pluswerk\BePermissions\Value\CodeManagedGroup;
+use SebastianHofer\BePermissions\Value\CodeManagedGroup;
 
 /**
- * @covers \Pluswerk\BePermissions\Value\CodeManagedGroup
+ * @covers \SebastianHofer\BePermissions\Value\CodeManagedGroup
  */
 final class CodeManagedGroupTest extends UnitTestCase
 {

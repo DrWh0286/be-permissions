@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Repository;
+namespace SebastianHofer\BePermissions\Repository;
 
 use DirectoryIterator;
-use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilder;
-use Pluswerk\BePermissions\Collection\DuplicateBeGroupFieldException;
-use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
-use Pluswerk\BePermissions\Configuration\ConfigurationFileMissingException;
-use Pluswerk\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilder;
+use SebastianHofer\BePermissions\Collection\DuplicateBeGroupFieldException;
+use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
+use SebastianHofer\BePermissions\Configuration\ConfigurationFileMissingException;
+use SebastianHofer\BePermissions\Value\Identifier;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Configuration\Loader\YamlFileLoader;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

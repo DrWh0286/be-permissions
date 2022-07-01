@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace Pluswerk\BePermissions\Model;
+namespace SebastianHofer\BePermissions\Model;
 
 use JsonSerializable;
-use Pluswerk\BePermissions\Builder\BeGroupFieldCollectionBuilderInterface;
-use Pluswerk\BePermissions\Collection\BeGroupFieldCollection;
-use Pluswerk\BePermissions\Configuration\BeGroupConfiguration;
-use Pluswerk\BePermissions\Value\BeGroupFieldInterface;
-use Pluswerk\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilderInterface;
+use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
+use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
+use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
+use SebastianHofer\BePermissions\Value\Identifier;
 
 final class BeGroup implements JsonSerializable
 {

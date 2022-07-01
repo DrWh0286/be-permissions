@@ -6,7 +6,7 @@
 
 /** @phpstan-ignore-next-line */
 $EM_CONF[$_EXTKEY] = [
-    'title' => 'Pluswerk Backend Permissions',
+    'title' => 'Backend Permissions',
     'description' => 'Makes Backend permissions shippable',
     'category' => 'module',
     'constraints' => [
@@ -19,7 +19,6 @@ $EM_CONF[$_EXTKEY] = [
     'createDirs' => '',
     'clearCacheOnLoad' => 1,
     'author' => 'Sebastian Hofer',
-    'author_email' => 'sebastian.hofer@pluswerk.ag',
-    'author_company' => 'Pluswerk AG',
+    'author_email' => 'sebastian.hofer@s-hofer.de',
     'version' => '0.0.1',
 ];
