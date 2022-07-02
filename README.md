@@ -123,6 +123,12 @@ If filled this holds basic auth credentials for the remote system.
 
 This holds the host to the remote repository from where the synchronization should be used.
 
+## Todo
+
+* Create a backend module to provide a manual compare and overrule import after deployment to remove permissions in case of deploy_processing 'extend'.
+* Respect subgroups.
+* Add a tsconfig file to export to also store user TSconfig for be_groups in vcs.
+
 ## Migrations
 
 ### Update to > 0.6.0
