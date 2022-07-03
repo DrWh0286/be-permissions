@@ -6,16 +6,15 @@
          beStrictAboutTodoAnnotatedTests="true" verbose="true" colors="true">
     <coverage processUncoveredFiles="false">
         <include>
-            <directory suffix=".php">Classes/Builder</directory>
-            <directory suffix=".php">Classes/Configuration</directory>
-            <directory suffix=".php">Classes/Configuration</directory>
-            <directory suffix=".php">Classes/Model</directory>
-            <directory suffix=".php">Classes/Value</directory>
+            <directory suffix=".php">Classes</directory>
         </include>
     </coverage>
     <testsuites>
         <testsuite name="Unit-Tests">
             <directory suffix="Test.php">Tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration-Tests">
+            <directory suffix="Test.php">Tests/Integration</directory>
         </testsuite>
     </testsuites>
 </phpunit>
