@@ -57,6 +57,21 @@ final class BeGroupConfigurationRepository implements BeGroupConfigurationReposi
         return new BeGroupConfiguration($identifier, $configPath, $collection);
     }
 
+    public function loadYamlString(Identifier $identifier, string $configPath): string
+    {
+        $fileName = $configPath . '/be_groups/' . $identifier . '/' . $this->beGroupConfigurationFileName;
+
+        if (!file_exists($fileName)) {
+            throw new ConfigurationFileMissingException('No configuration file \'' . $fileName . '\' found!');
+        }
+
+        /** @var YamlFileLoader $loader */
+        $loader = GeneralUtility::makeInstance(YamlFileLoader::class);
+        $configuration = $loader->load(GeneralUtility::fixWindowsFilePath($fileName));
+
+        return Yaml::dump($configuration, 99, 2);
+    }
+
     public function loadAll(string $configPath): array
     {
         $directoryIterator = new DirectoryIterator($configPath . '/be_groups/');

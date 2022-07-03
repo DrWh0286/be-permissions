@@ -22,4 +22,6 @@ interface BeGroupConfigurationRepositoryInterface
      * @return BeGroupConfiguration[]
      */
     public function loadAll(string $configPath): array;
+
+    public function loadYamlString(Identifier $identifier, string $configPath): string;
 }

@@ -24,7 +24,8 @@
     "typo3/cms-frontend": "^11.5",
     "typo3/cms-lowlevel": "^11.5",
     "ext-json": "*",
-    "symfony/framework-bundle": "^5.4 || ^6.0"
+    "symfony/framework-bundle": "^5.4 || ^6.0",
+    "jfcherng/php-diff": "^6.11"
   },
   "autoload": {
     "psr-4": {

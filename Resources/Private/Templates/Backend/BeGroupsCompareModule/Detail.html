@@ -7,7 +7,30 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <h1>{identifier}</h1>
+            <h1>{group.title}</h1>
+
+            <div class="accordion" id="accordionExample">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingOne">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#be_group_{group.identifier}" aria-expanded="false" aria-controls="collapseOne">
+                            {configPath}/{identifier}/be_group.yaml
+                        </button>
+                    </h2>
+                    <div id="be_group_{group.identifier}" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                        <div class="accordion-body accordion-body--no-padding">
+                            <f:if condition="{result}">
+                                <f:then>
+                                    <f:format.raw>{result}</f:format.raw>
+                                </f:then>
+                                <f:else>
+                                    <p>No difference between yaml file and be_groups record</p>
+                                </f:else>
+                            </f:if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </f:section>

@@ -12,6 +12,11 @@ interface BeGroupRepositoryInterface
 {
     public function findOneByIdentifier(Identifier $identifier): ?BeGroup;
 
+    /**
+     * @return string[]
+     */
+    public function findOneByIdentifierRaw(Identifier $identifier): array;
+
     public function findOneByUid(int $uid): ?BeGroup;
 
     public function update(BeGroup $beGroup): void;
@@ -28,4 +33,6 @@ interface BeGroupRepositoryInterface
     public function addOrUpdateBeGroups(BeGroupCollection $beGroups): void;
 
     public function addOrUpdateBeGroup(BeGroup $beGroup): void;
+
+    public function loadYamlString(Identifier $identifier): string;
 }
