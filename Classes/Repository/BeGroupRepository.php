@@ -90,6 +90,21 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
         return $beGroups;
     }
 
+    public function findAllCodeManagedRaw(): array
+    {
+        $connection = $this->getConnection();
+
+        $rows = $connection->select(
+            ['*'],
+            'be_groups',
+            ['code_managed_group' => 1],
+            [],
+            ['title' => 'asc']
+        )->fetchAllAssociative();
+
+        return $rows;
+    }
+
     public function addOrUpdateBeGroups(BeGroupCollection $beGroups): void
     {
         /** @var BeGroup $beGroup */

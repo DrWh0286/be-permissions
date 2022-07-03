@@ -20,6 +20,11 @@ interface BeGroupRepositoryInterface
 
     public function findAllCodeManaged(): BeGroupCollection;
 
+    /**
+     * @return array<int, array<string, mixed>>
+     */
+    public function findAllCodeManagedRaw(): array;
+
     public function addOrUpdateBeGroups(BeGroupCollection $beGroups): void;
 
     public function addOrUpdateBeGroup(BeGroup $beGroup): void;
