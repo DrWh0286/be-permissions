@@ -1,0 +1,76 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="Default" />
+
+<f:section name="Main">
+
+    <h1>"{group.title}" ({group.uid} / {group.identifier})</h1>
+
+    <div class="row row-back-button">
+        <div class="col">
+            <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'index\', identifier:\'{group.identifier}\'}')}" class="btn btn-default">< back to list</a>
+        </div>
+    </div>
+
+        <f:if condition="{yamlToRecordResult}">
+            <f:then>
+                <div class="row">
+                    <div class="col">
+                        <h2>be_group.yaml -> be_groups record</h2>
+                    </div>
+                </div>
+                <div class="row row-group-buttons">
+                    <div class="col">
+                        <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'overrule\', identifier:\'{group.identifier}\'}')}" class="btn btn-default">Overrule be_groupos record with yaml file</a>
+                        <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'extend\', identifier:\'{group.identifier}\'}')}" class="btn btn-default">Extend be_groups record with yaml file</a>
+                    </div>
+                </div>
+                <div class="panel panel-diff">
+                    <div class="row">
+                        <div class="col">
+                            <f:format.raw>{yamlToRecordResult}</f:format.raw>
+                        </div>
+                    </div>
+                </div>
+            </f:then>
+            <f:else>
+                <div class="row row-no-diff">
+                    <div class="col">
+                        <p>No difference between yaml file and be_groups record</p>
+                    </div>
+                </div>
+            </f:else>
+        </f:if>
+
+        <f:if condition="{recordToYamlResult}">
+            <f:then>
+                <div class="row">
+                    <div class="col">
+                        <h2>be_groups record -> be_group.yaml</h2>
+                    </div>
+                </div>
+                <div class="row row-group-buttons">
+                    <div class="col">
+                        <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'export\', identifier:\'{group.identifier}\'}')}" class="btn btn-default">Export be_groups record to yaml file</a>
+                    </div>
+                </div>
+                <div class="panel panel-diff">
+                    <div class="row">
+                        <div class="col">
+                            <f:format.raw>{recordToYamlResult}</f:format.raw>
+                        </div>
+                    </div>
+                </div>
+            </f:then>
+            <f:else>
+                <div class="row row-no-diff">
+                    <div class="col">
+                        <p>No difference between yaml file and be_groups record</p>
+                    </div>
+                </div>
+            </f:else>
+        </f:if>
+
+</f:section>

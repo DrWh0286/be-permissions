@@ -2,8 +2,21 @@
 <xliff version="1.0">
     <file source-language="en" datatype="plaintext" original="messages">
         <body>
-            <trans-unit id="footer.copyright">
-                <source>TH Rosenheim</source>
+            <trans-unit id="mlang_labels_tablabel">
+                <source>BE Permissions</source>
+            </trans-unit>
+            <trans-unit id="mlang_labels_tabdescr">
+                <source>Handles be_permissions stuff :-D ...</source>
+            </trans-unit>
+            <trans-unit id="mlang_tabs_tab">
+                <source>BE Permissions</source>
+            </trans-unit>
+
+            <trans-unit id="mod.index.identifier">
+                <source>Identifier</source>
+            </trans-unit>
+            <trans-unit id="mod.index.groupTitle">
+                <source>User group</source>
             </trans-unit>
         </body>
     </file>
