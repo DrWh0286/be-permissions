@@ -1,5 +1,7 @@
 # TYPO3 extension be_permissions
 
+![Tests](https://github.com/DrWh0286/be-permissions/actions/workflows/run-grumphp-test.yml/badge.svg)
+
 This extensions provides some cli commands to export and import be_groups records to/from yaml files.
 
 ## Documentation
