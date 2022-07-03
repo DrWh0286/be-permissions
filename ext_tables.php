@@ -9,7 +9,7 @@ call_user_func(function () {
         'BeGroupsCompare',
         'top',
         [
-            \SebastianHofer\BePermissions\Controller\Backend\BeGroupsCompareModuleController::class => 'index'
+            \SebastianHofer\BePermissions\Controller\Backend\BeGroupsCompareModuleController::class => 'index,detail'
             ],
         [
             'access' => 'admin',
