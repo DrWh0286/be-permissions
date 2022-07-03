@@ -1,0 +1,10 @@
+module.tx_begroupscompare {
+    view {
+        templateRootPaths {
+            10 = EXT:be_permissions/Resources/Private/Backend/Templates/
+        }
+        layoutRootPaths {
+            10 = EXT:be_permissions/Resources/Private/Backend/Layouts/
+        }
+    }
+}
