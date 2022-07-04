@@ -10,7 +10,7 @@ It also provides an API.
 ### Installation
 
 ```shell
-$ composer req sebatianhofer/be-permissions
+$ composer req sebastianhofer/be-permissions
 ```
 
 ### Quick start
