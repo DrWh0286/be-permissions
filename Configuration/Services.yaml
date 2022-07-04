@@ -34,7 +34,7 @@ services:
     public: true
     tags:
       - name: 'console.command'
-        command: 'bepermission:exoport'
+        command: 'bepermission:export'
         description: 'Exports all be_groups, which are code managed to their yaml files. If an identifier is given only this be_group is exported to yaml file.'
   SebastianHofer\BePermissions\Command\ExtendBeGroupCommand:
     public: true
