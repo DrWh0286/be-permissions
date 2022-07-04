@@ -136,5 +136,5 @@ This holds the host to the remote repository from where the synchronization shou
 Execute SQL script:
 
 ```sql
-UPDATE table SET code_managed_group = bulk_export;
+UPDATE be_groups SET code_managed_group = bulk_export;
 ```
