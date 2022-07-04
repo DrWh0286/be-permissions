@@ -1,5 +1,5 @@
 {
-  "name": "sebatianhofer/be-permissions",
+  "name": "sebastianhofer/be-permissions",
   "description": "Makes Backend permissions shippable",
   "type": "typo3-cms-extension",
   "license": [
