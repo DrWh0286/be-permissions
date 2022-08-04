@@ -1,7 +1,7 @@
 <?php
 
 /*
- * This file is part of the TYPO3 CMS extension "form_consent".
+ * This file is part of the TYPO3 CMS extension "be_permissions".
  *
  * Copyright (C) 2022 Sebastian Hofer <sebastian.hofer@s-hofer.de>
  *
