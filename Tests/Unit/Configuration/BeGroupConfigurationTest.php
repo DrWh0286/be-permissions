@@ -223,6 +223,31 @@ final class BeGroupConfigurationTest extends UnitTestCase
             ],
             'title' => 'Group title'
         ], $config->asArray());
+
+        $this->assertSame([
+            'allowed_languages' => [0,3,5],
+            'deploy_processing' => 'extend',
+            'explicit_allowdeny' => [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'another_pluginb' => 'ALLOW',
+                        'some_plugina' => 'ALLOW'
+                    ]
+                ]
+            ],
+            'non_exclude_fields' => [
+                'pages' => [
+                    'media',
+                    'title'
+                ]
+            ],
+            'title' => 'Group title'
+        ], $config->getAsArray());
     }
 
     /**

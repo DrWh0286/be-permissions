@@ -41,7 +41,7 @@ final class SynchronizeBeGroupsFromProduction
 
     public function syncBeGroups(): void
     {
-        $beGroupsFromProd = $this->api->fetchAllSynchronizedBeGroups();
+        $beGroupsFromProd = $this->api->fetchAllCodeManagedBeGroups();
         $this->beGroupRepository->addOrUpdateBeGroups($beGroupsFromProd);
     }
 

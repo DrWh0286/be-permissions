@@ -32,7 +32,7 @@ interface ApiInterface
     /**
      * @return BeGroupCollection
      */
-    public function fetchAllSynchronizedBeGroups(): BeGroupCollection;
+    public function fetchAllCodeManagedBeGroups(): BeGroupCollection;
 
     /**
      * @param Identifier $identifier

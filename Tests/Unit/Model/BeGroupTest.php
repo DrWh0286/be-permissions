@@ -112,6 +112,17 @@ final class BeGroupTest extends UnitTestCase
             ],
             $group->databaseValues()
         );
+
+        $this->assertSame(
+            [
+                'identifier' => 'some-identifier',
+                'title' => '[PERM] Basic permissions',
+                'non_exclude_fields' => 'pages:hidden,pages:media,tt_content:date,tt_content:pages',
+                'explicit_allowdeny' => 'tt_content:CType:header:ALLOW,tt_content:CType:text:ALLOW,tt_content:CType:textpic:ALLOW,tt_content:list_type:another_pluginb:ALLOW,tt_content:list_type:some_plugina:ALLOW',
+                'allowed_languages' => '0,3,5'
+            ],
+            $group->getDatabaseValues()
+        );
     }
 
     /**

@@ -1,0 +1,97 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="Default" />
+
+<f:section name="Main">
+
+    <h1><f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:mod.title" /></h1>
+
+    <div class="row row-group-buttons">
+        <div class="col">
+            <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'exportAll\'}')}" class="btn btn-default">
+                <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:export_all" />
+            </a>
+            <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'deploy\'}')}" class="btn btn-default">
+                <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:deploy_all" />
+            </a>
+        </div>
+    </div>
+
+    <div class="table-fit">
+        <table id="typo3-backend-user-list-compare" class="table table-hover">
+            <thead>
+            <tr>
+                <th><f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:mod.index.groupTitle" /></th>
+                <th><f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:mod.index.identifier" /></th>
+                <th class="be-group-status-wrap"><f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:status_header" /></th>
+                <th class="be-group-status-wrap"><f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:sync_header" /></th>
+                <th class="col-control"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <f:for each="{overviewCollection}" as="item">
+                <tr>
+                    <td class="title">
+                        {f:if(condition: '{item.beGroupRecordExists}', then: '{item.beGroupRecord.databaseValues.title}', else: '{item.beGroupConfiguration.asArray.title}')}
+                    </td>
+                    <td class="nowrap-disabled">
+                        {item.identifier}
+                    </td>
+                    <td class="nowrap-disabled be-group-status-wrap">
+                        <span><f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:db_record" /></span>
+                        <f:if condition="{item.beGroupRecordExists}">
+                            <f:then>
+                                <span class="be-group-status be-group-status-exists">
+                                    <core:icon identifier="actions-check" size="small" />
+                                </span>
+                            </f:then>
+                            <f:else>
+                                <span class="be-group-status be-group-status-missing">
+                                    <core:icon identifier="actions-close" size="small" />
+                                </span>
+                            </f:else>
+                        </f:if>
+                        <span><f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:yaml_file" /></span>
+                        <f:if condition="{item.beGroupConfigurationExists}">
+                            <f:then>
+                                <span class="be-group-status be-group-status-exists">
+                                    <core:icon identifier="actions-check" size="small" />
+                                </span>
+                            </f:then>
+                            <f:else>
+                                <span class="be-group-status be-group-status-missing">
+                                    <core:icon identifier="actions-close" size="small" />
+                                </span>
+                            </f:else>
+                        </f:if>
+                    </td>
+                    <td class="nowrap-disabled be-group-status-wrap">
+                        <f:if condition="{item.inSynch}">
+                            <f:then>
+                                <span class="be-group-status be-group-status-in-synch">
+                                    <core:icon identifier="actions-dot" size="default" />
+                                </span>
+                            </f:then>
+                            <f:else>
+                                <span class="be-group-status be-group-status-out-of-synch">
+                                    <core:icon identifier="actions-dot" size="default" />
+                                </span>
+                            </f:else>
+                        </f:if>
+                    </td>
+                    <td class="col-control">
+                        <div class="btn-group" role="group">
+                            <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'detail\', identifier:\'{item.identifier.toString}\'}')}" class="btn btn-default">
+                                <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:show_diff" />
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </f:for>
+            </tbody>
+        </table>
+    </div>
+
+</f:section>

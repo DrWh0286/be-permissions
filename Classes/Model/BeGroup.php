@@ -94,6 +94,14 @@ final class BeGroup implements JsonSerializable
         return $dbValues;
     }
 
+    /**
+     * @return array<string>
+     */
+    public function getDatabaseValues(): array
+    {
+        return $this->databaseValues();
+    }
+
     public function overruleByConfiguration(BeGroupConfiguration $configuration): BeGroup
     {
         $collection = $configuration->beGroupFieldCollection();

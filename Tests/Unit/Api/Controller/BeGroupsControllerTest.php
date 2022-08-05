@@ -52,7 +52,7 @@ final class BeGroupsControllerTest extends UnitTestCase
 
         $beGroupRepo->expects($this->once())->method('findAllCodeManaged')->willReturn($beGroups);
 
-        $response = $controller->allSyncBeGroupsAction();
+        $response = $controller->getAllCodeManagedBeGroupsAction();
 
         $json = $response->getBody()->getContents();
 

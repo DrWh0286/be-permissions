@@ -1,0 +1,22 @@
+.panel-diff, .row-group-buttons, .row-back-button, .row-no-diff, .table-fit {
+    margin-top: 1rem;
+}
+.be-group-status-wrap {
+    text-align: center;
+}
+
+.be-group-status {
+    padding-right: 1rem;
+}
+
+.be-group-status-exists, .be-group-status-in-synch {
+    color: green;
+}
+
+.be-group-status-missing {
+    color: red;
+}
+
+.be-group-status-out-of-synch {
+    color: orange;
+}

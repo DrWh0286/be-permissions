@@ -1,0 +1,98 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:be="http://typo3.org/ns/TYPO3/CMS/Backend/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="Default" />
+
+<f:section name="Main">
+
+    <f:if condition="{group.title}">
+        <f:then><h1>"{group.title}"</h1></f:then>
+        <f:else><h1>"{groupConfig.asArray.title}"</h1></f:else>
+    </f:if>
+
+
+    <div class="row row-back-button">
+        <div class="col">
+            <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'index\'}')}" class="btn btn-default"><f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:back_to_list" /></a>
+        </div>
+    </div>
+
+        <f:if condition="{yamlToRecordResult} && {groupConfig}">
+            <f:then>
+                <div class="row">
+                    <div class="col">
+                        <h2><f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:yaml_to_record" /></h2>
+                    </div>
+                </div>
+                <div class="row row-group-buttons">
+                    <div class="col">
+                        <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'overrule\', identifier:\'{groupConfig.identifier.toString}\'}')}" class="btn btn-default">
+                            <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:overrule_single" />
+                        </a>
+                        <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'extend\', identifier:\'{groupConfig.identifier.toString}\'}')}" class="btn btn-default">
+                            <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:extend_single" />
+                        </a>
+                    </div>
+                </div>
+                <div class="panel panel-diff">
+                    <div class="row">
+                        <div class="col">
+                            <f:format.raw>{yamlToRecordResult}</f:format.raw>
+                        </div>
+                    </div>
+                </div>
+            </f:then>
+            <f:else>
+                <div class="row row-no-diff">
+                    <div class="col">
+                        <f:if condition="{groupConfig}">
+                            <f:then><p>
+                                <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:no_difference" />
+                            </p></f:then>
+                            <f:else><p>
+                                <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:no_group_config" />
+                            </p></f:else>
+                        </f:if>
+                    </div>
+                </div>
+            </f:else>
+        </f:if>
+
+        <f:if condition="{recordToYamlResult} && {group}">
+            <f:then>
+                <div class="row">
+                    <div class="col">
+                        <h2><f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:record_to_yaml" /></h2>
+                    </div>
+                </div>
+                <div class="row row-group-buttons">
+                    <div class="col">
+                        <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'export\', identifier:\'{group.identifier}\'}')}" class="btn btn-default">Export be_groups record to yaml file</a>
+                    </div>
+                </div>
+                <div class="panel panel-diff">
+                    <div class="row">
+                        <div class="col">
+                            <f:format.raw>{recordToYamlResult}</f:format.raw>
+                        </div>
+                    </div>
+                </div>
+            </f:then>
+            <f:else>
+                <div class="row row-no-diff">
+                    <div class="col">
+                        <f:if condition="{group}">
+                            <f:then><p>
+                                <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:no_difference" />
+                            </p></f:then>
+                            <f:else><p>
+                                <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:no_group_record" />
+                            </p></f:else>
+                        </f:if>
+                    </div>
+                </div>
+            </f:else>
+        </f:if>
+
+</f:section>

@@ -27,6 +27,7 @@ use Iterator;
 use IteratorAggregate;
 use JsonSerializable;
 use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Value\Identifier;
 
 /**
  * @implements IteratorAggregate<int, BeGroup>
@@ -38,9 +39,15 @@ final class BeGroupCollection implements IteratorAggregate, JsonSerializable
      */
     private array $beGroups = [];
 
+    /**
+     * @var BeGroup[]
+     */
+    private array $beGroupByIdentifier;
+
     public function add(BeGroup $beGroup): void
     {
         $this->beGroups[] = $beGroup;
+        $this->beGroupByIdentifier[(string)$beGroup->identifier()] = $beGroup;
     }
 
     public function getBeGroup(int $position): ?BeGroup
@@ -97,5 +104,10 @@ final class BeGroupCollection implements IteratorAggregate, JsonSerializable
     public function jsonSerialize(): array
     {
         return $this->beGroups;
+    }
+
+    public function getBeGroupByIdentifier(Identifier $identifier): ?BeGroup
+    {
+        return $this->beGroupByIdentifier[(string)$identifier] ?? null;
     }
 }

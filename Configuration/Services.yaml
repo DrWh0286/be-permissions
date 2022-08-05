@@ -12,6 +12,10 @@ services:
   SebastianHofer\BePermissions\:
       resource: '../Classes/*'
 
+
+  SebastianHofer\BePermissions\Controller\Backend\BeGroupsCompareModuleController:
+    tags: ['backend.controller']
+
   SebastianHofer\BePermissions\Command\MergeProdBeGroupsCommand:
     public: true
     tags:

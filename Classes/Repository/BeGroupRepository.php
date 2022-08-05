@@ -25,8 +25,10 @@ namespace SebastianHofer\BePermissions\Repository;
 
 use SebastianHofer\BePermissions\Collection\BeGroupCollection;
 use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilder;
+use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
 use SebastianHofer\BePermissions\Model\BeGroup;
 use SebastianHofer\BePermissions\Value\Identifier;
+use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -109,6 +111,42 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
         return $beGroups;
     }
 
+    public function findAllCodeManagedRaw(): array
+    {
+        $connection = $this->getConnection();
+
+        $rows = $connection->select(
+            ['*'],
+            'be_groups',
+            ['code_managed_group' => 1],
+            [],
+            ['title' => 'asc']
+        )->fetchAllAssociative();
+
+        return $rows;
+    }
+
+    public function findOneByIdentifierRaw(Identifier $identifier): array
+    {
+        $connection = $this->getConnection();
+
+        /** @var array<string> $row */
+        $row = $connection->select(
+            ['*'],
+            'be_groups',
+            ['identifier' => (string)$identifier],
+            [],
+            [],
+            1
+        )->fetchAssociative();
+
+        if (is_array($row) && !empty($row)) {
+            return $row;
+        }
+
+        return [];
+    }
+
     public function addOrUpdateBeGroups(BeGroupCollection $beGroups): void
     {
         /** @var BeGroup $beGroup */
@@ -149,6 +187,18 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
         }
 
         return null;
+    }
+
+    public function loadYamlString(Identifier $identifier): string
+    {
+        $beGroup = $this->findOneByIdentifier($identifier);
+
+        if ($beGroup instanceof BeGroup) {
+            $configuration = BeGroupConfiguration::createFromBeGroup($beGroup, '');
+            return Yaml::dump($configuration->asArray(), 99, 2);
+        }
+
+        return '';
     }
 
     private function getConnection(): Connection

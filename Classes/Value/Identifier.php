@@ -68,4 +68,9 @@ final class Identifier
     {
         return $this->identifier;
     }
+
+    public function getToString(): string
+    {
+        return (string)$this;
+    }
 }
