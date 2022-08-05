@@ -27,6 +27,7 @@ use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilderInterface;
 use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
 use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
 use SebastianHofer\BePermissions\Value\AllowedLanguages;
+use SebastianHofer\BePermissions\Value\CodeManagedGroup;
 use SebastianHofer\BePermissions\Value\ExplicitAllowDeny;
 use SebastianHofer\BePermissions\Value\Identifier;
 use SebastianHofer\BePermissions\Model\BeGroup;
@@ -351,6 +352,36 @@ final class BeGroupTest extends UnitTestCase
         $this->assertEquals($expectedBeGroup, $beGroup);
     }
 
+    /**
+     * @test
+     */
+    public function is_detected_as_code_managed(): void //phpcs:ignore
+    {
+        $group = $this->createCodeManagedTestGroup();
+
+        $this->assertTrue($group->isCodeManaged());
+    }
+
+    /**
+     * @test
+     */
+    public function is_not_detected_as_code_managed(): void //phpcs:ignore
+    {
+        $group = $this->createNotCodeManagedTestGroup();
+
+        $this->assertFalse($group->isCodeManaged());
+    }
+
+    /**
+     * @test
+     */
+    public function is_not_detected_as_code_managed_with_undefined_state(): void //phpcs:ignore
+    {
+        $group = $this->createTestGroup();
+
+        $this->assertFalse($group->isCodeManaged());
+    }
+
     private function createTestGroup(): BeGroup
     {
         $identifier = new Identifier('some-identifier');
@@ -382,6 +413,80 @@ final class BeGroupTest extends UnitTestCase
         $beGroupFieldCollection->add($nonExcludeFields);
         $beGroupFieldCollection->add($explicitAllowDeny);
         $beGroupFieldCollection->add($allowedLanguages);
+
+        return new BeGroup($identifier, $beGroupFieldCollection);
+    }
+
+    private function createCodeManagedTestGroup(): BeGroup
+    {
+        $identifier = new Identifier('some-identifier');
+        $title = Title::createFromYamlConfiguration('[PERM] Basic permissions');
+        $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration([
+            'pages' => ['media', 'hidden'],
+            'tt_content' => ['pages', 'date']
+        ]);
+
+        $explicitAllowDeny = ExplicitAllowDeny::createFromYamlConfiguration(
+            [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW'
+                    ]
+                ]
+            ]
+        );
+        $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([0,3,5]);
+        $codeManaged = CodeManagedGroup::createFromDBValue('1');
+
+        $beGroupFieldCollection = new BeGroupFieldCollection();
+        $beGroupFieldCollection->add($title);
+        $beGroupFieldCollection->add($nonExcludeFields);
+        $beGroupFieldCollection->add($explicitAllowDeny);
+        $beGroupFieldCollection->add($allowedLanguages);
+        $beGroupFieldCollection->add($codeManaged);
+
+        return new BeGroup($identifier, $beGroupFieldCollection);
+    }
+
+    private function createNotCodeManagedTestGroup(): BeGroup
+    {
+        $identifier = new Identifier('some-identifier');
+        $title = Title::createFromYamlConfiguration('[PERM] Basic permissions');
+        $nonExcludeFields = NonExcludeFields::createFromYamlConfiguration([
+            'pages' => ['media', 'hidden'],
+            'tt_content' => ['pages', 'date']
+        ]);
+
+        $explicitAllowDeny = ExplicitAllowDeny::createFromYamlConfiguration(
+            [
+                'tt_content' => [
+                    'CType' => [
+                        'header' => 'ALLOW',
+                        'text' => 'ALLOW',
+                        'textpic' => 'ALLOW'
+                    ],
+                    'list_type' => [
+                        'some_plugina' => 'ALLOW',
+                        'another_pluginb' => 'ALLOW'
+                    ]
+                ]
+            ]
+        );
+        $allowedLanguages = AllowedLanguages::createFromYamlConfiguration([0,3,5]);
+        $codeManaged = CodeManagedGroup::createFromDBValue('0');
+
+        $beGroupFieldCollection = new BeGroupFieldCollection();
+        $beGroupFieldCollection->add($title);
+        $beGroupFieldCollection->add($nonExcludeFields);
+        $beGroupFieldCollection->add($explicitAllowDeny);
+        $beGroupFieldCollection->add($allowedLanguages);
+        $beGroupFieldCollection->add($codeManaged);
 
         return new BeGroup($identifier, $beGroupFieldCollection);
     }

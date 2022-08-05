@@ -53,6 +53,8 @@ services:
         command: 'bepermission:overrule'
         description: 'Overrules a be_group based on stored yaml file. Be careful with this command!'
 
+  SebastianHofer\BePermissions\Hook\DataHandlerBeGroupsAutomaticExportHook:
+    public: true
   SebastianHofer\BePermissions\UseCase\DeployBeGroups:
     public: true
   SebastianHofer\BePermissions\UseCase\ExportBeGroupsToConfigurationFile:
