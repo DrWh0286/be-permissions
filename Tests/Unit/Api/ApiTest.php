@@ -29,7 +29,7 @@ final class ApiTest extends UnitTestCase
     /**
      * @test
      */
-    public function all_synchronized_be_groups_are_fetched(): void //phpcs:ignore
+    public function all_code_managed_be_groups_are_fetched(): void //phpcs:ignore
     {
         $requestFactory = $this->createMock(RequestFactory::class);
         $extensionConfiguration = $this->createMock(ExtensionConfigurationInterface::class);
@@ -57,7 +57,7 @@ final class ApiTest extends UnitTestCase
         $builder->expects($this->exactly(2))->method('buildFromConfigurationArray')
             ->willReturnOnConsecutiveCalls($beGroup0->beGroupFieldCollection(), $beGroup1->beGroupFieldCollection());
 
-        $beGroups = $api->fetchAllSynchronizedBeGroups();
+        $beGroups = $api->fetchAllCodeManagedBeGroups();
 
         $expectedBeGroups = $this->getBeGroups();
 

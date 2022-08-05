@@ -25,7 +25,7 @@ final class Api implements ApiInterface
         $this->builder = $builder;
     }
 
-    public function fetchAllSynchronizedBeGroups(): BeGroupCollection
+    public function fetchAllCodeManagedBeGroups(): BeGroupCollection
     {
         $uri = $this->extensionConfiguration->getApiUri();
         $uri = $uri->withPath('/be-permissions-api/v1.0/begroups');

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SebastianHofer\BePermissions\Repository;
 
+use SebastianHofer\BePermissions\Collection\BeGroupConfigurationCollection;
 use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
 use SebastianHofer\BePermissions\Configuration\ConfigurationFileMissingException;
 use SebastianHofer\BePermissions\Value\Identifier;
@@ -19,9 +20,12 @@ interface BeGroupConfigurationRepositoryInterface
 
     /**
      * @param string $configPath
-     * @return BeGroupConfiguration[]
+     * @return BeGroupConfigurationCollection
      */
-    public function loadAll(string $configPath): array;
+    public function loadAll(string $configPath): BeGroupConfigurationCollection;
 
+    /**
+     * @throws ConfigurationFileMissingException
+     */
     public function loadYamlString(Identifier $identifier, string $configPath): string;
 }

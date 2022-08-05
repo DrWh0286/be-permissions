@@ -24,7 +24,7 @@ final class BeGroupsController
      * @Route("/be-permissions-api/v1.0/begroups", methods={"GET"})
      * @return JsonResponse
      */
-    public function allSyncBeGroupsAction(): JsonResponse
+    public function getAllCodeManagedBeGroupsAction(): JsonResponse
     {
         $beGroups = $this->beGroupRepository->findAllCodeManaged();
         return new JsonResponse($beGroups->jsonSerialize());

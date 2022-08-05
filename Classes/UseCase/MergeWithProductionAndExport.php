@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SebastianHofer\BePermissions\UseCase;
 
+use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
 use SebastianHofer\BePermissions\Model\BeGroup;
 use SebastianHofer\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
 use SebastianHofer\BePermissions\Repository\BeGroupRepositoryInterface;
@@ -41,6 +42,8 @@ final class MergeWithProductionAndExport
 
         $configPath = Environment::getConfigPath();
         $configurations = $this->beGroupConfigurationRepository->loadAll($configPath);
+
+        /** @var BeGroupConfiguration $configuration */
         foreach ($configurations as $configuration) {
             $beGroup = $this->beGroupRepository->findOneByIdentifier($configuration->identifier());
 

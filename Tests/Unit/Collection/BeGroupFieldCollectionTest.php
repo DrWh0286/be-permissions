@@ -8,6 +8,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use SebastianHofer\BePermissions\Collection\DuplicateBeGroupFieldException;
 use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
 use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
+use SebastianHofer\BePermissions\Value\Title;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -138,6 +139,65 @@ final class BeGroupFieldCollectionTest extends UnitTestCase
         return $this->getMockBuilder(BeGroupFieldInterface::class)
             ->setMockClassName($className)
             ->getMock();
+    }
+
+    /**
+     * @test
+     * @dataProvider compareProvider
+     */
+    public function is_comparable_and_false(BeGroupFieldCollection $colBase, BeGroupFieldCollection $colCompare, bool $expected): void // phpcs:ignore
+    {
+        if ($expected) {
+            $this->assertTrue($colBase->isEqual($colCompare));
+        } else {
+            $this->assertFalse($colBase->isEqual($colCompare));
+        }
+    }
+
+    /**
+     * @return array<string, array<string, mixed>>
+     * @throws DuplicateBeGroupFieldException
+     */
+    public function compareProvider(): array
+    {
+        $colBaseOne = new BeGroupFieldCollection();
+        $fieldBaseA = new Title('Some title A');
+        $colBaseOne->add($fieldBaseA);
+
+        $colCompareOne = new BeGroupFieldCollection();
+
+        $colCompareTwo = new BeGroupFieldCollection();
+        $fieldCompareB = new Title('Some title B');
+        $colCompareTwo->add($fieldCompareB);
+
+        $colBaseTwo = new BeGroupFieldCollection();
+
+        $colCompareThree = new BeGroupFieldCollection();
+        $fieldCompareA = new Title('Some title A');
+        $colCompareThree->add($fieldCompareA);
+
+        return [
+            'some field is missing in compare col' => [
+                'colBase' => $colBaseOne,
+                'colCompare' => $colCompareOne,
+                'expected' => false
+            ],
+            'some field is missing in base col' => [
+                'colBase' => $colBaseTwo,
+                'colCompare' => $colCompareTwo,
+                'expected' => false
+            ],
+            'some field has different content' => [
+                'colBase' => $colBaseOne,
+                'colCompare' => $colCompareTwo,
+                'expected' => false
+            ],
+            'both are equal' => [
+                'colBase' => $colBaseOne,
+                'colCompare' => $colCompareThree,
+                'expected' => true
+            ]
+        ];
     }
 
     private function getDummyBeGroupField(): BeGroupFieldInterface

@@ -88,4 +88,38 @@ final class BeGroupCollectionTest extends UnitTestCase
 
         $this->assertSame($expected, json_encode($col));
     }
+
+    /**
+     * @test
+     */
+    public function be_group_can_be_fetched_by_identifier(): void // phpcs:ignore
+    {
+        $identifier = new Identifier('some_fetch_identifier');
+        $beGroupFieldCollection = new BeGroupFieldCollection();
+        $conf = new BeGroup($identifier, $beGroupFieldCollection);
+
+        $beGroupCollection = new BeGroupCollection();
+
+        $beGroupCollection->add($conf);
+
+        $this->assertSame($conf, $beGroupCollection->getBeGroupByIdentifier($identifier));
+    }
+
+    /**
+     * @test
+     */
+    public function if_no_configuration_exists_for_given_identifier_null_is_returned(): void // phpcs:ignore
+    {
+        $identifier = new Identifier('some_fetch_identifier');
+        $beGroupFieldCollection = new BeGroupFieldCollection();
+        $conf = new BeGroup($identifier, $beGroupFieldCollection);
+
+        $beGroupCollection = new BeGroupCollection();
+
+        $beGroupCollection->add($conf);
+
+        $otherIdentifier = new Identifier('other_identifier');
+
+        $this->assertNull($beGroupCollection->getBeGroupByIdentifier($otherIdentifier));
+    }
 }

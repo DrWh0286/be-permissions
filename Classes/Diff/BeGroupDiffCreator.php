@@ -7,6 +7,7 @@ namespace SebastianHofer\BePermissions\Diff;
 use Jfcherng\Diff\Differ;
 use Jfcherng\Diff\DiffHelper;
 use Jfcherng\Diff\Renderer\RendererConstant;
+use SebastianHofer\BePermissions\Configuration\ConfigurationFileMissingException;
 use SebastianHofer\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
 use SebastianHofer\BePermissions\Repository\BeGroupRepositoryInterface;
 use SebastianHofer\BePermissions\Value\Identifier;
@@ -92,7 +93,12 @@ final class BeGroupDiffCreator
 
     public function createYamlToRecordDiff(Identifier $identifier): string
     {
-        $configurationFileYaml = $this->getConfigurationFileYaml($identifier);
+        try {
+            $configurationFileYaml = $this->getConfigurationFileYaml($identifier);
+        } catch (ConfigurationFileMissingException $e) {
+            $configurationFileYaml = '';
+        }
+
         $beGroupYaml = $this->getBeGroupYaml($identifier);
 
         return DiffHelper::calculate(
@@ -106,7 +112,12 @@ final class BeGroupDiffCreator
 
     public function createRecordToYamlDiff(Identifier $identifier): string
     {
-        $configurationFileYaml = $this->getConfigurationFileYaml($identifier);
+        try {
+            $configurationFileYaml = $this->getConfigurationFileYaml($identifier);
+        } catch (ConfigurationFileMissingException $e) {
+            $configurationFileYaml = '';
+        }
+
         $beGroupYaml = $this->getBeGroupYaml($identifier);
 
         return DiffHelper::calculate(
@@ -118,6 +129,9 @@ final class BeGroupDiffCreator
         );
     }
 
+    /**
+     * @throws ConfigurationFileMissingException
+     */
     private function getConfigurationFileYaml(Identifier $identifier): string
     {
         if (empty($this->configurationFileYaml)) {

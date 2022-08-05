@@ -6,25 +6,33 @@
 
 <f:section name="Main">
 
-    <h1>"{group.title}" ({group.uid} / {group.identifier})</h1>
+    <f:if condition="{group.title}">
+        <f:then><h1>"{group.title}"</h1></f:then>
+        <f:else><h1>"{groupConfig.asArray.title}"</h1></f:else>
+    </f:if>
+
 
     <div class="row row-back-button">
         <div class="col">
-            <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'index\', identifier:\'{group.identifier}\'}')}" class="btn btn-default">< back to list</a>
+            <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'index\'}')}" class="btn btn-default"><f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:back_to_list" /></a>
         </div>
     </div>
 
-        <f:if condition="{yamlToRecordResult}">
+        <f:if condition="{yamlToRecordResult} && {groupConfig}">
             <f:then>
                 <div class="row">
                     <div class="col">
-                        <h2>be_group.yaml -> be_groups record</h2>
+                        <h2><f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:yaml_to_record" /></h2>
                     </div>
                 </div>
                 <div class="row row-group-buttons">
                     <div class="col">
-                        <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'overrule\', identifier:\'{group.identifier}\'}')}" class="btn btn-default">Overrule be_groupos record with yaml file</a>
-                        <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'extend\', identifier:\'{group.identifier}\'}')}" class="btn btn-default">Extend be_groups record with yaml file</a>
+                        <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'overrule\', identifier:\'{groupConfig.identifier.toString}\'}')}" class="btn btn-default">
+                            <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:overrule_single" />
+                        </a>
+                        <a href="{be:moduleLink(route:'system_bepermissions', arguments:'{action: \'extend\', identifier:\'{groupConfig.identifier.toString}\'}')}" class="btn btn-default">
+                            <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:extend_single" />
+                        </a>
                     </div>
                 </div>
                 <div class="panel panel-diff">
@@ -38,17 +46,24 @@
             <f:else>
                 <div class="row row-no-diff">
                     <div class="col">
-                        <p>No difference between yaml file and be_groups record</p>
+                        <f:if condition="{groupConfig}">
+                            <f:then><p>
+                                <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:no_difference" />
+                            </p></f:then>
+                            <f:else><p>
+                                <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:no_group_config" />
+                            </p></f:else>
+                        </f:if>
                     </div>
                 </div>
             </f:else>
         </f:if>
 
-        <f:if condition="{recordToYamlResult}">
+        <f:if condition="{recordToYamlResult} && {group}">
             <f:then>
                 <div class="row">
                     <div class="col">
-                        <h2>be_groups record -> be_group.yaml</h2>
+                        <h2><f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:record_to_yaml" /></h2>
                     </div>
                 </div>
                 <div class="row row-group-buttons">
@@ -67,7 +82,14 @@
             <f:else>
                 <div class="row row-no-diff">
                     <div class="col">
-                        <p>No difference between yaml file and be_groups record</p>
+                        <f:if condition="{group}">
+                            <f:then><p>
+                                <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:no_difference" />
+                            </p></f:then>
+                            <f:else><p>
+                                <f:translate key="LLL:EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf:no_group_record" />
+                            </p></f:else>
+                        </f:if>
                     </div>
                 </div>
             </f:else>

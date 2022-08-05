@@ -58,6 +58,11 @@ final class BeGroupConfiguration
         return $this->identifier;
     }
 
+    public function getIdentifier(): Identifier
+    {
+        return $this->identifier();
+    }
+
     /**
      * @return string
      */
@@ -81,6 +86,14 @@ final class BeGroupConfiguration
         ksort($array);
 
         return $array;
+    }
+
+    /**
+     * @return array<mixed>
+     */
+    public function getAsArray(): array
+    {
+        return $this->asArray();
     }
 
     public function getDeploymentProcessing(): DeployProcessing

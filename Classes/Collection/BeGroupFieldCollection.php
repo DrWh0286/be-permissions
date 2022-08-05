@@ -16,7 +16,7 @@ final class BeGroupFieldCollection implements IteratorAggregate
     /** @var BeGroupFieldInterface[] $beGroupFields */
     private array $beGroupFields = [];
     /** @var BeGroupFieldInterface[] $associativeBeGroupFields */
-    private array $associativeBeGroupFields;
+    private array $associativeBeGroupFields = [];
 
     /**
      * @throws DuplicateBeGroupFieldException
@@ -100,5 +100,35 @@ final class BeGroupFieldCollection implements IteratorAggregate
         }
 
         return $extendedCollection;
+    }
+
+    public function isEqual(BeGroupFieldCollection $beGroupFieldCollection): bool
+    {
+        $baseArray = $this->associativeBeGroupFields;
+
+        $aCheckFailed = false;
+
+        foreach ($beGroupFieldCollection as $beGroupField) {
+            if (!isset($baseArray[get_class($beGroupField)])) {
+                $aCheckFailed = true;
+                break;
+            }
+
+            if ($baseArray[get_class($beGroupField)]->__toString() !== $beGroupField->__toString()) {
+                $aCheckFailed = true;
+                break;
+            }
+        }
+
+        if ($aCheckFailed === false) {
+            foreach ($baseArray as $item) {
+                if (!isset($beGroupFieldCollection->associativeBeGroupFields[get_class($item)])) {
+                    $aCheckFailed = true;
+                    break;
+                }
+            }
+        }
+
+        return !$aCheckFailed;
     }
 }

@@ -7,15 +7,18 @@ namespace SebastianHofer\BePermissions\Controller\Backend;
 use Jfcherng\Diff\DiffHelper;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use SebastianHofer\BePermissions\Collection\BeGroupOverviewCollection;
+use SebastianHofer\BePermissions\Configuration\ConfigurationFileMissingException;
 use SebastianHofer\BePermissions\Diff\BeGroupDiffCreator;
+use SebastianHofer\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
 use SebastianHofer\BePermissions\Repository\BeGroupRepositoryInterface;
+use SebastianHofer\BePermissions\UseCase\DeployBeGroups;
 use SebastianHofer\BePermissions\UseCase\ExportBeGroupsToConfigurationFile;
 use SebastianHofer\BePermissions\UseCase\ExtendOrCreateBeGroupByConfigurationFile;
 use SebastianHofer\BePermissions\UseCase\OverruleOrCreateBeGroupFromConfigurationFile;
 use SebastianHofer\BePermissions\UseCase\SynchronizeBeGroupsFromProduction;
 use SebastianHofer\BePermissions\Value\Identifier;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
-use TYPO3\CMS\Backend\Template\ModuleTemplate;
 use TYPO3\CMS\Backend\Template\ModuleTemplateFactory;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Http\HtmlResponse;
@@ -35,15 +38,18 @@ final class BeGroupsCompareModuleController
     private BeGroupDiffCreator $beGroupDiffCreator;
     private ModuleTemplateFactory $moduleTemplateFactory;
     private PageRenderer $pageRenderer;
-    private ModuleTemplate $moduleTemplate;
     private StandaloneView $view;
+    private BeGroupConfigurationRepositoryInterface $beGroupConfigurationRepository;
+    private DeployBeGroups $deployBeGroups;
 
     public function __construct(
         BeGroupRepositoryInterface $beGroupRepository,
+        BeGroupConfigurationRepositoryInterface $beGroupConfigurationRepository,
         OverruleOrCreateBeGroupFromConfigurationFile $overruleOrCreateBeGroupFromConfigurationFile,
         ExtendOrCreateBeGroupByConfigurationFile $extendOrCreateBeGroupByConfigurationFile,
         ExportBeGroupsToConfigurationFile $exportBeGroupsToConfigurationFile,
         SynchronizeBeGroupsFromProduction $synchronizeBeGroupsFromProduction,
+        DeployBeGroups $deployBeGroups,
         BeGroupDiffCreator $beGroupDiffCreator,
         PageRenderer $pageRenderer,
         ModuleTemplateFactory $moduleTemplateFactory
@@ -56,10 +62,12 @@ final class BeGroupsCompareModuleController
         $this->beGroupDiffCreator = $beGroupDiffCreator;
         $this->moduleTemplateFactory = $moduleTemplateFactory;
         $this->pageRenderer = $pageRenderer;
+        $this->beGroupConfigurationRepository = $beGroupConfigurationRepository;
 
         /** @var StandaloneView $view */
         $view = GeneralUtility::makeInstance(StandaloneView::class);
         $this->view = $view;
+        $this->deployBeGroups = $deployBeGroups;
     }
 
     /**
@@ -68,7 +76,7 @@ final class BeGroupsCompareModuleController
     public function handleRequest(ServerRequestInterface $request): ResponseInterface
     {
         $actionName = $request->getQueryParams()['action'] ?? 'index';
-        $this->moduleTemplate = $this->moduleTemplateFactory->create($request);
+        $moduleTemplate = $this->moduleTemplateFactory->create($request);
         $this->pageRenderer->addCssInlineBlock('diffStyles', DiffHelper::getStyleSheet(), true);
         $this->pageRenderer->addCssFile('EXT:be_permissions/Resources/Public/Css/BeGroupCompare.css');
         $this->getLanguageService()->includeLLFile('EXT:be_permissions/Resources/Private/Language/locallang_mod.xlf');
@@ -79,8 +87,8 @@ final class BeGroupsCompareModuleController
             return $result;
         }
 
-        $this->moduleTemplate->setContent($this->view->render());
-        return new HtmlResponse($this->moduleTemplate->renderContent());
+        $moduleTemplate->setContent($this->view->render());
+        return new HtmlResponse($moduleTemplate->renderContent());
     }
 
     protected function initializeView(string $templateName): void
@@ -94,9 +102,14 @@ final class BeGroupsCompareModuleController
 
     public function indexAction(ServerRequestInterface $request): void
     {
-        $beGroups = $this->beGroupRepository->findAllCodeManagedRaw();
+        $beGroupsRaw = $this->beGroupRepository->findAllCodeManagedRaw();
+        $beGroups = $this->beGroupRepository->findAllCodeManaged();
+        $beGroupConfigurations = $this->beGroupConfigurationRepository->loadAll(Environment::getConfigPath());
 
-        $this->view->assign('beGroups', $beGroups);
+        $overviewCollection = GeneralUtility::makeInstance(BeGroupOverviewCollection::class, $beGroups, $beGroupConfigurations);
+
+        $this->view->assign('beGroups', $beGroupsRaw);
+        $this->view->assign('overviewCollection', $overviewCollection);
     }
 
     public function detailAction(ServerRequestInterface $request): void
@@ -107,6 +120,12 @@ final class BeGroupsCompareModuleController
 
         $beGroup = $this->beGroupRepository->findOneByIdentifierRaw($identifier);
 
+        try {
+            $beGroupConfig = $this->beGroupConfigurationRepository->load($identifier, Environment::getConfigPath());
+        } catch (ConfigurationFileMissingException $exception) {
+            $beGroupConfig = null;
+        }
+
         $yamlToRecordResult = $this->beGroupDiffCreator->createYamlToRecordDiff($identifier);
 
         $recordToYamlResult = $this->beGroupDiffCreator->createRecordToYamlDiff($identifier);
@@ -115,6 +134,7 @@ final class BeGroupsCompareModuleController
         $this->view->assign('yamlToRecordResult', $yamlToRecordResult);
         $this->view->assign('recordToYamlResult', $recordToYamlResult);
         $this->view->assign('group', $beGroup);
+        $this->view->assign('groupConfig', $beGroupConfig);
         $this->view->assign('configPath', $configPath);
     }
 
@@ -168,6 +188,13 @@ final class BeGroupsCompareModuleController
     public function synchronizeAllRemoteAction(ServerRequestInterface $request): ResponseInterface
     {
         $this->synchronizeBeGroupsFromProduction->syncBeGroups();
+
+        return new RedirectResponse($this->buildActionUriWithIdentifier(null, 'index'));
+    }
+
+    public function deployAction(ServerRequestInterface $request): ResponseInterface
+    {
+        $this->deployBeGroups->deployGroups();
 
         return new RedirectResponse($this->buildActionUriWithIdentifier(null, 'index'));
     }
