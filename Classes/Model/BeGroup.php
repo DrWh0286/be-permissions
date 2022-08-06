@@ -28,6 +28,7 @@ use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilderInterface;
 use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
 use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
 use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
+use SebastianHofer\BePermissions\Value\CodeManagedGroup;
 use SebastianHofer\BePermissions\Value\Identifier;
 
 final class BeGroup implements JsonSerializable
@@ -132,5 +133,19 @@ final class BeGroup implements JsonSerializable
         }
 
         return $jsonArray;
+    }
+
+    public function isCodeManaged(): bool
+    {
+        $isCodeManaged = false;
+
+        foreach ($this->beGroupFieldCollection as $field) {
+            if ($field instanceof CodeManagedGroup && (string)$field === '1') {
+                $isCodeManaged = true;
+                break;
+            }
+        }
+
+        return $isCodeManaged;
     }
 }
