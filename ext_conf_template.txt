@@ -12,4 +12,4 @@ basicAuthUser =
 basicAuthPassword =
 
 # cat=connection/prod/host; type=string; label=Production Host
-productionHost = https://www.some-host.tld/
+remoteHost = https://www.some-host.tld/
