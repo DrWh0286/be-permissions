@@ -27,6 +27,8 @@ use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
 use SebastianHofer\BePermissions\Collection\DuplicateBeGroupFieldException;
 use SebastianHofer\BePermissions\Value\BeGroupFieldFactoryInterface;
 use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
+use SebastianHofer\BePermissions\Value\Processor\SubGroupValueProcessor;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 final class BeGroupFieldCollectionBuilder implements BeGroupFieldCollectionBuilderInterface
 {
@@ -51,7 +53,14 @@ final class BeGroupFieldCollectionBuilder implements BeGroupFieldCollectionBuild
         $collection = new BeGroupFieldCollection();
 
         foreach ($dbValues as $dbFieldName => $dbValue) {
+            if ($dbFieldName === 'subgroup' && is_string($dbValue) && !empty($dbValue)) {
+                /** @var SubGroupValueProcessor $processor */
+                $processor = GeneralUtility::makeInstance(SubGroupValueProcessor::class);
+                $dbValue = $processor->processValuesFromDatabase($dbValue);
+            }
+
             $valueObject = $this->beGroupFieldFactory->buildFromFieldNameAndDatabaseValue($dbFieldName, (string)$dbValue);
+
             if ($valueObject instanceof BeGroupFieldInterface) {
                 $collection->add($valueObject);
             }

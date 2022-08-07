@@ -126,6 +126,18 @@ final class DeployBeGroupsTest extends FunctionalTestCase
         )->fetchAssociative();
 
         $this->assertSame('pages:hidden,pages:title,tt_content:hidden', $deployedGroupE['non_exclude_fields']);
+
+        /** @var string[] $deployedGroupE */
+        $deployedGroupE = $connection->select(
+            ['subgroup'],
+            'be_groups',
+            ['uid' => 2],
+            [],
+            [],
+            1
+        )->fetchAssociative();
+
+        $this->assertSame('3,6', $deployedGroupE['subgroup']);
     }
 
     private function getConnection(): Connection

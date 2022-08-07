@@ -26,6 +26,7 @@ namespace SebastianHofer\BePermissions\UseCase;
 use SebastianHofer\BePermissions\Api\Api;
 use SebastianHofer\BePermissions\Model\BeGroup;
 use SebastianHofer\BePermissions\Repository\BeGroupRepositoryInterface;
+use SebastianHofer\BePermissions\Repository\GroupNotFullyImportedException;
 use SebastianHofer\BePermissions\Value\Identifier;
 
 final class SynchronizeBeGroupsFromProduction
@@ -45,6 +46,9 @@ final class SynchronizeBeGroupsFromProduction
         $this->beGroupRepository->addOrUpdateBeGroups($beGroupsFromProd);
     }
 
+    /**
+     * @throws GroupNotFullyImportedException
+     */
     public function syncBeGroup(Identifier $identifier): void
     {
         $beGroup = $this->api->fetchBeGroupsByIdentifier($identifier);

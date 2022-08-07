@@ -45,6 +45,7 @@ use SebastianHofer\BePermissions\Value\Identifier;
 use SebastianHofer\BePermissions\Value\MfaProviders;
 use SebastianHofer\BePermissions\Value\NonExcludeFields;
 use SebastianHofer\BePermissions\Value\PageTypesSelect;
+use SebastianHofer\BePermissions\Value\SubGroup;
 use SebastianHofer\BePermissions\Value\TablesModify;
 use SebastianHofer\BePermissions\Value\TablesSelect;
 use SebastianHofer\BePermissions\Value\Title;
@@ -147,6 +148,7 @@ final class OverruleOrCreateBeGroupFromConfigurationFileTest extends FunctionalT
         $collection->add(MfaProviders::createFromYamlConfiguration([]));
         $collection->add(FileMountpoints::createFromYamlConfiguration([]));
         $collection->add(FilePermissions::createFromYamlConfiguration([]));
+        $collection->add(SubGroup::createFromYamlConfiguration([]));
         $collection->add(CategoryPerms::createFromYamlConfiguration([]));
         $collection->add(CodeManagedGroup::createFromYamlConfiguration(true));
         $collection->add(DeployProcessing::createFromDBValue(''));
@@ -225,6 +227,7 @@ final class OverruleOrCreateBeGroupFromConfigurationFileTest extends FunctionalT
         $collection->add(MfaProviders::createFromYamlConfiguration([]));
         $collection->add(FileMountpoints::createFromYamlConfiguration([]));
         $collection->add(FilePermissions::createFromYamlConfiguration([]));
+        $collection->add(SubGroup::createFromYamlConfiguration([]));
         $collection->add(CategoryPerms::createFromYamlConfiguration([]));
         $collection->add(CodeManagedGroup::createFromYamlConfiguration(true));
         $collection->add(DeployProcessing::createFromDBValue(''));

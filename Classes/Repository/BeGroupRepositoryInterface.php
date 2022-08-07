@@ -36,10 +36,18 @@ interface BeGroupRepositoryInterface
      */
     public function findOneByIdentifierRaw(Identifier $identifier): array;
 
+    public function findUidByIdentifier(Identifier $identifier): ?int;
+
     public function findOneByUid(int $uid): ?BeGroup;
 
+    /**
+     * @throws GroupNotFullyImportedException
+     */
     public function update(BeGroup $beGroup): void;
 
+    /**
+     * @throws GroupNotFullyImportedException
+     */
     public function add(BeGroup $beGroup): void;
 
     public function findAllCodeManaged(): BeGroupCollection;
@@ -49,8 +57,14 @@ interface BeGroupRepositoryInterface
      */
     public function findAllCodeManagedRaw(): array;
 
+    /**
+     * @throws GroupNotFullyImportedException
+     */
     public function addOrUpdateBeGroups(BeGroupCollection $beGroups): void;
 
+    /**
+     * @throws GroupNotFullyImportedException
+     */
     public function addOrUpdateBeGroup(BeGroup $beGroup): void;
 
     public function loadYamlString(Identifier $identifier): string;

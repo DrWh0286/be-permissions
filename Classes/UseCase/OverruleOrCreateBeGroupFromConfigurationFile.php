@@ -27,6 +27,7 @@ use SebastianHofer\BePermissions\Configuration\ConfigurationFileMissingException
 use SebastianHofer\BePermissions\Model\BeGroup;
 use SebastianHofer\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
 use SebastianHofer\BePermissions\Repository\BeGroupRepositoryInterface;
+use SebastianHofer\BePermissions\Repository\GroupNotFullyImportedException;
 use SebastianHofer\BePermissions\Value\Identifier;
 use SebastianHofer\BePermissions\Value\InvalidIdentifierException;
 use TYPO3\CMS\Core\Core\Environment;
@@ -43,7 +44,7 @@ final class OverruleOrCreateBeGroupFromConfigurationFile
     }
 
     /**
-     * @throws ConfigurationFileMissingException
+     * @throws ConfigurationFileMissingException|GroupNotFullyImportedException
      */
     public function overruleGroup(Identifier $identifier): void
     {

@@ -81,6 +81,7 @@ final class BeGroup implements JsonSerializable
 
     /**
      * @return array<string>
+     * @deprecated Will be removed in next version 0.8.0
      */
     public function databaseValues(): array
     {
@@ -97,6 +98,7 @@ final class BeGroup implements JsonSerializable
 
     /**
      * @return array<string>
+     * @deprecated Will be removed in next version 0.8.0
      */
     public function getDatabaseValues(): array
     {
