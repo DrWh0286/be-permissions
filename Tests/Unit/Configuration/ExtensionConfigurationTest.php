@@ -171,7 +171,7 @@ final class ExtensionConfigurationTest extends UnitTestCase
         return [
             'api uri without basic auth' => [
                 'extConf' => [
-                    'productionHost' => 'https://production.host',
+                    'remoteHost' => 'https://production.host',
                     'basicAuthUser' => '',
                     'basicAuthPassword' => ''
                 ],
@@ -179,7 +179,7 @@ final class ExtensionConfigurationTest extends UnitTestCase
             ],
             'api uri with basic auth' => [
                 'extConf' => [
-                    'productionHost' => 'https://production.host',
+                    'remoteHost' => 'https://production.host',
                     'basicAuthUser' => 'user',
                     'basicAuthPassword' => 'password'
                 ],

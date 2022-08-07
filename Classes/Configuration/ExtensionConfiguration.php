@@ -97,7 +97,7 @@ final class ExtensionConfiguration implements SingletonInterface, ExtensionConfi
     {
         $config = $this->getConfig();
 
-        $host = (isset($config['productionHost']) && is_string($config['productionHost'])) ? $config['productionHost'] : '';
+        $host = (isset($config['remoteHost']) && is_string($config['remoteHost'])) ? $config['remoteHost'] : '';
 
         $uri = new Uri($host);
 

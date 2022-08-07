@@ -119,7 +119,7 @@ reason it is not recommended to hold this in your git repository, but set this e
 
 If filled this holds basic auth credentials for the remote system.
 
-#### productionHost
+#### remoteHost
 
 This holds the host to the remote repository from where the synchronization should be used.
 
