@@ -37,6 +37,7 @@ use SebastianHofer\BePermissions\Value\Identifier;
 use SebastianHofer\BePermissions\Value\NonExcludeFields;
 use SebastianHofer\BePermissions\Value\Title;
 use Symfony\Component\Yaml\Yaml;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 /**
@@ -348,6 +349,25 @@ final class BeGroupConfigurationRepositoryTest extends UnitTestCase
         $this->assertSame($expectedValue, $actualContent);
 
         $this->cleanup($identifier);
+    }
+
+    /**
+     * @test
+     */
+    public function with_no_exported_be_groups_an_empty_collection_is_returned_from_load_all(): void //phpcs:ignore
+    {
+        if (file_exists(Environment::getConfigPath() . '/be_groups')) {
+            rmdir(Environment::getConfigPath() . '/be_groups');
+        }
+
+        $extConfig = new ExtensionConfiguration();
+        $factory = new BeGroupFieldFactory($extConfig);
+        $builder = new BeGroupFieldCollectionBuilder($factory);
+        $repository = new BeGroupConfigurationRepository($builder);
+
+        $resultingCollection = $repository->loadAll(Environment::getConfigPath());
+
+        $this->assertTrue($resultingCollection->isEmpty());
     }
 
     private function cleanup(Identifier $identifier): void

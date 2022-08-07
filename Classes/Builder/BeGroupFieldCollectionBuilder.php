@@ -25,6 +25,7 @@ namespace SebastianHofer\BePermissions\Builder;
 
 use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
 use SebastianHofer\BePermissions\Collection\DuplicateBeGroupFieldException;
+use SebastianHofer\BePermissions\Repository\SubGroupNotFoundException;
 use SebastianHofer\BePermissions\Value\BeGroupFieldFactoryInterface;
 use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
 use SebastianHofer\BePermissions\Value\Processor\SubGroupValueProcessor;
@@ -46,7 +47,7 @@ final class BeGroupFieldCollectionBuilder implements BeGroupFieldCollectionBuild
     /**
      * @param array<string> $dbValues
      * @return BeGroupFieldCollection
-     * @throws DuplicateBeGroupFieldException
+     * @throws DuplicateBeGroupFieldException|SubGroupNotFoundException
      */
     public function buildFromDatabaseValues(array $dbValues): BeGroupFieldCollection
     {

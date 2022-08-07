@@ -23,9 +23,11 @@ declare(strict_types=1);
 
 namespace SebastianHofer\BePermissions\Repository;
 
+use Doctrine\DBAL\Driver\Exception;
 use SebastianHofer\BePermissions\Collection\BeGroupCollection;
 use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilder;
 use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
+use SebastianHofer\BePermissions\Collection\DuplicateBeGroupFieldException;
 use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
 use SebastianHofer\BePermissions\Model\BeGroup;
 use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
@@ -47,6 +49,9 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
         $this->beGroupFieldCollectionBuilder = $beGroupFieldCollectionBuilder;
     }
 
+    /**
+     * @throws SubGroupNotFoundException|DuplicateBeGroupFieldException|Exception
+     */
     public function findOneByIdentifier(Identifier $identifier): ?BeGroup
     {
         $connection = $this->getConnection();

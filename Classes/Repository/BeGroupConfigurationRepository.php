@@ -94,6 +94,10 @@ final class BeGroupConfigurationRepository implements BeGroupConfigurationReposi
 
     public function loadAll(string $configPath): BeGroupConfigurationCollection
     {
+        if (!file_exists($configPath . '/be_groups/')) {
+            mkdir($configPath . '/be_groups/', 0775, true);
+        }
+
         $directoryIterator = new DirectoryIterator($configPath . '/be_groups/');
 
         $beGroupConfigurations = new BeGroupConfigurationCollection();
