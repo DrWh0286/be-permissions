@@ -17,12 +17,12 @@ final class BeGroupOverviewCollection implements IteratorAggregate
     /**
      * @var BeGroupOverviewItem[]
      */
-    private array $itemsByIdentifier;
+    private array $itemsByIdentifier = [];
 
     /**
      * @var BeGroupOverviewItem[]
      */
-    private array $items;
+    private array $items = [];
 
     public function __construct(BeGroupCollection $beGroupRecords, BeGroupConfigurationCollection $beGroupsConfigurations)
     {
