@@ -38,6 +38,7 @@ use SebastianHofer\BePermissions\Value\GroupMods;
 use SebastianHofer\BePermissions\Value\MfaProviders;
 use SebastianHofer\BePermissions\Value\NonExcludeFields;
 use SebastianHofer\BePermissions\Value\PageTypesSelect;
+use SebastianHofer\BePermissions\Value\SubGroup;
 use SebastianHofer\BePermissions\Value\TablesModify;
 use SebastianHofer\BePermissions\Value\TablesSelect;
 use SebastianHofer\BePermissions\Value\Title;
@@ -112,7 +113,8 @@ final class ExtensionConfigurationTest extends UnitTestCase
             'availableWidgets' => AvailableWidgets::class,
             'mfa_providers' => MfaProviders::class,
             'deploy_processing' => DeployProcessing::class,
-            'code_managed_group' => CodeManagedGroup::class
+            'code_managed_group' => CodeManagedGroup::class,
+            'subgroup' => SubGroup::class
         ];
 
         $extensionConfiguration = new ExtensionConfiguration();

@@ -16,6 +16,7 @@ non_exclude_fields:
   tt_content:
     - header
 pagetypes_select: {  }
+subgroup: {  }
 tables_modify: {  }
 tables_select: {  }
 title: 'Some group title D'

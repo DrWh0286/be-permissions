@@ -25,9 +25,14 @@ namespace SebastianHofer\BePermissions\Repository;
 
 use SebastianHofer\BePermissions\Collection\BeGroupCollection;
 use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilder;
+use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
 use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
 use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
 use SebastianHofer\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Value\InvalidIdentifierException;
+use SebastianHofer\BePermissions\Value\Processor\SubGroupValueProcessor;
+use SebastianHofer\BePermissions\Value\SubGroup;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -65,25 +70,83 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
         return null;
     }
 
-    public function update(BeGroup $beGroup): void
+    public function findUidByIdentifier(Identifier $identifier): ?int
     {
         $connection = $this->getConnection();
+
+        /** @var array<string> $row */
+        $row = $connection->select(
+            ['*'],
+            'be_groups',
+            ['identifier' => (string)$identifier],
+            [],
+            [],
+            1
+        )->fetchAssociative();
+
+        if (is_array($row) && !empty($row)) {
+            $uid = (int)$row['uid'];
+
+            return $uid;
+        }
+
+        return null;
+    }
+
+    /**
+     * @throws GroupNotFullyImportedException|InvalidIdentifierException
+     */
+    public function update(BeGroup $beGroup): void
+    {
+        $groupNotFullyImported = false;
+        $connection = $this->getConnection();
+
+        try {
+            $values = $this->prepareValuesForDatabase($beGroup);
+        } catch (GroupDbValuesNotCompletelyResolvedException $exception) {
+            $values = $exception->groupDbValues();
+            $groupNotFullyImported = true;
+        }
 
         $connection->update(
             'be_groups',
-            $beGroup->databaseValues(),
+            $values,
             ['identifier' => (string)$beGroup->identifier()]
         );
+
+        if ($groupNotFullyImported) {
+            throw new GroupNotFullyImportedException('The group ' . $beGroup->identifier() . ' could not be fully imported', 0, null, $beGroup);
+        }
     }
 
+    /**
+     * @throws GroupNotFullyImportedException|InvalidIdentifierException
+     */
     public function add(BeGroup $beGroup): void
     {
+        $groupNotFullyImported = false;
         $connection = $this->getConnection();
+
+        try {
+            $values = $this->prepareValuesForDatabase($beGroup);
+        } catch (GroupDbValuesNotCompletelyResolvedException $exception) {
+            $values = $exception->groupDbValues();
+            $groupNotFullyImported = true;
+        }
 
         $connection->insert(
             'be_groups',
-            $beGroup->databaseValues()
+            $values
         );
+
+        if ($groupNotFullyImported) {
+            throw new GroupNotFullyImportedException(
+                'The group ' . $beGroup->identifier() . ' could not be fully imported',
+                1234987654,
+                null,
+                $beGroup
+            );
+        }
     }
 
     public function findAllCodeManaged(): BeGroupCollection
@@ -147,14 +210,45 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
         return [];
     }
 
+    /**
+     * @throws GroupNotFullyImportedException|InvalidIdentifierException
+     */
     public function addOrUpdateBeGroups(BeGroupCollection $beGroups): void
     {
+        $notFullyImportedGroups = new BeGroupCollection();
         /** @var BeGroup $beGroup */
         foreach ($beGroups as $beGroup) {
-            $this->addOrUpdateBeGroup($beGroup);
+            try {
+                $this->addOrUpdateBeGroup($beGroup);
+            } catch (GroupNotFullyImportedException $exception) {
+                $notFullyImportedGroups->add($beGroup);
+            }
+        }
+
+        $failedGroups = new BeGroupCollection();
+        /** @var BeGroup $notFullyImportedGroup */
+        foreach ($notFullyImportedGroups as $notFullyImportedGroup) {
+            try {
+                $this->addOrUpdateBeGroup($notFullyImportedGroup);
+            } catch (GroupNotFullyImportedException $exception) {
+                $failedGroups->add($notFullyImportedGroup);
+            }
+        }
+
+        if (!$failedGroups->isEmpty()) {
+            throw new GroupNotFullyImportedException(
+                'Some Groups could not be fully imported!',
+                1948567695,
+                null,
+                null,
+                $notFullyImportedGroups
+            );
         }
     }
 
+    /**
+     * @throws GroupNotFullyImportedException|InvalidIdentifierException
+     */
     public function addOrUpdateBeGroup(BeGroup $beGroup): void
     {
         if ($this->isGroupPresent($beGroup)) {
@@ -226,5 +320,42 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
         }
 
         return false;
+    }
+
+    /**
+     * @throws GroupDbValuesNotCompletelyResolvedException|InvalidIdentifierException
+     * @return string[]
+     */
+    private function prepareValuesForDatabase(BeGroup $beGroup): array
+    {
+        $dbValues = [];
+        $groupDbValuesNotCompletelyResolved = false;
+
+        $dbValues['identifier'] = (string)$beGroup->identifier();
+
+        /** @var BeGroupFieldInterface $field */
+        foreach ($beGroup->beGroupFieldCollection() as $field) {
+            if ($field instanceof SubGroup) {
+                /** @var SubGroupValueProcessor $processor */
+                $processor = GeneralUtility::makeInstance(SubGroupValueProcessor::class);
+
+                try {
+                    $fieldValue = $processor->processValuesForDatabase($field);
+                } catch (SubGroupNotFoundException $exception) {
+                    $fieldValue = $exception->subGroupValue();
+                    $groupDbValuesNotCompletelyResolved = true;
+                }
+
+                $dbValues[$field->getFieldName()] = $fieldValue;
+            } else {
+                $dbValues[$field->getFieldName()] = (string)$field;
+            }
+        }
+
+        if ($groupDbValuesNotCompletelyResolved) {
+            throw new GroupDbValuesNotCompletelyResolvedException('Group db values could not be fully fully resolved!', $dbValues);
+        }
+
+        return $dbValues;
     }
 }

@@ -23,10 +23,13 @@ declare(strict_types=1);
 
 namespace SebastianHofer\BePermissions\UseCase;
 
+use SebastianHofer\BePermissions\Collection\BeGroupCollection;
 use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
+use SebastianHofer\BePermissions\Configuration\ConfigurationFileMissingException;
 use SebastianHofer\BePermissions\Model\BeGroup;
 use SebastianHofer\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
 use SebastianHofer\BePermissions\Repository\BeGroupRepositoryInterface;
+use SebastianHofer\BePermissions\Repository\GroupNotFullyImportedException;
 use SebastianHofer\BePermissions\Value\Identifier;
 use TYPO3\CMS\Core\Core\Environment;
 
@@ -51,36 +54,43 @@ final class MergeWithProductionAndExport
 
     // Not a good way - in case of overrule a synch would be useless. We need a more detailed strategy here...
     // Maybe ignore overrule here and use only extend mode?
+    /**
+     * @throws GroupNotFullyImportedException
+     */
     public function mergeAndExportGroups(): void
     {
         // Export local groups
         $this->exportBeGroupToConfigurationFile->exportGroups();
 
-        // synchronize production groups
+        // synchronize remote groups
         $this->synchronizeBeGroupsFromProduction->syncBeGroups();
 
         $configPath = Environment::getConfigPath();
         $configurations = $this->beGroupConfigurationRepository->loadAll($configPath);
 
+        $groupsToDeploy = new BeGroupCollection();
         /** @var BeGroupConfiguration $configuration */
         foreach ($configurations as $configuration) {
             $beGroup = $this->beGroupRepository->findOneByIdentifier($configuration->identifier());
 
             if ($beGroup instanceof BeGroup) {
-                $updatedBeGroup = $beGroup->extendByConfiguration($configuration);
-
-                $this->beGroupRepository->update($updatedBeGroup);
+                $beGroupToDeploy = $beGroup->extendByConfiguration($configuration);
             } else {
-                $beGroup = new BeGroup($configuration->identifier(), $configuration->beGroupFieldCollection());
-
-                $this->beGroupRepository->add($beGroup);
+                $beGroupToDeploy = new BeGroup($configuration->identifier(), $configuration->beGroupFieldCollection());
             }
+
+            $groupsToDeploy->add($beGroupToDeploy);
         }
+
+        $this->beGroupRepository->addOrUpdateBeGroups($groupsToDeploy);
 
         // Export local groups again
         $this->exportBeGroupToConfigurationFile->exportGroups();
     }
 
+    /**
+     * @throws GroupNotFullyImportedException|ConfigurationFileMissingException
+     */
     public function mergeAndExportGroup(Identifier $identifier): void
     {
         $this->exportBeGroupToConfigurationFile->exportGroup($identifier);

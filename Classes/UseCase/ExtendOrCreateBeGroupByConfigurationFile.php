@@ -23,9 +23,11 @@ declare(strict_types=1);
 
 namespace SebastianHofer\BePermissions\UseCase;
 
+use SebastianHofer\BePermissions\Configuration\ConfigurationFileMissingException;
 use SebastianHofer\BePermissions\Model\BeGroup;
 use SebastianHofer\BePermissions\Repository\BeGroupConfigurationRepositoryInterface;
 use SebastianHofer\BePermissions\Repository\BeGroupRepositoryInterface;
+use SebastianHofer\BePermissions\Repository\GroupNotFullyImportedException;
 use SebastianHofer\BePermissions\Value\Identifier;
 use TYPO3\CMS\Core\Core\Environment;
 
@@ -40,6 +42,9 @@ final class ExtendOrCreateBeGroupByConfigurationFile
         $this->beGroupConfigurationRepository = $beGroupConfigurationRepository;
     }
 
+    /**
+     * @throws GroupNotFullyImportedException|ConfigurationFileMissingException
+     */
     public function extendGroup(Identifier $identifier): void
     {
         $configPath = Environment::getConfigPath();

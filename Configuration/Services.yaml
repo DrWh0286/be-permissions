@@ -55,6 +55,8 @@ services:
 
   SebastianHofer\BePermissions\Hook\DataHandlerBeGroupsAutomaticExportHook:
     public: true
+  SebastianHofer\BePermissions\Value\Processor\SubGroupValueProcessor:
+    public: true
   SebastianHofer\BePermissions\UseCase\DeployBeGroups:
     public: true
   SebastianHofer\BePermissions\UseCase\ExportBeGroupsToConfigurationFile:
