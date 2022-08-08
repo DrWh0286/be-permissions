@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages">
+		<body>
+			<trans-unit id="edit_warning.extend.header">
+				<source>Edit Warning</source>
+			</trans-unit>
+			<trans-unit id="edit_warning.extend.text">
+				<source>You are about to edit a code managed group! Proceed only if you are absolutely sure what you are doing.</source>
+			</trans-unit>
+			<trans-unit id="edit_warning.overrule.header">
+				<source>Edit Warning</source>
+			</trans-unit>
+			<trans-unit id="edit_warning.overrule.text">
+				<source>You can not edit this group, because it is code managed and changes would be overruled with the next deployment.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

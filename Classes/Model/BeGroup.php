@@ -29,6 +29,7 @@ use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
 use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
 use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
 use SebastianHofer\BePermissions\Value\CodeManagedGroup;
+use SebastianHofer\BePermissions\Value\DeployProcessing;
 use SebastianHofer\BePermissions\Value\Identifier;
 
 final class BeGroup implements JsonSerializable
@@ -149,5 +150,31 @@ final class BeGroup implements JsonSerializable
         }
 
         return $isCodeManaged;
+    }
+
+    public function deployProcessingIsOverrule(): bool
+    {
+        $isOverrule = false;
+
+        foreach ($this->beGroupFieldCollection as $beGroupField) {
+            if ($beGroupField instanceof DeployProcessing) {
+                $isOverrule = $beGroupField->isOverrule();
+            }
+        }
+
+        return $isOverrule;
+    }
+
+    public function deployProcessingIsExtend(): bool
+    {
+        $isExtend = false;
+
+        foreach ($this->beGroupFieldCollection as $beGroupField) {
+            if ($beGroupField instanceof DeployProcessing) {
+                $isExtend = $beGroupField->isExtend();
+            }
+        }
+
+        return $isExtend;
     }
 }

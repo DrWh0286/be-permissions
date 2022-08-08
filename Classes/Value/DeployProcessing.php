@@ -37,6 +37,16 @@ final class DeployProcessing extends AbstractStringField
 
     private string $fieldName = 'deploy_processing';
 
+    public static function createOverrule(): DeployProcessing
+    {
+        return new self(self::OVERRULE);
+    }
+
+    public static function createExtend(): DeployProcessing
+    {
+        return new self(self::EXTEND);
+    }
+
     public static function createFromDBValue(string $dbValue): DeployProcessing
     {
         if (empty($dbValue)) {
