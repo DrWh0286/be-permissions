@@ -13,6 +13,7 @@ use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
 use SebastianHofer\BePermissions\Model\BeGroup;
 use SebastianHofer\BePermissions\Repository\BeGroupRepository;
 use SebastianHofer\BePermissions\Value\CodeManagedGroup;
+use SebastianHofer\BePermissions\Value\DeployProcessing;
 use SebastianHofer\BePermissions\Value\Identifier;
 use SebastianHofer\BePermissions\Value\SubGroup;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -73,6 +74,80 @@ final class BeGroupRepositoryTest extends FunctionalTestCase
         $expectedGroups = (include(__DIR__ . '/Fixtures/multiple_be_groups_are_stored_with_relations/expected_groups.php'));
 
         $this->assertSame($expectedGroups, $allDeployedGroups);
+    }
+
+    /**
+     * @test
+     * @dataProvider initGroupsProvider
+     *
+     * @param DeployProcessing $deployProcessing
+     * @param array<string, array<string, DeployProcessing|array<int, array<string, mixed>>>> $expected
+     * @return void
+     * @throws DBALException
+     * @throws Exception
+     * @throws \TYPO3\TestingFramework\Core\Exception
+     */
+    public function all_groups_can_be_set_as_code_managed_with_certain_deploy_processing(DeployProcessing $deployProcessing, array $expected): void //phpcs:ignore
+    {
+        $this->importDataSet(__DIR__ . '/Fixtures/all_groups_can_be_set_as_code_managed_with_certain_deploy_processing/be_groups.xml');
+
+        /** @var BeGroupRepository $repo */
+        $repo = GeneralUtility::makeInstance(BeGroupRepository::class);
+
+        $repo->initAllGroupsAsCodeManages($deployProcessing);
+
+        $beGroups = $this->getAllRecordsFromTable('be_groups', 'uid,code_managed_group,deploy_processing');
+
+        $this->assertSame($expected, $beGroups);
+    }
+
+    /**
+     * @return array<string, array<string, DeployProcessing|array<int, array<string, mixed>>>>
+     */
+    public function initGroupsProvider(): array
+    {
+        return [
+            'init with extend' => [
+                'deployProcessing' => DeployProcessing::createExtend(),
+                'expected' => [
+                    0 => [
+                        'uid' => 1,
+                        'code_managed_group' => 1,
+                        'deploy_processing' => 'extend'
+                    ],
+                    1 => [
+                        'uid' => 2,
+                        'code_managed_group' => 1,
+                        'deploy_processing' => 'extend'
+                    ],
+                    2 => [
+                        'uid' => 3,
+                        'code_managed_group' => 1,
+                        'deploy_processing' => 'extend'
+                    ]
+                ]
+            ],
+            'init with overrule' => [
+                'deployProcessing' => DeployProcessing::createOverrule(),
+                'expected' => [
+                    0 => [
+                        'uid' => 1,
+                        'code_managed_group' => 1,
+                        'deploy_processing' => 'overrule'
+                    ],
+                    1 => [
+                        'uid' => 2,
+                        'code_managed_group' => 1,
+                        'deploy_processing' => 'overrule'
+                    ],
+                    2 => [
+                        'uid' => 3,
+                        'code_managed_group' => 1,
+                        'deploy_processing' => 'overrule'
+                    ]
+                ]
+            ]
+        ];
     }
 
     /**
