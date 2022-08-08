@@ -102,6 +102,39 @@ final class BeGroupRepositoryTest extends FunctionalTestCase
     }
 
     /**
+     * @test
+     */
+    public function initialize_identifier_for_code_managed_groups_if_not_filled(): void //phpcs:ignore
+    {
+        $this->importDataSet(__DIR__ . '/Fixtures/initialize_identifier_for_code_managed_groups_if_not_filled/be_groups.xml');
+
+        /** @var BeGroupRepository $repo */
+        $repo = GeneralUtility::makeInstance(BeGroupRepository::class);
+
+        $repo->initIdentifierIfNecessary();
+
+        $beGroups = $this->getAllRecordsFromTable('be_groups', 'uid,code_managed_group,identifier');
+
+        $this->assertSame([
+            0 => [
+                'uid' => 1,
+                'code_managed_group' => 1,
+                'identifier' => 'test-group-a'
+            ],
+            1 => [
+                'uid' => 2,
+                'code_managed_group' => 1,
+                'identifier' => 'some_group_title_b'
+            ],
+            2 => [
+                'uid' => 3,
+                'code_managed_group' => 0,
+                'identifier' => 'some_group_title_c'
+            ]
+        ], $beGroups);
+    }
+
+    /**
      * @return array<string, array<string, DeployProcessing|array<int, array<string, mixed>>>>
      */
     public function initGroupsProvider(): array

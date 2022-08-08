@@ -71,4 +71,6 @@ interface BeGroupRepositoryInterface
     public function loadYamlString(Identifier $identifier): string;
 
     public function initAllGroupsAsCodeManages(DeployProcessing $deployProcessing): void;
+
+    public function initIdentifierIfNecessary(): void;
 }

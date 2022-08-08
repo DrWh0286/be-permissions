@@ -49,6 +49,7 @@ final class InitCommand extends Command
         }
 
         $this->beGroupRepository->initAllGroupsAsCodeManages($deployProcessing);
+        $this->beGroupRepository->initIdentifierIfNecessary();
 
         if ($input->getOption('export')) {
             $this->exportBeGroupsToConfigurationFile->exportGroups();
