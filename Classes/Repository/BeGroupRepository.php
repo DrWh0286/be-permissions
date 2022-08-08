@@ -26,7 +26,6 @@ namespace SebastianHofer\BePermissions\Repository;
 use Doctrine\DBAL\Driver\Exception;
 use SebastianHofer\BePermissions\Collection\BeGroupCollection;
 use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilder;
-use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
 use SebastianHofer\BePermissions\Collection\DuplicateBeGroupFieldException;
 use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
 use SebastianHofer\BePermissions\Model\BeGroup;
@@ -377,5 +376,30 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
             ],
             ['code_managed_group' => 0]
         );
+    }
+
+    public function initIdentifierIfNecessary(): void
+    {
+        $connection = $this->getConnection();
+
+        $allCodeManaged = $connection->select(['*'], 'be_groups')->fetchAllAssociative();
+
+        foreach ($allCodeManaged as $group) {
+            if ($group['identifier'] !== '') {
+                continue;
+            }
+
+            if (isset($group['title']) && is_string($group['title']) && !empty($group['title'])) {
+                $identifier = Identifier::buildNewFromTitle((string)$group['title']);
+
+                $connection->update(
+                    'be_groups',
+                    [
+                        'identifier' => (string)$identifier
+                    ],
+                    ['uid' => $group['uid']]
+                );
+            }
+        }
     }
 }

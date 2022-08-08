@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dataset>
+    <be_groups>
+        <uid>1</uid>
+        <identifier>test-group-a</identifier>
+        <title>Some group title A (changed)</title>
+        <code_managed_group>1</code_managed_group>
+        <non_exclude_fields>pages:title,pages:hidden,tt_content:title</non_exclude_fields>
+    </be_groups>
+    <be_groups>
+        <uid>2</uid>
+        <title>Some group title B</title>
+        <code_managed_group>1</code_managed_group>
+        <non_exclude_fields>pages:title,pages:hidden,tt_content:hidden</non_exclude_fields>
+    </be_groups>
+    <be_groups>
+        <uid>3</uid>
+        <title>Some group title C</title>
+        <non_exclude_fields>pages:title,pages:hidden,tt_content:bodytext</non_exclude_fields>
+    </be_groups>
+</dataset>
