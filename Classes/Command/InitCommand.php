@@ -36,7 +36,7 @@ final class InitCommand extends Command
             (string)DeployProcessing::createExtend()
         );
 
-        $this->addOption('export', 'e');
+        $this->addOption('export', 'e', null, 'If set after init all groups are exported.');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
