@@ -58,4 +58,39 @@ call_user_func(function () {
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns('be_groups', $fields);
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes('be_groups', 'identifier,code_managed_group,deploy_processing', '', 'after:title');
+
+    if (
+        isset($GLOBALS['TCA']['be_groups']['columns'])
+        && is_array($GLOBALS['TCA']['be_groups']['columns'])
+        && \TYPO3\CMS\Core\Core\Environment::getContext()->isProduction()
+    ) {
+        $displayCond = [
+            'OR' => [
+                'FIELD:code_managed_group:REQ:false',
+                'FIELD:deploy_processing:!=:' . (string)\SebastianHofer\BePermissions\Value\DeployProcessing::createOverrule()
+            ]
+        ];
+
+        $fieldsToShowReadonly = [
+            'identifier',
+            'code_managed_group',
+            'deploy_processing'
+        ];
+
+        $fieldsToIgnore = [
+            'title'
+        ];
+
+        foreach ($GLOBALS['TCA']['be_groups']['columns'] as $column => $config) {
+            if (in_array($column, $fieldsToIgnore)) {
+                continue;
+            }
+
+            if (in_array($column, $fieldsToShowReadonly)) {
+                $GLOBALS['TCA']['be_groups']['columns'][$column]['config']['readOnly'] = true;
+            } else {
+                $GLOBALS['TCA']['be_groups']['columns'][$column]['displayCond'] = $displayCond;
+            }
+        }
+    }
 });

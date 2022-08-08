@@ -28,6 +28,7 @@ use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
 use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
 use SebastianHofer\BePermissions\Value\AllowedLanguages;
 use SebastianHofer\BePermissions\Value\CodeManagedGroup;
+use SebastianHofer\BePermissions\Value\DeployProcessing;
 use SebastianHofer\BePermissions\Value\ExplicitAllowDeny;
 use SebastianHofer\BePermissions\Value\Identifier;
 use SebastianHofer\BePermissions\Model\BeGroup;
@@ -380,6 +381,51 @@ final class BeGroupTest extends UnitTestCase
         $group = $this->createTestGroup();
 
         $this->assertFalse($group->isCodeManaged());
+    }
+
+    /**
+     * @test
+     */
+    public function knows_its_deploy_processing_overrule(): void //phpcs:ignore
+    {
+        $fieldCollection = new BeGroupFieldCollection();
+
+        $deployProcessing = DeployProcessing::createOverrule();
+        $fieldCollection->add($deployProcessing);
+
+        $group = new BeGroup(new Identifier('tmp'), $fieldCollection);
+
+        $this->assertTrue($group->deployProcessingIsOverrule());
+        $this->assertFalse($group->deployProcessingIsExtend());
+    }
+
+    /**
+     * @test
+     */
+    public function knows_its_deploy_processing_extend(): void //phpcs:ignore
+    {
+        $fieldCollection = new BeGroupFieldCollection();
+
+        $deployProcessing = DeployProcessing::createExtend();
+        $fieldCollection->add($deployProcessing);
+
+        $group = new BeGroup(new Identifier('tmp'), $fieldCollection);
+
+        $this->assertTrue($group->deployProcessingIsExtend());
+        $this->assertFalse($group->deployProcessingIsOverrule());
+    }
+
+    /**
+     * @test
+     */
+    public function fall_back_is_false_for_deploy_processing(): void //phpcs:ignore
+    {
+        $fieldCollection = new BeGroupFieldCollection();
+
+        $group = new BeGroup(new Identifier('tmp'), $fieldCollection);
+
+        $this->assertFalse($group->deployProcessingIsOverrule());
+        $this->assertFalse($group->deployProcessingIsExtend());
     }
 
     private function createTestGroup(): BeGroup

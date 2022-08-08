@@ -12,6 +12,7 @@ use TYPO3\CMS\Core\Messaging\AbstractMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessage;
 use TYPO3\CMS\Core\Messaging\FlashMessageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Extbase\Utility\LocalizationUtility;
 
 final class BeGroupsEditListener
 {
@@ -35,12 +36,27 @@ final class BeGroupsEditListener
         $queryParams = $event->getRequest()->getQueryParams();
         $editConf = $parsedBody['edit'] ?? $queryParams['edit'] ?? [];
 
-        if ($this->showMessageForBeGroup($editConf)) {
+        if ($this->showMessageForExtendBeGroup($editConf)) {
             /** @var FlashMessage $message */
             $message = GeneralUtility::makeInstance(
                 FlashMessage::class,
-                'You are editing a code managed group! Only go on if you know what you are doing!',
-                'New Warning',
+                LocalizationUtility::translate('LLL:EXT:be_permissions/Resources/Private/Language/locallang_be.xlf:edit_warning.extend.text'),
+                LocalizationUtility::translate('LLL:EXT:be_permissions/Resources/Private/Language/locallang_be.xlf:edit_warning.extend.header'),
+                AbstractMessage::WARNING
+            );
+
+            /** @var FlashMessageService $flashMessageService */
+            $flashMessageService = GeneralUtility::makeInstance(FlashMessageService::class);
+            $queue = $flashMessageService->getMessageQueueByIdentifier();
+            $queue->addMessage($message);
+        }
+
+        if ($this->showMessageForOverruleBeGroup($editConf)) {
+            /** @var FlashMessage $message */
+            $message = GeneralUtility::makeInstance(
+                FlashMessage::class,
+                LocalizationUtility::translate('LLL:EXT:be_permissions/Resources/Private/Language/locallang_be.xlf:edit_warning.overrule.text'),
+                LocalizationUtility::translate('LLL:EXT:be_permissions/Resources/Private/Language/locallang_be.xlf:edit_warning.overrule.header'),
                 AbstractMessage::WARNING
             );
 
@@ -55,7 +71,7 @@ final class BeGroupsEditListener
      * @param array<string, array<int, string>> $editConfig
      * @return bool
      */
-    private function showMessageForBeGroup(array $editConfig): bool
+    private function showMessageForExtendBeGroup(array $editConfig): bool
     {
         if (array_key_exists('be_groups', $editConfig) && is_array($editConfig['be_groups'])) {
             $uid = array_key_first($editConfig['be_groups']);
@@ -63,7 +79,28 @@ final class BeGroupsEditListener
             if ($editConfig['be_groups'][$uid] === 'edit') {
                 $beGroup = $this->beGroupRepository->findOneByUid((int)$uid);
 
-                if ($beGroup instanceof BeGroup && $beGroup->isCodeManaged()) {
+                if ($beGroup instanceof BeGroup && $beGroup->isCodeManaged() && $beGroup->deployProcessingIsExtend()) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * @param array<string, array<int, string>> $editConfig
+     * @return bool
+     */
+    private function showMessageForOverruleBeGroup(array $editConfig): bool
+    {
+        if (array_key_exists('be_groups', $editConfig) && is_array($editConfig['be_groups'])) {
+            $uid = array_key_first($editConfig['be_groups']);
+
+            if ($editConfig['be_groups'][$uid] === 'edit') {
+                $beGroup = $this->beGroupRepository->findOneByUid((int)$uid);
+
+                if ($beGroup instanceof BeGroup && $beGroup->isCodeManaged() && $beGroup->deployProcessingIsOverrule()) {
                     return true;
                 }
             }
