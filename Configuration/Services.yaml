@@ -16,6 +16,13 @@ services:
   SebastianHofer\BePermissions\Controller\Backend\BeGroupsCompareModuleController:
     tags: ['backend.controller']
 
+  SebastianHofer\BePermissions\Listener\BeGroupsEditListener:
+    public: true
+    tags:
+      - name: event.listener
+        identifier: 'BeGroupsEditListener'
+        event: TYPO3\CMS\Backend\Controller\Event\AfterFormEnginePageInitializedEvent
+
   SebastianHofer\BePermissions\Command\MergeProdBeGroupsCommand:
     public: true
     tags:
