@@ -25,6 +25,7 @@ namespace SebastianHofer\BePermissions\Repository;
 
 use SebastianHofer\BePermissions\Collection\BeGroupCollection;
 use SebastianHofer\BePermissions\Model\BeGroup;
+use SebastianHofer\BePermissions\Value\DeployProcessing;
 use SebastianHofer\BePermissions\Value\Identifier;
 
 interface BeGroupRepositoryInterface
@@ -68,4 +69,6 @@ interface BeGroupRepositoryInterface
     public function addOrUpdateBeGroup(BeGroup $beGroup): void;
 
     public function loadYamlString(Identifier $identifier): string;
+
+    public function initAllGroupsAsCodeManages(DeployProcessing $deployProcessing): void;
 }

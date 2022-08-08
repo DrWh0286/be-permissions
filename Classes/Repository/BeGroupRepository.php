@@ -31,6 +31,7 @@ use SebastianHofer\BePermissions\Collection\DuplicateBeGroupFieldException;
 use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
 use SebastianHofer\BePermissions\Model\BeGroup;
 use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
+use SebastianHofer\BePermissions\Value\DeployProcessing;
 use SebastianHofer\BePermissions\Value\Identifier;
 use SebastianHofer\BePermissions\Value\InvalidIdentifierException;
 use SebastianHofer\BePermissions\Value\Processor\SubGroupValueProcessor;
@@ -362,5 +363,19 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
         }
 
         return $dbValues;
+    }
+
+    public function initAllGroupsAsCodeManages(DeployProcessing $deployProcessing): void
+    {
+        $connection = $this->getConnection();
+
+        $connection->update(
+            'be_groups',
+            [
+                'code_managed_group' => 1,
+                'deploy_processing' => (string)$deployProcessing
+            ],
+            ['code_managed_group' => 0]
+        );
     }
 }
