@@ -65,6 +65,12 @@ services:
       - name: 'console.command'
         command: 'bepermission:init'
         description: 'Initializes all existing groups as code manages with given deploy processing.'
+  SebastianHofer\BePermissions\Command\InitIdentifiers:
+    public: true
+    tags:
+      - name: 'console.command'
+        command: 'bepermission:initIdentifiers'
+        description: 'Initializes all groups (including not conde managed) with an identifier if it is not set.'
 
   SebastianHofer\BePermissions\Hook\DataHandlerBeGroupsAutomaticExportHook:
     public: true
