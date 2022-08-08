@@ -7,6 +7,26 @@ This extensions provides some cli commands to export and import be_groups record
 The extension uses the config/be_groups (parallel to config/sites) folder to store the exported be_group files.
 It also provides an API.
 
+### Features
+
+* Commands for
+  * import/export be_groups from/to yaml
+  * separate deploy command for your ci pipeline
+  * synchronizing local be_groups from a remote system
+  * initialize all your existing groups as code managed
+  * merging your local groups with remote groups and export them
+* Automatic export with saving a be_groups record (needs to be enabled with feature toggle)
+* Deploy command respects the two options for code managed groups:
+  * __extend:__ Permissions are only added, but no permission will be removed.
+  * __overrule:__ Whole group will be overruled. Changes are gone after deployment.
+* TYPO3 Backend module
+  * to see the status/diff of your files and be_groups
+  * to import/export your be_groups manually
+  * to overrule as 'extend' marked groups after deployment (to remove permissions from those groups)
+* Editing be_groups marked as code managed
+  * __overrule:__ is not possible with Production context
+  * __extend:__ will cause a warining message with Production context
+
 ### Installation
 
 ```shell
@@ -54,7 +74,7 @@ removed.
 #### Export command
 
 ```shell
-$ ./vendor/bin/typo3cms bepermissions:export [arguments]
+$ ./vendor/bin/typo3cms bepermission:export [arguments]
 ```
 
 This command exports either all as code_managed_group marked be_groups records to a yaml file or only the one with the
@@ -63,7 +83,7 @@ as argument given identifier.
 #### Extend command
 
 ```shell
-$ ./vendor/bin/typo3cms bepermissions:extend [arguments]
+$ ./vendor/bin/typo3cms bepermission:extend [arguments]
 ```
 
 This command imports the yaml file with the given identifier with the deploy processing 'extend' (see above).
@@ -71,7 +91,7 @@ This command imports the yaml file with the given identifier with the deploy pro
 #### Overrule command
 
 ```shell
-$ ./vendor/bin/typo3cms bepermissions:overrule [arguments]
+$ ./vendor/bin/typo3cms bepermission:overrule [arguments]
 ```
 
 This command imports the yaml file with the given identifier with the deploy processing 'overrule' (see above).
@@ -79,7 +99,7 @@ This command imports the yaml file with the given identifier with the deploy pro
 #### Synchronize command
 
 ```shell
-$ ./vendor/bin/typo3cms bepermissions:syncprodbegroups [arguments]
+$ ./vendor/bin/typo3cms bepermission:syncprodbegroups [arguments]
 ```
 
 This command synchronizes all as code_managed_group marked records from the given remote (prod) host to the local system.
@@ -90,7 +110,7 @@ Argument: group identifier
 #### Merge and export command
 
 ```shell
-$ ./vendor/bin/typo3cms bepermissions:mergeprodandexport [arguments]
+$ ./vendor/bin/typo3cms bepermission:mergeprodandexport [arguments]
 ```
 
 This command merges all as code_managed_group marked records from the given remote (prod) host with the local records.
@@ -101,10 +121,29 @@ Argument: group identifier
 #### Deploy command
 
 ```shell
-$ ./vendor/bin/typo3cms bepermissions:deploy
+$ ./vendor/bin/typo3cms bepermission:deploy
 ```
 
 This command imports all yaml files based on the selected deploy_processing. Can be used for a deployment recipe.
+
+#### Init command
+
+```shell
+$ ./vendor/bin/typo3cms bepermission:init [deploy_processing] -e
+```
+
+This command initializes all existing be_groups as code managed. Default deploy processing is 'extend', but you can
+give 'overrule' as argument
+
+Option '-e' triggers an export of all groups after initializing to yaml files.
+
+#### Initialize Identifiers command
+
+```shell
+$ ./vendor/bin/typo3cms bepermission:initIdentifiers
+```
+
+This command initializes all existing be_groups with an identifier if not set yet.
 
 ### Configuration
 
@@ -133,8 +172,8 @@ If enabled an automatic export of a be_groups record is performed with saving th
 
 ## Todo
 
-* Respect subgroups.
 * Add a tsconfig file to export to also store user TSconfig for be_groups in vcs.
+* Add backend module for remote synchronize feature.
 
 ## Migrations
 
