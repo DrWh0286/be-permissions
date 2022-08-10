@@ -65,7 +65,7 @@ services:
       - name: 'console.command'
         command: 'bepermission:init'
         description: 'Initializes all existing groups as code manages with given deploy processing.'
-  SebastianHofer\BePermissions\Command\InitIdentifiers:
+  SebastianHofer\BePermissions\Command\InitIdentifiersCommand:
     public: true
     tags:
       - name: 'console.command'
