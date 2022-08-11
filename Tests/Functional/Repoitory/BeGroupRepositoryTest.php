@@ -16,6 +16,7 @@ use SebastianHofer\BePermissions\Value\CodeManagedGroup;
 use SebastianHofer\BePermissions\Value\DeployProcessing;
 use SebastianHofer\BePermissions\Value\Identifier;
 use SebastianHofer\BePermissions\Value\SubGroup;
+use SebastianHofer\BePermissions\Value\Title;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 
@@ -181,6 +182,41 @@ final class BeGroupRepositoryTest extends FunctionalTestCase
                 ]
             ]
         ];
+    }
+
+    /**
+     * @test
+     */
+    public function missing_subgroups_will_be_created_as_dummy_group_non_code_managed(): void //phpcs:ignore
+    {
+        $this->importDataSet(__DIR__ . '/Fixtures/missing_subgroups_will_be_created_as_dummy_group_non_code_managed/be_groups.xml');
+
+        $title = Title::createFromYamlConfiguration('new group with subgroups');
+        $identifier = Identifier::buildNewFromTitle((string)$title);
+        $subGroupField = SubGroup::createFromYamlConfiguration(['test-group-c', 'test-group-d']);
+        $fieldCollection = new BeGroupFieldCollection();
+        $fieldCollection->add($subGroupField);
+        $fieldCollection->add($title);
+
+        $beGroups = new BeGroup($identifier, $fieldCollection);
+        $beGroupCollection = new BeGroupCollection();
+        $beGroupCollection->add($beGroups);
+
+        /** @var BeGroupRepository $repo */
+        $repo = GeneralUtility::makeInstance(BeGroupRepository::class);
+
+        $repo->addOrUpdateBeGroups($beGroupCollection);
+
+        $beGroupRecords = $this->getAllRecordsFromTable('be_groups', 'uid,identifier,title,code_managed_group,subgroup');
+
+//        file_put_contents(
+//            __DIR__ . '/Fixtures/missing_subgroups_will_be_created_as_dummy_group_non_code_managed/expected_groups.php',
+//            '<?php' . PHP_EOL . PHP_EOL . 'return ' . var_export($beGroupRecords, true) . ';' . PHP_EOL
+//        );
+
+        $expectedGroups = (include(__DIR__ . '/Fixtures/missing_subgroups_will_be_created_as_dummy_group_non_code_managed/expected_groups.php'));
+
+        $this->assertSame($expectedGroups, $beGroupRecords);
     }
 
     /**

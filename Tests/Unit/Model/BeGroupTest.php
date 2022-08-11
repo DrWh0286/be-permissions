@@ -33,6 +33,7 @@ use SebastianHofer\BePermissions\Value\ExplicitAllowDeny;
 use SebastianHofer\BePermissions\Value\Identifier;
 use SebastianHofer\BePermissions\Model\BeGroup;
 use SebastianHofer\BePermissions\Value\NonExcludeFields;
+use SebastianHofer\BePermissions\Value\SubGroup;
 use SebastianHofer\BePermissions\Value\Title;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
@@ -426,6 +427,23 @@ final class BeGroupTest extends UnitTestCase
 
         $this->assertFalse($group->deployProcessingIsOverrule());
         $this->assertFalse($group->deployProcessingIsExtend());
+    }
+
+    /**
+     * @test
+     */
+    public function get_subgroup_field(): void //phpcs:ignore
+    {
+        $title = Title::createFromYamlConfiguration('new group with subgroups');
+        $identifier = Identifier::buildNewFromTitle((string)$title);
+        $subGroupField = SubGroup::createFromYamlConfiguration(['test-group-c', 'test-group-d']);
+        $fieldCollection = new BeGroupFieldCollection();
+        $fieldCollection->add($subGroupField);
+        $fieldCollection->add($title);
+
+        $group = new BeGroup($identifier, $fieldCollection);
+
+        $this->assertSame($subGroupField, $group->getSubGroup());
     }
 
     private function createTestGroup(): BeGroup
