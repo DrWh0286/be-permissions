@@ -26,15 +26,18 @@ namespace SebastianHofer\BePermissions\Repository;
 use Doctrine\DBAL\Driver\Exception;
 use SebastianHofer\BePermissions\Collection\BeGroupCollection;
 use SebastianHofer\BePermissions\Builder\BeGroupFieldCollectionBuilder;
+use SebastianHofer\BePermissions\Collection\BeGroupFieldCollection;
 use SebastianHofer\BePermissions\Collection\DuplicateBeGroupFieldException;
 use SebastianHofer\BePermissions\Configuration\BeGroupConfiguration;
 use SebastianHofer\BePermissions\Model\BeGroup;
 use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
+use SebastianHofer\BePermissions\Value\CodeManagedGroup;
 use SebastianHofer\BePermissions\Value\DeployProcessing;
 use SebastianHofer\BePermissions\Value\Identifier;
 use SebastianHofer\BePermissions\Value\InvalidIdentifierException;
 use SebastianHofer\BePermissions\Value\Processor\SubGroupValueProcessor;
 use SebastianHofer\BePermissions\Value\SubGroup;
+use SebastianHofer\BePermissions\Value\Title;
 use Symfony\Component\Yaml\Yaml;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -240,7 +243,18 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
             }
         }
 
-        if (!$failedGroups->isEmpty()) {
+        $finallyReallyFailedGroups = new BeGroupCollection();
+        /** @var BeGroup $failedGroup */
+        foreach ($failedGroups as $failedGroup) {
+            try {
+                $this->addDummySubGroups($failedGroup);
+                $this->addOrUpdateBeGroup($failedGroup);
+            } catch (GroupNotFullyImportedException $exception) {
+                $finallyReallyFailedGroups->add($failedGroup);
+            }
+        }
+
+        if (!$finallyReallyFailedGroups->isEmpty()) {
             throw new GroupNotFullyImportedException(
                 'Some Groups could not be fully imported!',
                 1948567695,
@@ -248,6 +262,33 @@ final class BeGroupRepository implements BeGroupRepositoryInterface
                 null,
                 $notFullyImportedGroups
             );
+        }
+    }
+
+    /**
+     * @throws GroupNotFullyImportedException|InvalidIdentifierException
+     */
+    private function addDummySubGroups(BeGroup $beGroup): void
+    {
+        if (!$beGroup->getSubGroup() instanceof SubGroup) {
+            return;
+        }
+
+        foreach ($beGroup->getSubGroup()->yamlConfigurationValue() as $identifierString) {
+                $identifier = new Identifier($identifierString);
+                $title = Title::createFromYamlConfiguration($identifierString);
+                $codeManaged = CodeManagedGroup::createFromYamlConfiguration(true);
+                $deployProcessing = DeployProcessing::createFromYamlConfiguration('extend');
+
+                $fieldCol = new BeGroupFieldCollection();
+                $fieldCol->add($title);
+                $fieldCol->add($codeManaged);
+                $fieldCol->add($deployProcessing);
+
+                $dummyGroup = new BeGroup($identifier, $fieldCol);
+            if (!$this->isGroupPresent($dummyGroup)) {
+                $this->add($dummyGroup);
+            }
         }
     }
 

@@ -31,6 +31,7 @@ use SebastianHofer\BePermissions\Value\BeGroupFieldInterface;
 use SebastianHofer\BePermissions\Value\CodeManagedGroup;
 use SebastianHofer\BePermissions\Value\DeployProcessing;
 use SebastianHofer\BePermissions\Value\Identifier;
+use SebastianHofer\BePermissions\Value\SubGroup;
 
 final class BeGroup implements JsonSerializable
 {
@@ -176,5 +177,16 @@ final class BeGroup implements JsonSerializable
         }
 
         return $isExtend;
+    }
+
+    public function getSubGroup(): ?SubGroup
+    {
+        foreach ($this->beGroupFieldCollection as $beGroupField) {
+            if ($beGroupField instanceof SubGroup) {
+                return $beGroupField;
+            }
+        }
+
+        return null;
     }
 }
