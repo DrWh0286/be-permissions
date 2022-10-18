@@ -72,7 +72,6 @@ call_user_func(function () {
         ];
 
         $fieldsToShowReadonly = [
-            'identifier',
             'code_managed_group',
             'deploy_processing'
         ];
